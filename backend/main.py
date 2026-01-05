@@ -10,10 +10,11 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-from database import init_db
+from database import init_db, DATABASE_NAME
 from models import Product, User, Order, Review
 from beanie import init_beanie
 from routers import products, orders, users, upload
+import os
 
 app = FastAPI(title="Baba Dairy API")
 
@@ -42,8 +43,9 @@ async def start_db():
     logger.info("Initializing MongoDB connection...")
     try:
         client = await init_db()
-        await init_beanie(database=client.babadairy, document_models=[Product, User, Order, Review])
-        logger.info("MongoDB initialized successfully.")
+        db_name = os.getenv("DATABASE_NAME", "babadairy")
+        await init_beanie(database=client[db_name], document_models=[Product, User, Order, Review])
+        logger.info(f"MongoDB initialized successfully. Database: {db_name}")
     except Exception as e:
         logger.error(f"Failed to initialize MongoDB: {e}")
         # In production, you might want to retry or exit

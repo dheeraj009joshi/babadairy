@@ -2,8 +2,9 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 import os
 
-# MongoDB Configuration
-MONGODB_URL = "mongodb+srv://study:Dheeraj2006@studies.global.mongocluster.cosmos.azure.com/babadairy?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
+# MongoDB Configuration from environment variables
+MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://localhost:27017/babadairy")
+DATABASE_NAME = os.getenv("DATABASE_NAME", "babadairy")
 
 async def init_db():
     client = AsyncIOMotorClient(MONGODB_URL)
