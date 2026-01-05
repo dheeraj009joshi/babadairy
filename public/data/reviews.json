@@ -1,0 +1,74 @@
+[
+    {
+        "id": "rev_001",
+        "productId": "prod_001",
+        "userId": "user_001",
+        "userName": "Rahul Sharma",
+        "rating": 5,
+        "title": "Best chocolate ice cream ever!",
+        "comment": "Absolutely loved it! The Belgian cocoa gives it such a rich flavor. My kids finished the whole tub in one sitting!",
+        "images": [],
+        "verified": true,
+        "createdAt": "2024-11-17"
+    },
+    {
+        "id": "rev_002",
+        "productId": "prod_003",
+        "userId": "user_001",
+        "userName": "Rahul Sharma",
+        "rating": 5,
+        "title": "Authentic mango taste",
+        "comment": "Tastes like fresh Alphonso mangoes. Not too sweet, just perfect. Will definitely order again!",
+        "images": [],
+        "verified": true,
+        "createdAt": "2024-12-02"
+    },
+    {
+        "id": "rev_003",
+        "productId": "prod_007",
+        "userId": "user_002",
+        "userName": "Priya Patel",
+        "rating": 5,
+        "title": "Worth every penny",
+        "comment": "The pistachio flavor is so authentic and the saffron adds a royal touch. Premium quality!",
+        "images": [],
+        "verified": true,
+        "createdAt": "2024-11-10"
+    },
+    {
+        "id": "rev_004",
+        "productId": "prod_008",
+        "userId": "user_002",
+        "userName": "Priya Patel",
+        "rating": 4,
+        "title": "Delicious brownie chunks",
+        "comment": "The brownie pieces are generous and gooey. Chocolate flavor could be a bit stronger though.",
+        "images": [],
+        "verified": true,
+        "createdAt": "2024-11-23"
+    },
+    {
+        "id": "rev_005",
+        "productId": "prod_015",
+        "userId": "user_003",
+        "userName": "Amit Kumar",
+        "rating": 5,
+        "title": "Just like traditional kulfi!",
+        "comment": "Reminds me of kulfi from my childhood. The cardamom and saffron balance is perfect.",
+        "images": [],
+        "verified": true,
+        "createdAt": "2024-12-07"
+    },
+    {
+        "id": "rev_006",
+        "productId": "prod_002",
+        "userId": "user_004",
+        "userName": "Sneha Reddy",
+        "rating": 5,
+        "title": "Perfect vanilla!",
+        "comment": "Clean vanilla flavor, not artificial at all. The cone is crispy and fresh.",
+        "images": [],
+        "verified": false,
+        "createdAt": "2024-12-05"
+    }
+]

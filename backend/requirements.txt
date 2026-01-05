@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+motor
+beanie
+pydantic
+python-dotenv
+python-multipart
+passlib[bcrypt]
+emails
+aiosmtplib
+azure-storage-blob[aio]

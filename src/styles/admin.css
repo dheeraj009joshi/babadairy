@@ -1,0 +1,325 @@
+/* Admin Dashboard Styles */
+/* Professional, optimized CSS for admin panel */
+
+/* ==================== ADMIN LAYOUT ==================== */
+.admin-sidebar {
+    transition: transform 0.3s ease-in-out;
+}
+
+.admin-sidebar-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-sidebar-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: background 0.2s ease;
+}
+
+.admin-sidebar-item.active::before {
+    background: var(--color-primary, #E91E63);
+}
+
+/* ==================== STATS CARDS ==================== */
+.stats-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card-gradient {
+    background: linear-gradient(135deg, var(--from-color) 0%, var(--to-color) 100%);
+}
+
+/* ==================== CHARTS ==================== */
+.chart-container {
+    min-height: 300px;
+}
+
+.recharts-tooltip-wrapper {
+    z-index: 1000;
+}
+
+.recharts-default-tooltip {
+    border-radius: 8px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ==================== TABLES ==================== */
+.admin-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.admin-table thead th {
+    position: sticky;
+    top: 0;
+    background: #FFF8E1;
+    z-index: 10;
+}
+
+.admin-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.admin-table tbody tr:hover {
+    background-color: rgba(255, 248, 225, 0.5);
+}
+
+/* ==================== EXPORT MENU ==================== */
+.export-menu {
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.export-menu-item {
+    transition: background-color 0.15s ease;
+}
+
+.export-menu-item:hover {
+    background-color: #FFF8E1;
+}
+
+/* ==================== STATUS BADGES ==================== */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-pending {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.status-confirmed {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+}
+
+.status-packed {
+    background-color: #E9D5FF;
+    color: #6B21A8;
+}
+
+.status-shipped {
+    background-color: #E0E7FF;
+    color: #3730A3;
+}
+
+.status-delivered {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.status-cancelled {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+/* ==================== INVENTORY ALERTS ==================== */
+.stock-alert {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.stock-out {
+    background-color: #FEE2E2;
+    border-color: #FECACA;
+}
+
+.stock-low {
+    background-color: #FEF3C7;
+    border-color: #FDE68A;
+}
+
+.stock-ok {
+    background-color: #D1FAE5;
+    border-color: #A7F3D0;
+}
+
+/* ==================== FORM ELEMENTS ==================== */
+.admin-input {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-input:focus {
+    border-color: #E91E63;
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+}
+
+.admin-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234A2C2A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+/* ==================== BUTTONS ==================== */
+.admin-btn {
+    transition: all 0.2s ease;
+}
+
+.admin-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.admin-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.admin-btn-primary {
+    background: linear-gradient(135deg, #E91E63 0%, #FF6B9D 100%);
+}
+
+.admin-btn-primary:hover {
+    background: linear-gradient(135deg, #D81B60 0%, #E91E63 100%);
+}
+
+/* ==================== CARDS ==================== */
+.admin-card {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease;
+}
+
+.admin-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================== LOADING STATES ==================== */
+.admin-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.admin-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1024px) {
+    .admin-table-responsive {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .admin-chart-container {
+        height: 250px;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-header-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .admin-header-actions > * {
+        width: 100%;
+    }
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    .admin-sidebar,
+    .admin-header,
+    .admin-actions,
+    .no-print {
+        display: none !important;
+    }
+    
+    .admin-main {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .admin-card {
+        box-shadow: none !important;
+        border: 1px solid #e5e7eb !important;
+    }
+}
+
+/* ==================== SCROLLBAR ==================== */
+.admin-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.admin-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.admin-scrollbar::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.admin-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* ==================== DARK MODE SUPPORT ==================== */
+@media (prefers-color-scheme: dark) {
+    .admin-dark-mode {
+        --bg-primary: #1a1a2e;
+        --bg-secondary: #16213e;
+        --text-primary: #eaeaea;
+        --text-secondary: #a0a0a0;
+    }
+}
+
