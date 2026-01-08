@@ -14,7 +14,7 @@ export default function ImageCarousel() {
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
     const sectionRef = useRef<HTMLElement>(null);
-    const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+    const autoPlayRef = useRef<number | null>(null);
 
     const nextSlide = useCallback(() => {
         setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
