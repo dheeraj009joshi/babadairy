@@ -46,8 +46,8 @@ export default function AboutSection() {
                         </p>
                         
                         <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                            Every flavour is crafted with passion, using only the finest natural 
-                            ingredients sourced from trusted farmers. No shortcuts, no compromises – 
+                            Every flavour is crafted with passion, using quality 
+                            ingredients sourced from trusted suppliers. No shortcuts, no compromises – 
                             just pure, delicious ice cream the way it should be.
                         </p>
 

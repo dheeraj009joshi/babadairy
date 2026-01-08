@@ -11,9 +11,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 from database import init_db, DATABASE_NAME
-from models import Product, User, Order, Review
+from models import Product, User, Order, Review, SiteSettings
 from beanie import init_beanie
-from routers import products, orders, users, upload
+from routers import products, orders, users, upload, settings
 import os
 
 app = FastAPI(title="Baba Dairy API")
@@ -44,7 +44,7 @@ async def start_db():
     try:
         client = await init_db()
         db_name = os.getenv("DATABASE_NAME", "babadairy")
-        await init_beanie(database=client[db_name], document_models=[Product, User, Order, Review])
+        await init_beanie(database=client[db_name], document_models=[Product, User, Order, Review, SiteSettings])
         logger.info(f"MongoDB initialized successfully. Database: {db_name}")
     except Exception as e:
         logger.error(f"Failed to initialize MongoDB: {e}")
@@ -56,6 +56,7 @@ app.include_router(products.router)
 app.include_router(orders.router)
 app.include_router(users.router)
 app.include_router(upload.router)
+app.include_router(settings.router)
 
 @app.get("/")
 def read_root():

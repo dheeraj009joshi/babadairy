@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Twitter, Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
+import { useSettings } from '@/contexts/SettingsContext';
 
 export default function Footer() {
+    const { settings } = useSettings();
     const [email, setEmail] = useState('');
 
     const handleSubscribe = (e: React.FormEvent) => {
@@ -18,28 +20,45 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
                     {/* Brand */}
                     <div className="lg:col-span-1">
-                        <Link to="/" className="flex items-center gap-2 mb-4">
-                            <span className="text-3xl">🍦</span>
-                            <div>
-                                <span className="text-xl font-display font-bold text-white">Jas&Mey</span>
-                                <span className="block text-[10px] font-medium tracking-wider uppercase text-gray-400">
-                                    Premium Ice Creams
-                                </span>
-                            </div>
+                        <Link to="/" className="flex items-center mb-4">
+                            <img 
+                                src="/logo.png" 
+                                alt={`${settings.storeName} Logo`}
+                                className="h-24 w-auto object-contain"
+                            />
                         </Link>
                         <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                            Crafting happiness one scoop at a time. Premium artisan ice creams made with love and the finest ingredients.
+                            {settings.storeDescription}
                         </p>
                         <div className="flex gap-3">
-                            <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-rose-500 flex items-center justify-center transition-colors">
-                                <Instagram className="w-5 h-5" />
+                            {settings.socialInstagram && (
+                                <a href={settings.socialInstagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-rose-500 flex items-center justify-center transition-colors">
+                                    <Instagram className="w-5 h-5" />
+                                </a>
+                            )}
+                            {settings.socialFacebook && (
+                                <a href={settings.socialFacebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-rose-500 flex items-center justify-center transition-colors">
+                                    <Facebook className="w-5 h-5" />
+                                </a>
+                            )}
+                            {settings.socialTwitter && (
+                                <a href={settings.socialTwitter} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-rose-500 flex items-center justify-center transition-colors">
+                                    <Twitter className="w-5 h-5" />
+                                </a>
+                            )}
+                            {!settings.socialInstagram && !settings.socialFacebook && !settings.socialTwitter && (
+                                <>
+                                    <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-rose-500 flex items-center justify-center transition-colors">
+                                        <Instagram className="w-5 h-5" />
                             </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-rose-500 flex items-center justify-center transition-colors">
-                                <Facebook className="w-5 h-5" />
+                                    <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-rose-500 flex items-center justify-center transition-colors">
+                                        <Facebook className="w-5 h-5" />
                             </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-rose-500 flex items-center justify-center transition-colors">
-                                <Twitter className="w-5 h-5" />
+                                    <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-rose-500 flex items-center justify-center transition-colors">
+                                        <Twitter className="w-5 h-5" />
                             </a>
+                                </>
+                            )}
                         </div>
                     </div>
 
@@ -56,28 +75,22 @@ export default function Footer() {
                                 <li key={link.path}>
                                     <Link to={link.path} className="text-gray-400 hover:text-rose-400 text-sm transition-colors">
                                         {link.name}
-                                    </Link>
-                                </li>
+                                </Link>
+                            </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* Categories */}
+                    {/* Categories - Dynamic from settings */}
                     <div>
                         <h4 className="font-semibold text-white mb-4">Categories</h4>
                         <ul className="space-y-3">
-                            {[
-                                { name: 'Cups', path: '/shop?category=Cups' },
-                                { name: 'Cones', path: '/shop?category=Cones' },
-                                { name: 'Tubs', path: '/shop?category=Tubs' },
-                                { name: 'Family Packs', path: '/shop?category=Family Packs' },
-                                { name: 'Premium', path: '/shop?category=Premium' },
-                            ].map((link) => (
-                                <li key={link.path}>
-                                    <Link to={link.path} className="text-gray-400 hover:text-rose-400 text-sm transition-colors">
-                                        {link.name}
-                                    </Link>
-                                </li>
+                            {settings.productCategories.slice(0, 5).map((category) => (
+                                <li key={category}>
+                                    <Link to={`/shop?category=${encodeURIComponent(category)}`} className="text-gray-400 hover:text-rose-400 text-sm transition-colors">
+                                        {category}
+                                </Link>
+                            </li>
                             ))}
                         </ul>
                     </div>
@@ -88,15 +101,15 @@ export default function Footer() {
                         <ul className="space-y-3 mb-6">
                             <li className="flex items-start gap-3 text-gray-400 text-sm">
                                 <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                <span>123 Ice Cream Lane, Mumbai, MH 400001</span>
+                                <span>{settings.storeAddress}, {settings.storeCity}, {settings.storeState} {settings.storePincode}</span>
                             </li>
                             <li className="flex items-center gap-3 text-gray-400 text-sm">
                                 <Phone className="w-4 h-4 flex-shrink-0" />
-                                <span>+91 98765 43210</span>
+                                <span>{settings.storePhone}</span>
                             </li>
                             <li className="flex items-center gap-3 text-gray-400 text-sm">
                                 <Mail className="w-4 h-4 flex-shrink-0" />
-                                <span>hello@jasmey.com</span>
+                                <span>{settings.storeEmail}</span>
                             </li>
                         </ul>
 
@@ -117,15 +130,15 @@ export default function Footer() {
                             </button>
                         </form>
                     </div>
+                    </div>
                 </div>
-            </div>
 
             {/* Bottom Bar */}
             <div className="border-t border-gray-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <p className="text-gray-500 text-sm">
-                            © {new Date().getFullYear()} Jas&Mey. All rights reserved.
+                            {settings.footerText || `© ${new Date().getFullYear()} ${settings.storeName}. All rights reserved.`}
                         </p>
                         <div className="flex gap-6 text-sm">
                             <a href="#" className="text-gray-500 hover:text-gray-400 transition-colors">Privacy Policy</a>

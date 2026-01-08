@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { useSettings } from '@/contexts/SettingsContext';
 
-interface Category {
+interface CategoryDisplay {
     name: string;
     description: string;
     emoji: string;
@@ -11,62 +12,30 @@ interface Category {
     hoverGradient: string;
 }
 
+const gradients = [
+    { gradient: 'from-orange-100 to-amber-50', hoverGradient: 'from-orange-400 to-amber-400' },
+    { gradient: 'from-pink-100 to-rose-50', hoverGradient: 'from-pink-400 to-rose-400' },
+    { gradient: 'from-violet-100 to-purple-50', hoverGradient: 'from-violet-400 to-purple-400' },
+    { gradient: 'from-blue-100 to-indigo-50', hoverGradient: 'from-blue-400 to-indigo-400' },
+    { gradient: 'from-amber-100 to-yellow-50', hoverGradient: 'from-amber-400 to-yellow-400' },
+    { gradient: 'from-teal-100 to-emerald-50', hoverGradient: 'from-teal-400 to-emerald-400' },
+];
+
 export default function ProductCategories() {
+    const { settings } = useSettings();
     const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
     const [isHeaderVisible, setIsHeaderVisible] = useState(false);
     const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
     const headerRef = useRef<HTMLDivElement>(null);
 
-    const categories: Category[] = [
-        {
-            name: 'Cups',
-            description: 'Perfect single servings in delicious flavours',
-            emoji: '🥤',
-            route: '/shop?category=Cups',
-            gradient: 'from-orange-100 to-amber-50',
-            hoverGradient: 'from-orange-400 to-amber-400',
-        },
-        {
-            name: 'Cones',
-            description: 'Classic cones with crispy wafers',
-            emoji: '🍦',
-            route: '/shop?category=Cones',
-            gradient: 'from-pink-100 to-rose-50',
-            hoverGradient: 'from-pink-400 to-rose-400',
-        },
-        {
-            name: 'Tubs',
-            description: 'Share with family or enjoy yourself',
-            emoji: '🍨',
-            route: '/shop?category=Tubs',
-            gradient: 'from-violet-100 to-purple-50',
-            hoverGradient: 'from-violet-400 to-purple-400',
-        },
-        {
-            name: 'Family Packs',
-            description: 'Perfect for gatherings & celebrations',
-            emoji: '👨‍👩‍👧‍👦',
-            route: '/shop?category=Family Packs',
-            gradient: 'from-blue-100 to-indigo-50',
-            hoverGradient: 'from-blue-400 to-indigo-400',
-        },
-        {
-            name: 'Premium',
-            description: 'Luxury flavours with premium ingredients',
-            emoji: '✨',
-            route: '/shop?category=Premium',
-            gradient: 'from-amber-100 to-yellow-50',
-            hoverGradient: 'from-amber-400 to-yellow-400',
-        },
-        {
-            name: 'Specials',
-            description: 'Limited editions & seasonal favourites',
-            emoji: '🌟',
-            route: '/shop',
-            gradient: 'from-teal-100 to-emerald-50',
-            hoverGradient: 'from-teal-400 to-emerald-400',
-        },
-    ];
+    // Map settings categories to display categories
+    const categories: CategoryDisplay[] = settings.categories.map((cat, index) => ({
+        name: cat.name,
+        description: cat.description,
+        emoji: cat.emoji,
+        route: `/shop?category=${encodeURIComponent(cat.name)}`,
+        ...gradients[index % gradients.length],
+    }));
 
     useEffect(() => {
         const headerObserver = new IntersectionObserver(
@@ -144,18 +113,18 @@ export default function ProductCategories() {
                                     {/* Emoji */}
                                     <div className="text-6xl mb-6 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500">
                                         {category.emoji}
-                                    </div>
-                                    
+                                </div>
+
                                     {/* Title */}
                                     <h3 className="text-2xl font-bold text-gray-900 group-hover:text-white transition-colors duration-300 mb-2">
-                                        {category.name}
-                                    </h3>
-                                    
-                                    {/* Description */}
+                                    {category.name}
+                                </h3>
+
+                                {/* Description */}
                                     <p className="text-gray-600 group-hover:text-white/90 transition-colors duration-300 mb-6">
-                                        {category.description}
-                                    </p>
-                                    
+                                    {category.description}
+                                </p>
+
                                     {/* Arrow */}
                                     <div className="flex items-center gap-2 text-gray-900 group-hover:text-white font-semibold transition-colors duration-300">
                                         <span>Shop Now</span>

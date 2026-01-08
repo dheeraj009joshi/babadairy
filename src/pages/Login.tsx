@@ -30,9 +30,9 @@ export default function Login() {
                 const storedUser = localStorage.getItem('jasmey_user');
                 if (storedUser) {
                     const user = JSON.parse(storedUser);
-                    // Redirect based on role
-                    if (user?.role === 'admin') {
-                        navigate('/admin/dashboard');
+                // Redirect based on role
+                if (user?.role === 'admin') {
+                    navigate('/admin/dashboard');
                     } else {
                         navigate('/dashboard');
                     }

@@ -51,7 +51,7 @@ export default function OrderManagement() {
     const loadOrders = async () => {
         setIsLoading(true);
         try {
-            const data = await fetchOrders();
+        const data = await fetchOrders();
             // Sort by date, newest first
             const sortedOrders = data.sort((a, b) => 
                 new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -256,9 +256,9 @@ export default function OrderManagement() {
                                 className="flex items-center gap-2"
                             >
                                 <Download className="h-4 w-4" />
-                                Export
+                        Export
                                 <ChevronDown className="h-4 w-4" />
-                            </Button>
+                    </Button>
                             {showExportMenu && (
                                 <>
                                     <div 
@@ -448,11 +448,11 @@ export default function OrderManagement() {
                                             <th className="text-left py-4 px-4 text-sm font-semibold text-chocolate">Status</th>
                                             <th className="text-left py-4 px-4 text-sm font-semibold text-chocolate">Date</th>
                                             <th className="text-left py-4 px-4 text-sm font-semibold text-chocolate">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredOrders.map((order) => (
-                                            <tr key={order.id} className="border-b border-chocolate/5 hover:bg-cream/50 transition-colors">
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filteredOrders.map((order) => (
+                                        <tr key={order.id} className="border-b border-chocolate/5 hover:bg-cream/50 transition-colors">
                                                 <td className="py-4 px-4">
                                                     <input
                                                         type="checkbox"
@@ -467,8 +467,8 @@ export default function OrderManagement() {
                                                 </td>
                                                 <td className="py-4 px-4 text-sm">
                                                     <div className="font-medium">{order.customer.name}</div>
-                                                    <div className="text-xs text-chocolate/60">{order.customer.email}</div>
-                                                </td>
+                                                <div className="text-xs text-chocolate/60">{order.customer.email}</div>
+                                            </td>
                                                 <td className="py-4 px-4 text-sm">{order.items.length} items</td>
                                                 <td className="py-4 px-4 text-sm font-semibold">{formatCurrency(order.total)}</td>
                                                 <td className="py-4 px-4 text-sm">
@@ -477,36 +477,36 @@ export default function OrderManagement() {
                                                         order.paymentMethod === 'UPI' ? 'bg-green-100 text-green-800' :
                                                         'bg-blue-100 text-blue-800'
                                                     }`}>
-                                                        {order.paymentMethod}
-                                                    </span>
-                                                </td>
+                                                    {order.paymentMethod}
+                                                </span>
+                                            </td>
                                                 <td className="py-4 px-4">
-                                                    <select
-                                                        value={order.status}
-                                                        onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                                                        className={`px-3 py-1 rounded text-xs font-semibold capitalize ${getStatusColor(order.status)}`}
-                                                    >
-                                                        <option value="pending">Pending</option>
-                                                        <option value="confirmed">Confirmed</option>
-                                                        <option value="packed">Packed</option>
-                                                        <option value="shipped">Shipped</option>
-                                                        <option value="delivered">Delivered</option>
-                                                        <option value="cancelled">Cancelled</option>
-                                                    </select>
-                                                </td>
+                                                <select
+                                                    value={order.status}
+                                                    onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                                                    className={`px-3 py-1 rounded text-xs font-semibold capitalize ${getStatusColor(order.status)}`}
+                                                >
+                                                    <option value="pending">Pending</option>
+                                                    <option value="confirmed">Confirmed</option>
+                                                    <option value="packed">Packed</option>
+                                                    <option value="shipped">Shipped</option>
+                                                    <option value="delivered">Delivered</option>
+                                                    <option value="cancelled">Cancelled</option>
+                                                </select>
+                                            </td>
                                                 <td className="py-4 px-4 text-sm text-chocolate/70">
-                                                    {formatDate(order.createdAt)}
-                                                </td>
+                                                {formatDate(order.createdAt)}
+                                            </td>
                                                 <td className="py-4 px-4">
                                                     <div className="flex items-center gap-1">
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={() => handleViewOrder(order)}
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => handleViewOrder(order)}
                                                             title="View Details"
-                                                        >
-                                                            <Eye className="h-4 w-4" />
-                                                        </Button>
+                                                >
+                                                    <Eye className="h-4 w-4" />
+                                                </Button>
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
@@ -524,12 +524,12 @@ export default function OrderManagement() {
                                                             <FileSpreadsheet className="h-4 w-4" />
                                                         </Button>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
 
                             {/* Mobile Card View */}
                             <div className="lg:hidden space-y-4 p-4">
@@ -550,8 +550,8 @@ export default function OrderManagement() {
                                             </div>
                                             <div className="flex items-center gap-1">
                                                 <Button variant="ghost" size="sm" onClick={() => handleViewOrder(order)}>
-                                                    <Eye className="h-4 w-4" />
-                                                </Button>
+                                                <Eye className="h-4 w-4" />
+                                            </Button>
                                                 <Button variant="ghost" size="sm" onClick={() => downloadInvoice(order)}>
                                                     <Download className="h-4 w-4" />
                                                 </Button>

@@ -242,8 +242,8 @@ export default function ProductDetail() {
                                 <div className="flex items-center gap-3">
                                     <Shield className="h-6 w-6 text-success" />
                                     <div className="text-sm">
-                                        <div className="font-semibold">100% Natural</div>
-                                        <div className="text-chocolate/60">No artificial flavors</div>
+                                        <div className="font-semibold">Quality Assured</div>
+                                        <div className="text-chocolate/60">Premium ingredients</div>
                                     </div>
                                 </div>
                             </div>

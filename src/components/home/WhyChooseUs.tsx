@@ -9,8 +9,8 @@ export default function WhyChooseUs() {
     const features = [
         {
             icon: Leaf,
-            title: '100% Natural',
-            description: 'Made with organic ingredients and no artificial flavors',
+            title: 'Fresh Ingredients',
+            description: 'Made with quality ingredients and authentic recipes',
             color: 'bg-emerald-500',
         },
         {

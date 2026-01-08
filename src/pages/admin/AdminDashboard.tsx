@@ -95,7 +95,7 @@ export default function AdminDashboard() {
                 fetchUsers()
             ]);
 
-            setOrders(allOrders);
+        setOrders(allOrders);
             setProducts(allProducts);
 
             // Calculate comprehensive stats
@@ -129,11 +129,11 @@ export default function AdminDashboard() {
                 ? ((currentPeriodOrders.length - previousPeriodOrders.length) / previousPeriodOrders.length) * 100 
                 : 0;
 
-            setStats({
-                revenue: totalRevenue,
-                orders: allOrders.length,
+        setStats({
+            revenue: totalRevenue,
+            orders: allOrders.length,
                 products: allProducts.length,
-                customers: customers.length,
+            customers: customers.length,
                 revenueGrowth,
                 ordersGrowth,
                 pendingOrders,
@@ -305,9 +305,9 @@ export default function AdminDashboard() {
             <div className="space-y-6">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div>
-                        <h1 className="text-3xl font-display font-bold text-chocolate">Dashboard</h1>
-                        <p className="text-chocolate/70 mt-1">Welcome back, {user?.name}!</p>
+                <div>
+                    <h1 className="text-3xl font-display font-bold text-chocolate">Dashboard</h1>
+                    <p className="text-chocolate/70 mt-1">Welcome back, {user?.name}!</p>
                     </div>
                     <div className="flex items-center gap-3">
                         <Button
@@ -454,23 +454,23 @@ export default function AdminDashboard() {
                         <h2 className="text-xl font-display font-bold text-chocolate mb-6">Order Status</h2>
                         {orderStatusData.length > 0 ? (
                             <ResponsiveContainer width="100%" height={250}>
-                                <PieChart>
-                                    <Pie
-                                        data={orderStatusData}
-                                        cx="50%"
-                                        cy="50%"
-                                        labelLine={false}
+                            <PieChart>
+                                <Pie
+                                    data={orderStatusData}
+                                    cx="50%"
+                                    cy="50%"
+                                    labelLine={false}
                                         outerRadius={80}
-                                        fill="#8884d8"
-                                        dataKey="value"
-                                    >
-                                        {orderStatusData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={entry.color} />
-                                        ))}
-                                    </Pie>
-                                    <Tooltip />
-                                </PieChart>
-                            </ResponsiveContainer>
+                                    fill="#8884d8"
+                                    dataKey="value"
+                                >
+                                    {orderStatusData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.color} />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                            </PieChart>
+                        </ResponsiveContainer>
                         ) : (
                             <div className="h-[250px] flex items-center justify-center text-chocolate/50">
                                 No order data
@@ -570,7 +570,7 @@ export default function AdminDashboard() {
                                 View Inventory
                             </Button>
                         </div>
-                    </div>
+                </div>
                 )}
 
                 {/* Recent Orders Table */}

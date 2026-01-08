@@ -13,8 +13,8 @@ export default function About() {
         },
         {
             icon: Leaf,
-            title: '100% Natural',
-            description: 'We use only natural ingredients - no artificial flavors, colors, or preservatives.',
+            title: 'Fresh Ingredients',
+            description: 'We use quality ingredients with authentic recipes perfected over time.',
         },
         {
             icon: Award,
@@ -32,7 +32,7 @@ export default function About() {
         { number: '50+', label: 'Unique Flavors' },
         { number: '10K+', label: 'Happy Customers' },
         { number: '5+', label: 'Years of Excellence' },
-        { number: '100%', label: 'Natural Ingredients' },
+        { number: '100%', label: 'Customer Satisfaction' },
     ];
 
     const features = [
@@ -104,12 +104,12 @@ export default function About() {
                                     </p>
                                     <p>
                                         At Jas&Mey, we believe that great ice cream isn't just about taste – 
-                                        it's about the experience. That's why we use only the finest natural 
+                                        it's about the experience. That's why we use quality 
                                         ingredients, traditional recipes, and modern techniques to create 
                                         flavors that delight your senses.
                                     </p>
                                     <p>
-                                        Our commitment to quality means no artificial flavors, no preservatives, 
+                                        Our commitment to quality means authentic recipes, fresh ingredients, 
                                         and no shortcuts. Just pure, creamy goodness in every bite.
                                     </p>
                                 </div>

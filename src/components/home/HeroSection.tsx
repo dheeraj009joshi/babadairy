@@ -2,8 +2,10 @@ import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { ChevronDown, Sparkles, Heart } from 'lucide-react';
+import { useSettings } from '@/contexts/SettingsContext';
 
 export default function HeroSection() {
+    const { settings } = useSettings();
     const [isVisible, setIsVisible] = useState(false);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const heroRef = useRef<HTMLElement>(null);
@@ -68,10 +70,10 @@ export default function HeroSection() {
                 {/* Floating decorative elements */}
                 <div className="absolute top-20 right-[15%] text-pink-300/40 animate-float">
                     <Sparkles className="w-8 h-8" />
-                </div>
+            </div>
                 <div className="absolute bottom-32 left-[10%] text-amber-300/40 animate-float animation-delay-1000">
                     <Heart className="w-6 h-6" />
-                </div>
+                    </div>
                 <div className="absolute top-1/3 right-[8%] text-rose-300/30 animate-float animation-delay-500">
                     <Sparkles className="w-5 h-5" />
                 </div>
@@ -89,26 +91,25 @@ export default function HeroSection() {
                 <div className={`mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                     <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-rose-500/10 to-amber-500/10 border border-rose-200/50 text-rose-600 text-sm font-medium backdrop-blur-sm">
                         <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                        Handcrafted with Love
+                        {settings.heroBadge}
                     </span>
                 </div>
 
                 {/* Main Headline */}
                 <div className={`transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                     <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight leading-[0.95]">
-                        <span className="block text-gray-900">Scoop into</span>
+                        <span className="block text-gray-900">{settings.heroTitle}</span>
                         <span className="block mt-2 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 bg-clip-text text-transparent">
-                            Happiness
-                        </span>
-                    </h1>
+                            {settings.heroHighlight}
+                    </span>
+                </h1>
                 </div>
 
                 {/* Subtitle */}
                 <div className={`mt-8 transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                     <p className="text-lg sm:text-xl text-gray-600 font-light max-w-xl mx-auto leading-relaxed">
-                        Premium artisan ice creams crafted with the finest ingredients. 
-                        Every scoop tells a story of passion and perfection.
-                    </p>
+                        {settings.heroSubtitle}
+                </p>
                 </div>
 
                 {/* CTA Buttons */}
@@ -165,20 +166,13 @@ export default function HeroSection() {
                 {/* Trust indicators */}
                 <div className={`mt-12 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                     <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 text-gray-500 text-sm">
-                        <div className="flex items-center gap-2">
-                            <span className="text-rose-500">★★★★★</span>
-                            <span>4.9 Rating</span>
-                        </div>
-                        <div className="hidden sm:block w-px h-4 bg-gray-300"></div>
-                        <div className="flex items-center gap-2">
-                            <span>🚚</span>
-                            <span>Free Delivery</span>
-                        </div>
-                        <div className="hidden sm:block w-px h-4 bg-gray-300"></div>
-                        <div className="flex items-center gap-2">
-                            <span>❄️</span>
-                            <span>Fresh Daily</span>
-                        </div>
+                        {settings.trustIndicators.map((indicator, index) => (
+                            <div key={index} className="flex items-center gap-2">
+                                {index > 0 && <div className="hidden sm:block w-px h-4 bg-gray-300 mr-6"></div>}
+                                <span className={indicator.icon.includes('★') ? 'text-rose-500' : ''}>{indicator.icon}</span>
+                                <span>{indicator.text}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

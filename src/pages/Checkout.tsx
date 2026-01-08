@@ -96,12 +96,12 @@ export default function Checkout() {
                 address = savedAddresses[selectedAddressIndex];
             } else {
                 address = {
-                    line1: deliveryInfo.address,
-                    city: deliveryInfo.city,
-                    state: deliveryInfo.state,
-                    pincode: deliveryInfo.pincode,
-                    type: 'home',
-                };
+                line1: deliveryInfo.address,
+                city: deliveryInfo.city,
+                state: deliveryInfo.state,
+                pincode: deliveryInfo.pincode,
+                type: 'home',
+            };
             }
 
             // Create proper Order object
@@ -348,49 +348,49 @@ export default function Checkout() {
                                                         ← Use saved address
                                                     </button>
                                                 )}
-                                                <div>
-                                                    <Label htmlFor="address">Street Address *</Label>
-                                                    <Input
-                                                        id="address"
-                                                        value={deliveryInfo.address}
-                                                        onChange={(e) => setDeliveryInfo({ ...deliveryInfo, address: e.target.value })}
-                                                        placeholder="House/Flat No., Building Name, Street"
-                                                        required
-                                                    />
-                                                </div>
-                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                    <div>
-                                                        <Label htmlFor="city">City *</Label>
-                                                        <Input
-                                                            id="city"
-                                                            value={deliveryInfo.city}
-                                                            onChange={(e) => setDeliveryInfo({ ...deliveryInfo, city: e.target.value })}
-                                                            placeholder="City"
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <Label htmlFor="state">State *</Label>
-                                                        <Input
-                                                            id="state"
-                                                            value={deliveryInfo.state}
-                                                            onChange={(e) => setDeliveryInfo({ ...deliveryInfo, state: e.target.value })}
-                                                            placeholder="State"
-                                                            required
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <Label htmlFor="pincode">PIN Code *</Label>
-                                                    <Input
-                                                        id="pincode"
-                                                        value={deliveryInfo.pincode}
-                                                        onChange={(e) => setDeliveryInfo({ ...deliveryInfo, pincode: e.target.value })}
-                                                        placeholder="6-digit PIN code"
-                                                        maxLength={6}
-                                                        required
-                                                    />
-                                                </div>
+                                        <div>
+                                            <Label htmlFor="address">Street Address *</Label>
+                                            <Input
+                                                id="address"
+                                                value={deliveryInfo.address}
+                                                onChange={(e) => setDeliveryInfo({ ...deliveryInfo, address: e.target.value })}
+                                                placeholder="House/Flat No., Building Name, Street"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div>
+                                                <Label htmlFor="city">City *</Label>
+                                                <Input
+                                                    id="city"
+                                                    value={deliveryInfo.city}
+                                                    onChange={(e) => setDeliveryInfo({ ...deliveryInfo, city: e.target.value })}
+                                                    placeholder="City"
+                                                    required
+                                                />
+                                            </div>
+                                            <div>
+                                                <Label htmlFor="state">State *</Label>
+                                                <Input
+                                                    id="state"
+                                                    value={deliveryInfo.state}
+                                                    onChange={(e) => setDeliveryInfo({ ...deliveryInfo, state: e.target.value })}
+                                                    placeholder="State"
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <Label htmlFor="pincode">PIN Code *</Label>
+                                            <Input
+                                                id="pincode"
+                                                value={deliveryInfo.pincode}
+                                                onChange={(e) => setDeliveryInfo({ ...deliveryInfo, pincode: e.target.value })}
+                                                placeholder="6-digit PIN code"
+                                                maxLength={6}
+                                                required
+                                            />
+                                        </div>
                                             </div>
                                         )}
 

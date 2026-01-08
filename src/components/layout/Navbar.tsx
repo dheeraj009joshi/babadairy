@@ -3,10 +3,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ShoppingBag, User, ChevronDown, LogOut, LayoutDashboard, Heart } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
+import { useSettings } from '@/contexts/SettingsContext';
 import { Button } from '../ui/button';
 import CartDrawer from '../cart/CartDrawer';
 
 export default function Navbar() {
+    const { settings } = useSettings();
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
@@ -59,20 +61,12 @@ export default function Navbar() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-20">
                         {/* Logo */}
-                        <Link to="/" className="flex items-center gap-2 group">
-                            <span className="text-3xl">🍦</span>
-                            <div>
-                                <span className={`text-xl font-display font-bold transition-colors ${
-                                    isScrolled || !isHomePage ? 'text-gray-900' : 'text-gray-900'
-                                }`}>
-                                    Jas&Mey
-                                </span>
-                                <span className={`block text-[10px] font-medium tracking-wider uppercase transition-colors ${
-                                    isScrolled || !isHomePage ? 'text-gray-500' : 'text-gray-600'
-                                }`}>
-                                    Premium Ice Creams
-                                </span>
-                            </div>
+                        <Link to="/" className="flex items-center group">
+                            <img 
+                                src="/logo.png" 
+                                alt={`${settings.storeName} Logo`}
+                                className="h-24 w-auto object-contain transition-transform group-hover:scale-105"
+                            />
                         </Link>
 
                         {/* Desktop Navigation */}
@@ -93,7 +87,7 @@ export default function Navbar() {
                                     {isActive(link.path) && (
                                         <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-rose-500 rounded-full"></span>
                                     )}
-                                </Link>
+                            </Link>
                             ))}
                         </div>
 
@@ -181,7 +175,7 @@ export default function Navbar() {
                                                 <button
                                                     onClick={handleLogout}
                                                     className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-600 hover:bg-red-50"
-                                                >
+                                    >
                                                     <LogOut className="h-4 w-4" />
                                                     Sign Out
                                                 </button>
@@ -216,15 +210,15 @@ export default function Navbar() {
                                 {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                             </button>
                         </div>
+                        </div>
                     </div>
-                </div>
 
                 {/* Mobile Menu */}
                 {isOpen && (
                     <div className="md:hidden bg-white border-t border-gray-100">
                         <div className="px-4 py-4 space-y-1">
                             {navLinks.map((link) => (
-                                <Link
+                            <Link
                                     key={link.path}
                                     to={link.path}
                                     className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
@@ -232,22 +226,22 @@ export default function Navbar() {
                                             ? 'bg-rose-50 text-rose-500'
                                             : 'text-gray-700 hover:bg-gray-50'
                                     }`}
-                                >
+                            >
                                     {link.name}
-                                </Link>
+                            </Link>
                             ))}
                             
                             {!isAuthenticated && (
                                 <div className="pt-4 border-t border-gray-100 space-y-2">
                                     <Link to="/login" className="block">
                                         <Button variant="outline" className="w-full">Sign In</Button>
-                                    </Link>
+                            </Link>
                                     <Link to="/signup" className="block">
                                         <Button className="w-full bg-rose-500 hover:bg-rose-600">Sign Up</Button>
-                                    </Link>
-                                </div>
-                            )}
+                            </Link>
                         </div>
+                    )}
+                </div>
                     </div>
                 )}
             </nav>

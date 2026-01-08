@@ -46,37 +46,37 @@ export default function UserManagement() {
 
     const loadData = async () => {
         setIsLoading(true);
-        try {
-            const [usersData, orders] = await Promise.all([
-                fetchUsers(),
-                fetchOrders()
-            ]);
-            
-            // Filter out admin users, show only customers
-            const customers = usersData.filter((u: User) => u.role === 'customer');
-            setUsers(customers);
+            try {
+                const [usersData, orders] = await Promise.all([
+                    fetchUsers(),
+                    fetchOrders()
+                ]);
+                
+                // Filter out admin users, show only customers
+                const customers = usersData.filter((u: User) => u.role === 'customer');
+                setUsers(customers);
             setAllOrders(orders);
 
-            // Process order analytics
+                // Process order analytics
             const analytics: Record<string, { orders: number; revenue: number; lastOrder: string }> = {};
-            orders.forEach(order => {
-                if (!analytics[order.userId]) {
+                orders.forEach(order => {
+                    if (!analytics[order.userId]) {
                     analytics[order.userId] = { orders: 0, revenue: 0, lastOrder: '' };
-                }
-                analytics[order.userId].orders += 1;
-                analytics[order.userId].revenue += order.total;
+                    }
+                    analytics[order.userId].orders += 1;
+                    analytics[order.userId].revenue += order.total;
                 if (!analytics[order.userId].lastOrder || new Date(order.createdAt) > new Date(analytics[order.userId].lastOrder)) {
                     analytics[order.userId].lastOrder = order.createdAt;
                 }
-            });
-            setUserAnalytics(analytics);
-        } catch (error) {
-            console.error('Error loading user data:', error);
+                });
+                setUserAnalytics(analytics);
+            } catch (error) {
+                console.error('Error loading user data:', error);
             toast.error('Failed to load users');
-        } finally {
+            } finally {
             setIsLoading(false);
-        }
-    };
+            }
+        };
 
     useEffect(() => {
         loadData();
@@ -143,7 +143,7 @@ export default function UserManagement() {
 
     const filteredUsers = users
         .filter(user =>
-            user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
             (user.phone && user.phone.includes(searchQuery))
         )
@@ -243,7 +243,7 @@ export default function UserManagement() {
                                             disabled={selectedUsers.size === 0}
                                         >
                                             <FileSpreadsheet className="h-5 w-5 text-green-600" />
-                                            <div>
+                <div>
                                                 <p className="text-sm font-medium">Customer Invoices</p>
                                                 <p className="text-xs text-chocolate/60">
                                                     {selectedUsers.size > 0 
@@ -295,14 +295,14 @@ export default function UserManagement() {
                 {/* Filters */}
                 <div className="bg-white rounded-xl p-6 shadow-md">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-chocolate/40" />
-                            <Input
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-chocolate/40" />
+                        <Input
                                 placeholder="Search by name, email, or phone..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-10"
-                            />
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-10"
+                        />
                         </div>
                         <select
                             value={sortBy}
@@ -359,12 +359,12 @@ export default function UserManagement() {
                             </span>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {filteredUsers.map((user) => {
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {filteredUsers.map((user) => {
                                 const analytics = userAnalytics[user.id] || { orders: 0, revenue: 0, lastOrder: '' };
-                                return (
-                                    <div
-                                        key={user.id}
+                            return (
+                                <div
+                                    key={user.id}
                                         className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow border border-chocolate/5"
                                     >
                                         <div className="flex items-start gap-4">
@@ -379,45 +379,45 @@ export default function UserManagement() {
                                                     <div className="flex items-center gap-3">
                                                         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-chocolate/80 to-chocolate flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                                                             {user.name.charAt(0).toUpperCase()}
-                                                        </div>
+                                        </div>
                                                         <div className="min-w-0">
-                                                            <h3 className="text-lg font-display font-bold text-chocolate truncate">
-                                                                {user.name}
-                                                            </h3>
+                                            <h3 className="text-lg font-display font-bold text-chocolate truncate">
+                                                {user.name}
+                                            </h3>
                                                             <p className="text-xs text-chocolate/60 truncate">{user.email}</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 
                                                 <div className="space-y-2 mt-4">
-                                                    {user.phone && (
-                                                        <div className="flex items-center text-sm text-chocolate/70">
+                                                {user.phone && (
+                                                    <div className="flex items-center text-sm text-chocolate/70">
                                                             <Phone className="h-4 w-4 mr-2 flex-shrink-0 text-chocolate/50" />
-                                                            <span>{user.phone}</span>
-                                                        </div>
-                                                    )}
-                                                    {user.joinedAt && (
-                                                        <div className="flex items-center text-sm text-chocolate/70">
+                                                        <span>{user.phone}</span>
+                                                    </div>
+                                                )}
+                                                {user.joinedAt && (
+                                                    <div className="flex items-center text-sm text-chocolate/70">
                                                             <Calendar className="h-4 w-4 mr-2 flex-shrink-0 text-chocolate/50" />
-                                                            <span>Joined {formatDate(user.joinedAt)}</span>
-                                                        </div>
-                                                    )}
+                                                        <span>Joined {formatDate(user.joinedAt)}</span>
+                                                    </div>
+                                                )}
                                                     {user.addresses && user.addresses.length > 0 && (
                                                         <div className="flex items-center text-sm text-chocolate/70">
                                                             <MapPin className="h-4 w-4 mr-2 flex-shrink-0 text-chocolate/50" />
                                                             <span>{user.addresses[0].city}, {user.addresses[0].state}</span>
                                                         </div>
                                                     )}
-                                                </div>
+                                            </div>
 
-                                                {/* Analytics */}
-                                                <div className="mt-4 pt-4 border-t border-chocolate/10 grid grid-cols-2 gap-4">
+                                            {/* Analytics */}
+                                            <div className="mt-4 pt-4 border-t border-chocolate/10 grid grid-cols-2 gap-4">
                                                     <div className="bg-cream/50 rounded-lg p-3">
-                                                        <p className="text-xs text-chocolate/60">Orders</p>
+                                                    <p className="text-xs text-chocolate/60">Orders</p>
                                                         <p className="text-xl font-bold text-chocolate">{analytics.orders}</p>
-                                                    </div>
+                                                </div>
                                                     <div className="bg-cream/50 rounded-lg p-3">
-                                                        <p className="text-xs text-chocolate/60">Revenue</p>
+                                                    <p className="text-xs text-chocolate/60">Revenue</p>
                                                         <p className="text-xl font-bold text-green-600">{formatCurrency(analytics.revenue)}</p>
                                                     </div>
                                                 </div>
@@ -429,13 +429,13 @@ export default function UserManagement() {
                                                 )}
 
                                                 <div className="mt-4 flex items-center gap-2">
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
                                                         className="flex-1 border-chocolate/20 hover:bg-chocolate/5"
                                                         onClick={() => navigate(`/admin/users/${user.id}`)}
-                                                    >
-                                                        <Eye className="h-4 w-4 mr-2" />
+                                                >
+                                                    <Eye className="h-4 w-4 mr-2" />
                                                         View
                                                     </Button>
                                                     <Button
@@ -447,14 +447,14 @@ export default function UserManagement() {
                                                     >
                                                         <Download className="h-4 w-4 mr-2" />
                                                         Invoices
-                                                    </Button>
-                                                </div>
+                                                </Button>
                                             </div>
                                         </div>
                                     </div>
-                                );
-                            })}
-                        </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                     </>
                 )}
             </div>

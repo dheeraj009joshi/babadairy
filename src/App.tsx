@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
 import { FavoritesProvider } from './contexts/FavoritesContext'
+import { SettingsProvider } from './contexts/SettingsContext'
 import Home from './pages/Home'
 import Shop from './pages/Shop'
 import ProductDetail from './pages/ProductDetail'
@@ -27,6 +28,7 @@ import Settings from './pages/admin/Settings'
 function App() {
     return (
         <Router>
+            <SettingsProvider>
             <AuthProvider>
                 <CartProvider>
                     <FavoritesProvider>
@@ -84,6 +86,7 @@ function App() {
                     </FavoritesProvider>
                 </CartProvider>
             </AuthProvider>
+            </SettingsProvider>
         </Router>
     )
 }

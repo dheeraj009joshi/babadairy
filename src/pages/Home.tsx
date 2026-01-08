@@ -1,8 +1,8 @@
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import HeroSection from '../components/home/HeroSection';
+import ImageCarousel from '../components/home/ImageCarousel';
 import ProductCategories from '../components/home/ProductCategories';
-import FeaturedProducts from '../components/home/FeaturedProducts';
 import WhyChooseUs from '../components/home/WhyChooseUs';
 import AboutSection from '../components/home/AboutSection';
 import CustomerReviews from '../components/home/CustomerReviews';
@@ -16,7 +16,7 @@ export default function Home() {
             <main className="flex-grow">
                 <HeroSection />
                 <ProductCategories />
-                <FeaturedProducts />
+                <ImageCarousel />
                 <WhyChooseUs />
                 <AboutSection />
                 <CustomerReviews />
