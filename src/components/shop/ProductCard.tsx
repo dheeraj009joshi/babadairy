@@ -18,8 +18,12 @@ export default function ProductCard({ product, onQuickView, viewMode = 'grid' }:
     const { toggleFavorite, isFavorite } = useFavorites();
     const [isAdding, setIsAdding] = useState(false);
 
-    const discountedPrice = product.price * (1 - product.discount / 100);
-    const defaultSize = product.sizes[0];
+    const defaultSize = product.sizes[0] || '';
+    // Get price for default size
+    const basePrice = product.priceBySize && defaultSize && product.priceBySize[defaultSize] !== undefined
+        ? product.priceBySize[defaultSize]
+        : product.price;
+    const discountedPrice = basePrice * (1 - product.discount / 100);
 
     // Check if product is in cart
     const cartItem = items.find(item => item.productId === product.id && item.size === defaultSize);
@@ -131,7 +135,7 @@ export default function ProductCard({ product, onQuickView, viewMode = 'grid' }:
                                 </div>
                                 {product.discount > 0 && (
                                     <div className="text-sm text-chocolate/50 line-through">
-                                        {formatCurrency(product.price)}
+                                        {formatCurrency(basePrice)}
                                     </div>
                                 )}
                             </div>

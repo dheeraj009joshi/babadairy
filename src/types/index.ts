@@ -3,10 +3,11 @@ export interface Product {
     name: string;
     category: string;
     description: string;
-    price: number;
+    price: number; // Base price (for backward compatibility, uses first size price if priceBySize exists)
     discount: number;
     images: string[];
     sizes: string[];
+    priceBySize?: Record<string, number>; // Size-based pricing: { "Small (100ml)": 100, "Medium (250ml)": 200, ... }
     stock: number;
     lowStockThreshold: number;
     flavors: string[];

@@ -138,6 +138,8 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
     const selectedDietary = watch('dietary');
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [imageUrl, setImageUrl] = useState('');
+    const [priceBySize, setPriceBySize] = useState<Record<string, number>>({});
+    const [sizePriceErrors, setSizePriceErrors] = useState<Record<string, string>>({});
 
     useEffect(() => {
         if (product) {
@@ -159,6 +161,17 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
                 sugar: product.nutrition.sugar || 0,
                 featured: product.featured,
             });
+            // Set priceBySize if it exists, otherwise initialize from sizes
+            if (product.priceBySize) {
+                setPriceBySize(product.priceBySize);
+            } else if (product.sizes.length > 0) {
+                // Initialize with base price for all sizes
+                const initialPrices: Record<string, number> = {};
+                product.sizes.forEach(size => {
+                    initialPrices[size] = product.price;
+                });
+                setPriceBySize(initialPrices);
+            }
             // Set image preview if product has image
             if (product.images && product.images.length > 0) {
                 const img = product.images[0];
@@ -187,24 +200,79 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
                 sugar: 0,
                 featured: false,
             });
+            setPriceBySize({});
             setImagePreview(null);
             setImageUrl('');
         }
     }, [product, reset]);
+    
+    // Update priceBySize when sizes change
+    useEffect(() => {
+        if (selectedSizes && selectedSizes.length > 0) {
+            setPriceBySize(prev => {
+                const updated = { ...prev };
+                // Add prices for new sizes (use base price or existing price, but don't auto-set to 0)
+                selectedSizes.forEach(size => {
+                    if (!(size in updated)) {
+                        // Only use existing price if it's valid, otherwise leave empty for user to enter
+                        const existingPrice = product?.priceBySize?.[size] || product?.price;
+                        updated[size] = existingPrice && existingPrice > 0 ? existingPrice : 0;
+                    }
+                });
+                // Remove prices for unselected sizes
+                Object.keys(updated).forEach(size => {
+                    if (!selectedSizes.includes(size)) {
+                        delete updated[size];
+                    }
+                });
+                return updated;
+            });
+            // Clear errors when sizes change
+            setSizePriceErrors({});
+        } else {
+            setPriceBySize({});
+            setSizePriceErrors({});
+        }
+    }, [selectedSizes, product]);
 
     const handleFormSubmit = async (data: ProductFormData) => {
         try {
+            // Validate that all selected sizes have prices
+            const errors: Record<string, string> = {};
+            if (selectedSizes && selectedSizes.length > 0) {
+                selectedSizes.forEach(size => {
+                    const price = priceBySize[size];
+                    if (!price || price <= 0) {
+                        errors[size] = `Price is required for ${size}`;
+                    }
+                });
+            }
+            
+            if (Object.keys(errors).length > 0) {
+                setSizePriceErrors(errors);
+                toast.error('Please set a valid price (greater than 0) for all selected sizes');
+                return;
+            }
+            
+            setSizePriceErrors({});
+            
+            // Use first size price as base price if priceBySize exists
+            const basePrice = Object.keys(priceBySize).length > 0 && selectedSizes && selectedSizes.length > 0
+                ? priceBySize[selectedSizes[0]]
+                : data.price;
+            
             const productData: Partial<Product> = {
                 id: product?.id || `prod_${Date.now()}`,
                 name: data.name,
                 category: data.category,
                 description: data.description,
-                price: data.price,
+                price: basePrice, // Base price (first size price or form price)
                 discount: data.discount,
                 stock: data.stock,
                 lowStockThreshold: data.lowStockThreshold,
                 ingredients: data.ingredients,
                 sizes: data.sizes,
+                priceBySize: Object.keys(priceBySize).length > 0 ? priceBySize : undefined,
                 dietary: data.dietary,
                 images: imagePreview ? [imagePreview] : (product?.images || ['/images/placeholder.jpg']),
                 flavors: product?.flavors || [],
@@ -450,12 +518,21 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div>
-                            <Label htmlFor="price">Price (₹) *</Label>
+                            <Label htmlFor="price">
+                                Base Price (₹) {selectedSizes && selectedSizes.length > 0 ? '' : '*'}
+                            </Label>
+                            {selectedSizes && selectedSizes.length > 0 ? (
+                                <p className="text-xs text-chocolate/60 mb-1">
+                                    Auto-synced with first size price
+                                </p>
+                            ) : null}
                             <Input
                                 id="price"
                                 type="number"
                                 {...register('price', { valueAsNumber: true })}
                                 placeholder="250"
+                                disabled={selectedSizes && selectedSizes.length > 0}
+                                className={selectedSizes && selectedSizes.length > 0 ? 'bg-chocolate/5' : ''}
                             />
                             {errors.price && <p className="text-sm text-error mt-1">{errors.price.message}</p>}
                         </div>
@@ -497,7 +574,17 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
 
                 {/* Sizes */}
                 <div className="space-y-3">
-                    <Label>Available Sizes *</Label>
+                    <div className="flex items-center justify-between">
+                        <Label>Available Sizes *</Label>
+                        {selectedSizes && selectedSizes.length > 0 && (
+                            <span className="text-xs text-chocolate/60">
+                                {selectedSizes.length} size{selectedSizes.length > 1 ? 's' : ''} selected
+                            </span>
+                        )}
+                    </div>
+                    <p className="text-xs text-chocolate/60 mb-2">
+                        Select one or more sizes. You'll need to set a price for each selected size below.
+                    </p>
                     <div className="flex flex-wrap gap-2">
                         {productSettings.sizes.map((size: string) => (
                             <button
@@ -514,6 +601,63 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
                         ))}
                     </div>
                     {errors.sizes && <p className="text-sm text-error mt-1">{errors.sizes.message}</p>}
+                    {selectedSizes && selectedSizes.length === 0 && (
+                        <p className="text-sm text-error mt-1">Please select at least one size</p>
+                    )}
+                    
+                    {/* Size-based Pricing */}
+                    {selectedSizes && selectedSizes.length > 0 && (
+                        <div className="mt-4 space-y-3">
+                            <Label className="text-sm font-semibold">Price for Each Size (₹) *</Label>
+                            <p className="text-xs text-chocolate/60 mb-3">
+                                You must set a price for each selected size. Prices must be greater than ₹0.
+                            </p>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {selectedSizes.map((size: string) => (
+                                    <div key={size}>
+                                        <Label htmlFor={`price-${size}`} className="text-xs text-chocolate/70 mb-1 block">
+                                            {size} <span className="text-error">*</span>
+                                        </Label>
+                                        <Input
+                                            id={`price-${size}`}
+                                            type="number"
+                                            value={priceBySize[size] || ''}
+                                            onChange={(e) => {
+                                                const value = Number(e.target.value);
+                                                setPriceBySize(prev => ({
+                                                    ...prev,
+                                                    [size]: value
+                                                }));
+                                                // Clear error for this size when user starts typing
+                                                if (sizePriceErrors[size]) {
+                                                    setSizePriceErrors(prev => {
+                                                        const updated = { ...prev };
+                                                        delete updated[size];
+                                                        return updated;
+                                                    });
+                                                }
+                                                // Update base price field if this is the first size
+                                                if (selectedSizes[0] === size) {
+                                                    setValue('price', value);
+                                                }
+                                            }}
+                                            placeholder="Enter price"
+                                            min={0}
+                                            step="0.01"
+                                            required
+                                            className={sizePriceErrors[size] ? 'border-error' : ''}
+                                        />
+                                        {sizePriceErrors[size] && (
+                                            <p className="text-xs text-error mt-1">{sizePriceErrors[size]}</p>
+                                        )}
+                                        {!sizePriceErrors[size] && (!priceBySize[size] || priceBySize[size] <= 0) && (
+                                            <p className="text-xs text-chocolate/50 mt-1">Required</p>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Dietary Options */}

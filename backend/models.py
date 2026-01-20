@@ -9,10 +9,11 @@ class Product(Document):
     name: str
     category: str
     description: str = ""
-    price: float
+    price: float  # Base price (for backward compatibility)
     discount: float = 0
     images: List[str] = []
     sizes: List[str] = []
+    price_by_size: Optional[Dict[str, float]] = None  # Size-based pricing: {"Small (100ml)": 100.0, "Medium (250ml)": 200.0, ...}
     stock: int = 0
     low_stock_threshold: int = 10
     flavors: List[str] = []

@@ -31,10 +31,19 @@ export default function ProductDetail() {
 
         if (productData) {
             setProduct(productData);
-            setSelectedSize(productData.sizes[0]);
+            setSelectedSize(productData.sizes[0] || '');
             setReviews(reviewsData);
         }
         setIsLoading(false);
+    };
+    
+    // Get current price based on selected size
+    const getCurrentPrice = () => {
+        if (!product) return 0;
+        if (product.priceBySize && selectedSize && product.priceBySize[selectedSize] !== undefined) {
+            return product.priceBySize[selectedSize];
+        }
+        return product.price;
     };
 
     useEffect(() => {
@@ -52,10 +61,13 @@ export default function ProductDetail() {
     }, [id]);
 
     const handleAddToCart = () => {
-        if (product) {
+        if (product && selectedSize) {
             addItem(product, selectedSize, quantity);
         }
     };
+    
+    const currentPrice = getCurrentPrice();
+    const discountedPrice = currentPrice * (1 - product?.discount / 100 || 0);
 
     if (isLoading) {
         return (
@@ -85,8 +97,6 @@ export default function ProductDetail() {
             </div>
         );
     }
-
-    const discountedPrice = product.price * (1 - product.discount / 100);
 
     return (
         <div className="min-h-screen flex flex-col bg-cream">
@@ -156,7 +166,7 @@ export default function ProductDetail() {
                                     {product.discount > 0 && (
                                         <>
                                             <span className="text-2xl text-chocolate/40 line-through">
-                                                {formatCurrency(product.price)}
+                                                {formatCurrency(currentPrice)}
                                             </span>
                                             <span className="px-3 py-1 bg-secondary text-white rounded-full text-sm font-bold">
                                                 {product.discount}% OFF
@@ -164,6 +174,11 @@ export default function ProductDetail() {
                                         </>
                                     )}
                                 </div>
+                                {selectedSize && (
+                                    <p className="text-sm text-chocolate/60 mt-2">
+                                        Price for {selectedSize}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Size Selection */}
@@ -171,19 +186,26 @@ export default function ProductDetail() {
                                 <label className="block text-sm font-semibold text-chocolate mb-3">
                                     Select Size
                                 </label>
-                                <div className="flex gap-3">
-                                    {product.sizes.map((size) => (
-                                        <button
-                                            key={size}
-                                            onClick={() => setSelectedSize(size)}
-                                            className={`px-6 py-3 rounded-lg border-2 font-medium transition-colors ${selectedSize === size
-                                                ? 'border-primary bg-primary text-white'
-                                                : 'border-chocolate/20 text-chocolate hover:border-primary'
-                                                }`}
-                                        >
-                                            {size}
-                                        </button>
-                                    ))}
+                                <div className="flex flex-wrap gap-3">
+                                    {product.sizes.map((size) => {
+                                        const sizePrice = product.priceBySize?.[size] || product.price;
+                                        const sizeDiscountedPrice = sizePrice * (1 - product.discount / 100);
+                                        return (
+                                            <button
+                                                key={size}
+                                                onClick={() => setSelectedSize(size)}
+                                                className={`px-6 py-3 rounded-lg border-2 font-medium transition-colors text-left ${selectedSize === size
+                                                    ? 'border-primary bg-primary text-white'
+                                                    : 'border-chocolate/20 text-chocolate hover:border-primary'
+                                                    }`}
+                                            >
+                                                <div className="font-semibold">{size}</div>
+                                                <div className={`text-xs mt-1 ${selectedSize === size ? 'text-white/90' : 'text-chocolate/60'}`}>
+                                                    {formatCurrency(sizeDiscountedPrice)}
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
 

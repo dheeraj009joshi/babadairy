@@ -73,14 +73,20 @@ export const CartProvider = ({ children }: CartProviderProps) => {
                 );
             }
 
+            // Get price for the selected size
+            let sizePrice = product.price;
+            if (product.priceBySize && size && product.priceBySize[size] !== undefined) {
+                sizePrice = product.priceBySize[size];
+            }
+
             // Add new item
             const newItem: CartItem = {
                 productId: product.id,
                 name: product.name,
-                price: product.price * (1 - product.discount / 100),
+                price: sizePrice * (1 - product.discount / 100),
                 size,
                 quantity,
-                image: product.images[0],
+                image: product.images[0] || '/images/placeholder.jpg',
             };
 
             return [...prevItems, newItem];

@@ -14,6 +14,7 @@ export const fetchProducts = async (): Promise<Product[]> => {
             discount: Number(item.discount || 0),
             images: item.images || [],
             sizes: item.sizes || [],
+            priceBySize: item.price_by_size || undefined,
             stock: item.stock || 0,
             lowStockThreshold: item.low_stock_threshold || 10,
             flavors: item.flavors || [],
@@ -44,6 +45,7 @@ export const fetchProductById = async (id: string): Promise<Product | undefined>
             discount: Number(item.discount || 0),
             images: item.images || [],
             sizes: item.sizes || [],
+            priceBySize: item.price_by_size || undefined,
             stock: item.stock || 0,
             lowStockThreshold: item.low_stock_threshold || 10,
             flavors: item.flavors || [],
@@ -82,6 +84,10 @@ export const saveProduct = async (product: Partial<Product>): Promise<void> => {
         if (product.createdAt) {
             productData.created_at = product.createdAt;
             delete productData.createdAt;
+        }
+        if (product.priceBySize !== undefined) {
+            productData.price_by_size = product.priceBySize;
+            delete productData.priceBySize;
         }
 
         if (product.id && !product.id.startsWith('prod_')) {

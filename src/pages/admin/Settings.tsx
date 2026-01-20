@@ -221,12 +221,33 @@ export default function Settings() {
         try {
             setIsLoading(true);
             const response = await apiClient.get('/settings/');
-            if (response.data) {
-                setSettings({ ...defaultSettings, ...response.data });
+            // API client returns JSON directly, not wrapped in data
+            if (response) {
+                // Merge backend response with defaults to ensure all fields exist
+                const loadedSettings = {
+                    ...defaultSettings,
+                    ...response,
+                    // Ensure arrays are properly set (don't override with undefined)
+                    product_categories: response.product_categories || defaultSettings.product_categories,
+                    product_sizes: response.product_sizes || defaultSettings.product_sizes,
+                    product_flavors: response.product_flavors || defaultSettings.product_flavors,
+                    product_dietary: response.product_dietary || defaultSettings.product_dietary,
+                    categories: response.categories || defaultSettings.categories,
+                    carousel_images: response.carousel_images || defaultSettings.carousel_images,
+                    features: response.features || defaultSettings.features,
+                    trust_indicators: response.trust_indicators || defaultSettings.trust_indicators,
+                };
+                setSettings(loadedSettings);
+                console.log('Settings loaded from backend:', loadedSettings);
+            } else {
+                // If no response, use defaults
+                setSettings(defaultSettings);
             }
         } catch (error) {
             console.error('Failed to load settings:', error);
-            toast.error('Failed to load settings');
+            toast.error('Failed to load settings. Using default values.');
+            // Use defaults on error
+            setSettings(defaultSettings);
         } finally {
             setIsLoading(false);
         }

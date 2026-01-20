@@ -10,6 +10,7 @@ class ProductBase(BaseModel):
     discount: Optional[float] = 0
     images: Optional[List[str]] = []
     sizes: Optional[List[str]] = []
+    price_by_size: Optional[Dict[str, float]] = None  # Size-based pricing
     stock: Optional[int] = 0
     low_stock_threshold: Optional[int] = 10
     flavors: Optional[List[str]] = []

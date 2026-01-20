@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Star, ShoppingCart, Plus, Minus, Truck, Shield } from 'lucide-react';
 import { Product } from '@/types';
 import { useCart } from '@/contexts/CartContext';
@@ -18,9 +18,20 @@ export default function ProductQuickView({ product, isOpen, onClose }: ProductQu
 
     if (!isOpen || !product) return null;
 
-    const discountedPrice = product.price * (1 - product.discount / 100);
-    const defaultSize = selectedSize || product.sizes[0];
+    const defaultSize = selectedSize || product.sizes[0] || '';
+    // Get price for selected size
+    const basePrice = product.priceBySize && defaultSize && product.priceBySize[defaultSize] !== undefined
+        ? product.priceBySize[defaultSize]
+        : product.price;
+    const discountedPrice = basePrice * (1 - product.discount / 100);
     const cartItem = items.find(item => item.productId === product.id && item.size === defaultSize);
+    
+    // Initialize selectedSize when modal opens
+    useEffect(() => {
+        if (isOpen && product.sizes.length > 0 && !selectedSize) {
+            setSelectedSize(product.sizes[0]);
+        }
+    }, [isOpen, product.sizes, selectedSize]);
 
     const handleAddToCart = () => {
         addItem(product, defaultSize, quantity);
@@ -112,7 +123,7 @@ export default function ProductQuickView({ product, isOpen, onClose }: ProductQu
                                     {product.discount > 0 && (
                                         <>
                                             <span className="text-xl text-chocolate/40 line-through">
-                                                {formatCurrency(product.price)}
+                                                {formatCurrency(basePrice)}
                                             </span>
                                             <span className="px-3 py-1 bg-secondary text-white rounded-full text-sm font-bold">
                                                 {product.discount}% OFF
@@ -120,6 +131,11 @@ export default function ProductQuickView({ product, isOpen, onClose }: ProductQu
                                         </>
                                     )}
                                 </div>
+                                {defaultSize && (
+                                    <p className="text-sm text-chocolate/60 mt-2">
+                                        Price for {defaultSize}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Size Selection */}
@@ -128,21 +144,28 @@ export default function ProductQuickView({ product, isOpen, onClose }: ProductQu
                                     Select Size
                                 </label>
                                 <div className="flex gap-2 flex-wrap">
-                                    {product.sizes.map((size) => (
-                                        <button
-                                            key={size}
-                                            onClick={() => {
-                                                setSelectedSize(size);
-                                                setQuantity(1);
-                                            }}
-                                            className={`px-4 py-2 rounded-lg border-2 font-medium transition-colors ${(selectedSize || product.sizes[0]) === size
-                                                ? 'border-primary bg-primary text-white'
-                                                : 'border-chocolate/20 text-chocolate hover:border-primary'
-                                                }`}
-                                        >
-                                            {size}
-                                        </button>
-                                    ))}
+                                    {product.sizes.map((size) => {
+                                        const sizePrice = product.priceBySize?.[size] || product.price;
+                                        const sizeDiscountedPrice = sizePrice * (1 - product.discount / 100);
+                                        return (
+                                            <button
+                                                key={size}
+                                                onClick={() => {
+                                                    setSelectedSize(size);
+                                                    setQuantity(1);
+                                                }}
+                                                className={`px-4 py-2 rounded-lg border-2 font-medium transition-colors text-left ${(selectedSize || product.sizes[0]) === size
+                                                    ? 'border-primary bg-primary text-white'
+                                                    : 'border-chocolate/20 text-chocolate hover:border-primary'
+                                                    }`}
+                                            >
+                                                <div className="font-semibold">{size}</div>
+                                                <div className={`text-xs mt-1 ${(selectedSize || product.sizes[0]) === size ? 'text-white/90' : 'text-chocolate/60'}`}>
+                                                    {formatCurrency(sizeDiscountedPrice)}
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
