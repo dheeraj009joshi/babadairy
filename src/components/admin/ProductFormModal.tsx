@@ -68,20 +68,16 @@ interface ProductFormModalProps {
 export default function ProductFormModal({ isOpen, onClose, onSubmit, product }: ProductFormModalProps) {
     // Load settings from API
     const [productSettings, setProductSettings] = useState(defaultProductSettings);
-    const [isLoadingSettings, setIsLoadingSettings] = useState(false);
     
     // Load settings from API when modal opens
     useEffect(() => {
         if (isOpen) {
-            setIsLoadingSettings(true);
             loadProductSettingsFromAPI()
                 .then(settings => {
                     setProductSettings(settings);
-                    setIsLoadingSettings(false);
                 })
                 .catch(error => {
                     console.error('Failed to load settings:', error);
-                    setIsLoadingSettings(false);
                 });
         }
     }, [isOpen]);

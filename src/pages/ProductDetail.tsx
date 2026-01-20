@@ -67,7 +67,8 @@ export default function ProductDetail() {
     };
     
     const currentPrice = getCurrentPrice();
-    const discountedPrice = currentPrice * (1 - product?.discount / 100 || 0);
+    const discount = product?.discount ?? 0;
+    const discountedPrice = currentPrice * (1 - discount / 100);
 
     if (isLoading) {
         return (
