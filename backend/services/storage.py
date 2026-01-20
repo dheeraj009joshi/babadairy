@@ -11,7 +11,7 @@ async def upload_file_to_azure(file: UploadFile) -> str:
     container_name = os.getenv("AZURE_CONTAINER_NAME")
 
     if not connection_string or not container_name:
-        raise ValueError("Azure Storage credentials not configured.")
+        raise ValueError("Azure Storage credentials not configured. Please set AZURE_STORAGE_CONNECTION_STRING and AZURE_CONTAINER_NAME environment variables.")
 
     # Create the BlobServiceClient object
     blob_service_client = BlobServiceClient.from_connection_string(connection_string)

@@ -323,13 +323,22 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
                 const { apiClient } = await import('@/api/client');
                 const response = await apiClient.upload('/upload/', formData);
 
+                if (!response || !response.url) {
+                    throw new Error('Invalid response from server');
+                }
+
                 setImagePreview(response.url);
                 setImageUrl(''); // Clear URL when file is uploaded
 
                 toast.success('Image uploaded successfully', { id: 'upload-toast' });
-            } catch (error) {
+            } catch (error: any) {
                 console.error('Error uploading image:', error);
-                toast.error('Failed to upload image. Please try again or use image URL.', { id: 'upload-toast' });
+                const errorMessage = error?.message || 'Failed to upload image';
+                toast.error(errorMessage.includes('Cannot connect') 
+                    ? errorMessage 
+                    : `Failed to upload image: ${errorMessage}. You can use an image URL instead.`, 
+                    { id: 'upload-toast', duration: 5000 }
+                );
                 e.target.value = '';
             }
         }
