@@ -41,20 +41,31 @@ export const apiClient = {
         try {
             const fullUrl = `${API_URL}${url}`;
             console.log('Uploading to:', fullUrl);
+            console.log('API_URL from env:', import.meta.env.VITE_API_URL || 'using default');
+            
             const response = await fetch(fullUrl, {
                 method: 'POST',
                 body: formData, // fetch automatically sets Content-Type to multipart/form-data
+                credentials: 'include', // Include credentials for CORS
             });
+            
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('Upload error response:', errorText);
-                throw new Error(`API Upload Error: ${response.statusText} - ${errorText}`);
+                console.error('Response status:', response.status, response.statusText);
+                throw new Error(`API Upload Error (${response.status}): ${response.statusText} - ${errorText}`);
             }
             return response.json();
-        } catch (error) {
+        } catch (error: any) {
             console.error('Upload fetch error:', error);
+            console.error('Error details:', {
+                message: error?.message,
+                name: error?.name,
+                stack: error?.stack
+            });
+            
             if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
-                throw new Error(`Cannot connect to server. Please check if the backend is running at ${API_URL}`);
+                throw new Error(`Cannot connect to server at ${API_URL}. Please check if the backend is running and accessible.`);
             }
             throw error;
         }
