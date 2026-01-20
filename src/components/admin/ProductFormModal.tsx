@@ -319,7 +319,7 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
                 formData.append('file', file);
 
                 // Show loading toast with longer duration (won't auto-dismiss)
-                const loadingToast = toast.loading(`Uploading image (${(file.size / (1024 * 1024)).toFixed(2)}MB)...`, { 
+                toast.loading(`Uploading image (${(file.size / (1024 * 1024)).toFixed(2)}MB)...`, { 
                     id: 'upload-toast',
                     duration: Infinity // Keep it visible until we dismiss it
                 });
