@@ -300,9 +300,9 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            // Check file size (max 5MB)
-            if (file.size > 5 * 1024 * 1024) {
-                toast.error('Image size should be less than 5MB');
+            // Check file size (max 10MB to match backend)
+            if (file.size > 10 * 1024 * 1024) {
+                toast.error('Image size should be less than 10MB');
                 e.target.value = ''; // Reset file input
                 return;
             }
@@ -318,10 +318,17 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
                 const formData = new FormData();
                 formData.append('file', file);
 
-                toast.loading('Uploading image...', { id: 'upload-toast' });
+                // Show loading toast with longer duration (won't auto-dismiss)
+                const loadingToast = toast.loading(`Uploading image (${(file.size / (1024 * 1024)).toFixed(2)}MB)...`, { 
+                    id: 'upload-toast',
+                    duration: Infinity // Keep it visible until we dismiss it
+                });
 
                 const { apiClient } = await import('@/api/client');
                 const response = await apiClient.upload('/upload/', formData);
+
+                // Dismiss loading toast
+                toast.dismiss('upload-toast');
 
                 if (!response || !response.url) {
                     throw new Error('Invalid response from server');
@@ -330,15 +337,27 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
                 setImagePreview(response.url);
                 setImageUrl(''); // Clear URL when file is uploaded
 
-                toast.success('Image uploaded successfully', { id: 'upload-toast' });
+                toast.success('Image uploaded successfully!', { 
+                    id: 'upload-toast',
+                    duration: 3000
+                });
             } catch (error: any) {
                 console.error('Error uploading image:', error);
+                
+                // Dismiss loading toast if still showing
+                toast.dismiss('upload-toast');
+                
                 const errorMessage = error?.message || 'Failed to upload image';
-                toast.error(errorMessage.includes('Cannot connect') 
-                    ? errorMessage 
-                    : `Failed to upload image: ${errorMessage}. You can use an image URL instead.`, 
-                    { id: 'upload-toast', duration: 5000 }
-                );
+                const displayMessage = errorMessage.includes('timeout')
+                    ? 'Upload timed out. Please try a smaller file or check your connection.'
+                    : errorMessage.includes('Cannot connect')
+                    ? errorMessage
+                    : `Failed to upload: ${errorMessage}. You can use an image URL instead.`;
+                
+                toast.error(displayMessage, { 
+                    id: 'upload-toast', 
+                    duration: 6000 
+                });
                 e.target.value = '';
             }
         }
@@ -484,7 +503,7 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
                                         )}
                                     </div>
                                     <p className="text-xs text-chocolate/60 mt-1">
-                                        Max 2MB • JPG, PNG, WebP
+                                        Max 10MB • JPG, PNG, WebP
                                     </p>
                                 </div>
 

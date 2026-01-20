@@ -38,25 +38,29 @@ export const apiClient = {
         return response.json();
     },
     upload: async (url: string, formData: FormData) => {
+        const fullUrl = `${API_URL}${url}`;
+        console.log('Uploading to:', fullUrl);
+        console.log('API_URL from env:', import.meta.env.VITE_API_URL || 'using default');
+        
+        // Create an AbortController for timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minutes timeout
+        
         try {
-            const fullUrl = `${API_URL}${url}`;
-            console.log('Uploading to:', fullUrl);
-            console.log('API_URL from env:', import.meta.env.VITE_API_URL || 'using default');
-            
             const response = await fetch(fullUrl, {
                 method: 'POST',
-                body: formData, // fetch automatically sets Content-Type to multipart/form-data with boundary
-                // Don't set Content-Type header - let browser set it with boundary
-                mode: 'cors', // Explicitly enable CORS
+                body: formData,
+                mode: 'cors',
+                signal: controller.signal, // Add abort signal for timeout
             });
             
+            clearTimeout(timeoutId); // Clear timeout on success
+            
             console.log('Upload response status:', response.status, response.statusText);
-            console.log('Upload response headers:', Object.fromEntries(response.headers.entries()));
             
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('Upload error response:', errorText);
-                console.error('Response status:', response.status, response.statusText);
                 throw new Error(`API Upload Error (${response.status}): ${response.statusText} - ${errorText}`);
             }
             
@@ -64,12 +68,13 @@ export const apiClient = {
             console.log('Upload successful, returned URL:', result.url);
             return result;
         } catch (error: any) {
+            clearTimeout(timeoutId); // Clear timeout on error
+            
             console.error('Upload fetch error:', error);
-            console.error('Error details:', {
-                message: error?.message,
-                name: error?.name,
-                stack: error?.stack
-            });
+            
+            if (error.name === 'AbortError') {
+                throw new Error('Upload timeout: The upload took too long. Please try again with a smaller file or check your connection.');
+            }
             
             if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
                 throw new Error(`Cannot connect to server at ${API_URL}. Please check if the backend is running and accessible.`);

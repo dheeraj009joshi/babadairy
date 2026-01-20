@@ -1,11 +1,13 @@
 from azure.storage.blob.aio import BlobServiceClient
 import os
 from fastapi import UploadFile
+from typing import Union
 import uuid
 
-async def upload_file_to_azure(file: UploadFile) -> str:
+async def upload_file_to_azure(file: Union[UploadFile, bytes], filename: str = None) -> str:
     """
     Uploads a file to Azure Blob Storage and returns the public URL.
+    Can accept either UploadFile object or bytes directly.
     """
     connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
     container_name = os.getenv("AZURE_CONTAINER_NAME")
@@ -18,23 +20,25 @@ async def upload_file_to_azure(file: UploadFile) -> str:
     
     try:
         async with blob_service_client:
-            # Create a unique name for the blob
-            filename = file.filename
-            extension = filename.split(".")[-1] if "." in filename else "jpg"
+            # Get filename and extension
+            if isinstance(file, UploadFile):
+                original_filename = file.filename or "upload"
+                file_content = await file.read()
+            else:
+                # file is bytes
+                file_content = file
+                original_filename = filename or "upload"
+            
+            extension = original_filename.split(".")[-1] if "." in original_filename else "jpg"
             blob_name = f"{uuid.uuid4()}.{extension}"
             
-            # Create a blob client using the local file name as the name for the blob
+            # Create a blob client
             blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
 
-            # Upload the created file
-            # Read the file content as bytes
-            file_content = await file.read()
+            # Upload the file content directly
             await blob_client.upload_blob(file_content, overwrite=True)
             
             return blob_client.url
     except Exception as e:
         print(f"Azure Upload Error: {e}")
         raise e
-    finally:
-        # Reset file pointer for subsequent reads if necessary (though usually not needed after upload)
-        await file.seek(0)

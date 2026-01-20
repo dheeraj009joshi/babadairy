@@ -16,7 +16,11 @@ from beanie import init_beanie
 from routers import products, orders, users, upload, settings
 import os
 
-app = FastAPI(title="Baba Dairy API")
+app = FastAPI(
+    title="Baba Dairy API",
+    # Increase max upload size to 10MB (default is 1MB)
+    # Note: This is for FastAPI, but nginx/cloudflare may also have limits
+)
 
 # CORS setup
 origins = [
