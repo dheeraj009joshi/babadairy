@@ -11,6 +11,7 @@ import { Select } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Product } from '@/types';
+import { apiClient } from '@/api/client';
 
 // Default product settings (fallback)
 const defaultProductSettings = {
@@ -20,17 +21,20 @@ const defaultProductSettings = {
     dietary: ['Vegetarian', 'Eggless', 'Low Fat', 'Gluten-Free', 'Vegan', 'Organic'],
 };
 
-// Load settings from localStorage
-const getProductSettings = () => {
+// Load settings from API
+const loadProductSettingsFromAPI = async () => {
     try {
-        const saved = localStorage.getItem('productSettings');
-        if (saved) {
-            return { ...defaultProductSettings, ...JSON.parse(saved) };
-        }
-    } catch (e) {
-        console.error('Error loading product settings:', e);
+        const response = await apiClient.get('/settings/');
+        return {
+            categories: response.product_categories || defaultProductSettings.categories,
+            sizes: response.product_sizes || defaultProductSettings.sizes,
+            flavors: response.product_flavors || defaultProductSettings.flavors,
+            dietary: response.product_dietary || defaultProductSettings.dietary,
+        };
+    } catch (error) {
+        console.error('Error loading product settings from API:', error);
+        return defaultProductSettings;
     }
-    return defaultProductSettings;
 };
 
 const productSchema = z.object({
@@ -62,15 +66,43 @@ interface ProductFormModalProps {
 }
 
 export default function ProductFormModal({ isOpen, onClose, onSubmit, product }: ProductFormModalProps) {
-    // Load settings from localStorage
-    const [productSettings, setProductSettings] = useState(getProductSettings());
+    // Load settings from API
+    const [productSettings, setProductSettings] = useState(defaultProductSettings);
+    const [isLoadingSettings, setIsLoadingSettings] = useState(false);
     
-    // Reload settings when modal opens
+    // Load settings from API when modal opens
     useEffect(() => {
         if (isOpen) {
-            setProductSettings(getProductSettings());
+            setIsLoadingSettings(true);
+            loadProductSettingsFromAPI()
+                .then(settings => {
+                    setProductSettings(settings);
+                    setIsLoadingSettings(false);
+                })
+                .catch(error => {
+                    console.error('Failed to load settings:', error);
+                    setIsLoadingSettings(false);
+                });
         }
     }, [isOpen]);
+    
+    // Listen for settings updates
+    useEffect(() => {
+        const handleSettingsUpdate = () => {
+            loadProductSettingsFromAPI()
+                .then(settings => {
+                    setProductSettings(settings);
+                })
+                .catch(error => {
+                    console.error('Failed to reload settings:', error);
+                });
+        };
+        
+        window.addEventListener('settingsUpdated', handleSettingsUpdate);
+        return () => {
+            window.removeEventListener('settingsUpdated', handleSettingsUpdate);
+        };
+    }, []);
 
     const {
         register,

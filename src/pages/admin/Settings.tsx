@@ -262,32 +262,58 @@ export default function Settings() {
         setSettings(prev => ({ ...prev, [key]: value }));
     };
 
-    // Product settings handlers
-    const addProductItem = (type: 'product_categories' | 'product_sizes' | 'product_flavors' | 'product_dietary', value: string) => {
+    // Product settings handlers - auto-save to backend
+    const addProductItem = async (type: 'product_categories' | 'product_sizes' | 'product_flavors' | 'product_dietary', value: string) => {
         if (!value.trim()) return;
         if (settings[type].includes(value.trim())) {
             toast.error(`${value} already exists`);
             return;
         }
-        setSettings(prev => ({
-            ...prev,
-            [type]: [...prev[type], value.trim()]
-        }));
+        const updatedSettings = {
+            ...settings,
+            [type]: [...settings[type], value.trim()]
+        };
+        setSettings(updatedSettings);
         switch (type) {
             case 'product_categories': setNewCategory(''); break;
             case 'product_sizes': setNewSize(''); break;
             case 'product_flavors': setNewFlavor(''); break;
             case 'product_dietary': setNewDietary(''); break;
         }
-        toast.success(`Added ${value}`);
+        
+        // Auto-save to backend
+        try {
+            await apiClient.put('/settings/', { [type]: updatedSettings[type] });
+            toast.success(`Added ${value}`);
+            // Dispatch event to notify other components
+            window.dispatchEvent(new Event('settingsUpdated'));
+        } catch (error: any) {
+            console.error('Error saving settings:', error);
+            toast.error(`Failed to save: ${error?.message || 'Unknown error'}`);
+            // Revert on error
+            setSettings(settings);
+        }
     };
 
-    const removeProductItem = (type: 'product_categories' | 'product_sizes' | 'product_flavors' | 'product_dietary', value: string) => {
-        setSettings(prev => ({
-            ...prev,
-            [type]: prev[type].filter(item => item !== value)
-        }));
-        toast.success(`Removed ${value}`);
+    const removeProductItem = async (type: 'product_categories' | 'product_sizes' | 'product_flavors' | 'product_dietary', value: string) => {
+        const updatedSettings = {
+            ...settings,
+            [type]: settings[type].filter(item => item !== value)
+        };
+        setSettings(updatedSettings);
+        
+        // Auto-save to backend
+        try {
+            await apiClient.put('/settings/', { [type]: updatedSettings[type] });
+            toast.success(`Removed ${value}`);
+            // Dispatch event to notify other components
+            window.dispatchEvent(new Event('settingsUpdated'));
+        } catch (error: any) {
+            console.error('Error saving settings:', error);
+            toast.error(`Failed to save: ${error?.message || 'Unknown error'}`);
+            // Revert on error
+            setSettings(settings);
+        }
     };
 
     // Category handlers
