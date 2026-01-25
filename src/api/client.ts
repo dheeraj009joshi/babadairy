@@ -8,8 +8,15 @@ if (!API_URL) {
 
 export const apiClient = {
     get: async (url: string) => {
-        const response = await fetch(`${API_URL}${url}`);
-        if (!response.ok) throw new Error(`API Get Error: ${response.statusText}`);
+        const response = await fetch(`${API_URL}${url}`, {
+            method: 'GET',
+            mode: 'cors',
+        });
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`GET ${url} error:`, errorText);
+            throw new Error(`API Get Error (${response.status}): ${response.statusText} - ${errorText}`);
+        }
         return response.json();
     },
     post: async (url: string, data: any) => {
@@ -17,8 +24,13 @@ export const apiClient = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
+            mode: 'cors',
         });
-        if (!response.ok) throw new Error(`API Post Error: ${response.statusText}`);
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`POST ${url} error:`, errorText);
+            throw new Error(`API Post Error (${response.status}): ${response.statusText} - ${errorText}`);
+        }
         return response.json();
     },
     put: async (url: string, data: any) => {
@@ -26,8 +38,13 @@ export const apiClient = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
+            mode: 'cors',
         });
-        if (!response.ok) throw new Error(`API Put Error: ${response.statusText}`);
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`PUT ${url} error:`, errorText);
+            throw new Error(`API Put Error (${response.status}): ${response.statusText} - ${errorText}`);
+        }
         return response.json();
     },
     delete: async (url: string) => {

@@ -9,3 +9,4 @@ passlib[bcrypt]
 emails
 aiosmtplib
 azure-storage-blob[aio]
+aiofiles
