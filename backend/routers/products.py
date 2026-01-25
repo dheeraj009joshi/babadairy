@@ -38,14 +38,29 @@ async def read_product(product_id: str):
 @router.post("/", response_model=schemas.Product)
 async def create_product(product: schemas.ProductCreate):
     try:
-        if not product.id:
-            product.id = str(uuid4())
-        
         # Use model_dump() for Pydantic v2, or dict() for v1
         try:
             product_data = product.model_dump() if hasattr(product, 'model_dump') else product.dict()
         except AttributeError:
             product_data = product.dict()
+        
+        # Check if product with this ID already exists
+        product_id = product_data.get('id')
+        if product_id:
+            existing_product = await models.Product.find_one(models.Product.id == product_id)
+            if existing_product:
+                # Product exists, update it instead
+                logger.info(f"Product with ID {product_id} already exists, updating instead of creating")
+                for key, value in product_data.items():
+                    if key != 'id' and hasattr(existing_product, key):  # Don't update ID
+                        setattr(existing_product, key, value)
+                existing_product.updated_at = datetime.now().isoformat()
+                await existing_product.save()
+                return existing_product
+        
+        # Generate new ID if not provided or if it doesn't exist
+        if not product_id:
+            product_data['id'] = str(uuid4())
         
         # Beanie handles document creation
         new_product = models.Product(**product_data)
@@ -55,6 +70,9 @@ async def create_product(product: schemas.ProductCreate):
         return new_product
     except Exception as e:
         logger.error(f"Error creating product: {e}", exc_info=True)
+        # Check if it's a duplicate key error
+        if "Duplicate key" in str(e) or "11000" in str(e):
+            raise HTTPException(status_code=409, detail=f"Product with this ID already exists. Use PUT to update instead.")
         raise HTTPException(status_code=500, detail=f"Failed to create product: {str(e)}")
 
 @router.put("/{product_id}", response_model=schemas.Product)
@@ -70,9 +88,12 @@ async def update_product(product_id: str, product: schemas.ProductUpdate):
         except AttributeError:
             update_data = product.dict(exclude_unset=True)
         
+        # Remove 'id' from update_data to prevent changing the ID
+        update_data.pop('id', None)
+        
         # Update fields
         for key, value in update_data.items():
-            if hasattr(db_product, key):
+            if hasattr(db_product, key) and key != 'id':  # Don't allow ID changes
                 setattr(db_product, key, value)
         
         # Update timestamp
@@ -84,6 +105,9 @@ async def update_product(product_id: str, product: schemas.ProductUpdate):
         raise
     except Exception as e:
         logger.error(f"Error updating product {product_id}: {e}", exc_info=True)
+        # Check if it's a duplicate key error
+        if "Duplicate key" in str(e) or "11000" in str(e):
+            raise HTTPException(status_code=409, detail=f"Duplicate key error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to update product: {str(e)}")
 
 @router.delete("/{product_id}")

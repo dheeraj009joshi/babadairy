@@ -91,11 +91,11 @@ export const saveProduct = async (product: Partial<Product>): Promise<void> => {
         }
 
         if (product.id && !product.id.startsWith('prod_')) {
+            // Update existing product
             await apiClient.put(`/products/${product.id}`, productData);
         } else {
-            // Remove temp ID if it exists so backend generates one (or keep if using UUID from frontend? Backend usually gens)
-            // Backend schema Optional[str] = None for Create.
-            // If we send 'prod_...' backend sets it as ID.
+            // Create new product - remove temp ID so backend generates a new one
+            delete productData.id;
             await apiClient.post('/products/', productData);
         }
         window.dispatchEvent(new CustomEvent('productsUpdated'));
