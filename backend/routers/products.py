@@ -14,9 +14,16 @@ router = APIRouter(
 logger = logging.getLogger(__name__)
 
 @router.get("/", response_model=List[schemas.Product])
-async def read_products(skip: int = 0, limit: int = 100):
+async def read_products(skip: int = 0, limit: int = 1000):
+    """
+    Get all products with pagination.
+    Default limit is 1000 to support large product catalogs.
+    Use skip and limit for pagination if needed.
+    """
     try:
-        products = await models.Product.find_all().skip(skip).limit(limit).to_list()
+        # If limit is too high, cap it at 10000 for safety
+        safe_limit = min(limit, 10000)
+        products = await models.Product.find_all().skip(skip).limit(safe_limit).to_list()
         return products
     except Exception as e:
         logger.error(f"Error fetching products: {e}", exc_info=True)
