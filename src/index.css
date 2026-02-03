@@ -1,17 +1,20 @@
 /* Admin Panel Styles - must be imported before @tailwind */
 @import './styles/admin.css';
 
+/* Import professional fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --radius: 0.5rem;
+    --radius: 0.25rem; /* Smaller radius for cleaner look */
   }
 
   body {
-    @apply font-sans text-chocolate bg-cream;
+    @apply font-sans text-gray-900 bg-neutral-50; /* More neutral base text/bg */
   }
 
   h1,
@@ -20,26 +23,26 @@
   h4,
   h5,
   h6 {
-    @apply font-display;
+    @apply font-display text-primary-900; /* Use serif for headings, deep color */
   }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - refined */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #FFF8E1;
+  background: #F5F5F5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #FF6B9D;
-  border-radius: 5px;
+  background: #AD1457; /* Deep Raspberry */
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF3D7A;
+  background: #880E4F;
 }
 
 /* ==================== ANIMATIONS ==================== */

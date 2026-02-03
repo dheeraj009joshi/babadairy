@@ -75,17 +75,17 @@ export default function Navbar() {
                                 <Link
                                     key={link.path}
                                     to={link.path}
-                                    className={`text-sm font-medium transition-colors relative ${
+                                    className={`text-sm font-medium transition-colors relative tracking-wide ${
                                         isActive(link.path)
-                                            ? 'text-rose-500'
+                                            ? 'text-primary-700 font-semibold'
                                             : isScrolled || !isHomePage
-                                                ? 'text-gray-600 hover:text-rose-500'
-                                                : 'text-gray-700 hover:text-rose-500'
+                                                ? 'text-gray-600 hover:text-primary-600'
+                                                : 'text-gray-800 hover:text-primary-700'
                                     }`}
                                 >
                                     {link.name}
                                     {isActive(link.path) && (
-                                        <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-rose-500 rounded-full"></span>
+                                        <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-600 rounded-full"></span>
                                     )}
                             </Link>
                             ))}
@@ -98,8 +98,8 @@ export default function Navbar() {
                                 to="/dashboard"
                                 className={`hidden sm:flex p-2 rounded-full transition-colors ${
                                     isScrolled || !isHomePage
-                                        ? 'text-gray-600 hover:text-rose-500 hover:bg-rose-50'
-                                        : 'text-gray-700 hover:text-rose-500 hover:bg-white/50'
+                                        ? 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                                        : 'text-gray-700 hover:text-primary-700 hover:bg-white/50'
                                 }`}
                             >
                                 <Heart className="h-5 w-5" />
@@ -110,13 +110,13 @@ export default function Navbar() {
                                 onClick={() => setIsCartOpen(true)}
                                 className={`relative p-2 rounded-full transition-colors ${
                                     isScrolled || !isHomePage
-                                        ? 'text-gray-600 hover:text-rose-500 hover:bg-rose-50'
-                                        : 'text-gray-700 hover:text-rose-500 hover:bg-white/50'
+                                        ? 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                                        : 'text-gray-700 hover:text-primary-700 hover:bg-white/50'
                                 }`}
                             >
                                 <ShoppingBag className="h-5 w-5" />
                                 {itemCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary-600 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-sm">
                                         {itemCount > 9 ? '9+' : itemCount}
                                     </span>
                                 )}
@@ -130,10 +130,10 @@ export default function Navbar() {
                                         className={`flex items-center gap-2 px-3 py-2 rounded-full transition-colors ${
                                             isScrolled || !isHomePage
                                                 ? 'text-gray-700 hover:bg-gray-100'
-                                                : 'text-gray-700 hover:bg-white/50'
+                                                : 'text-gray-800 hover:bg-white/50'
                                         }`}
                                     >
-                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white text-sm font-semibold">
+                                        <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-semibold shadow-sm">
                                             {user?.name?.charAt(0).toUpperCase()}
                                         </div>
                                         <span className="hidden sm:block text-sm font-medium max-w-[100px] truncate">
@@ -191,7 +191,7 @@ export default function Navbar() {
                                         </Button>
                                     </Link>
                                     <Link to="/signup">
-                                        <Button size="sm" className="bg-rose-500 hover:bg-rose-600 rounded-full">
+                                        <Button size="sm" className="bg-primary-600 hover:bg-primary-700 text-white rounded-md px-6 shadow-sm">
                                             Sign Up
                                         </Button>
                                     </Link>
@@ -223,7 +223,7 @@ export default function Navbar() {
                                     to={link.path}
                                     className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
                                         isActive(link.path)
-                                            ? 'bg-rose-50 text-rose-500'
+                                            ? 'bg-primary-50 text-primary-700'
                                             : 'text-gray-700 hover:bg-gray-50'
                                     }`}
                             >
@@ -237,7 +237,7 @@ export default function Navbar() {
                                         <Button variant="outline" className="w-full">Sign In</Button>
                             </Link>
                                     <Link to="/signup" className="block">
-                                        <Button className="w-full bg-rose-500 hover:bg-rose-600">Sign Up</Button>
+                                        <Button className="w-full bg-primary-600 hover:bg-primary-700 text-white">Sign Up</Button>
                             </Link>
                         </div>
                     )}

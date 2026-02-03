@@ -8,6 +8,7 @@ DATABASE_NAME = os.getenv("DATABASE_NAME", "babadairy")
 
 async def init_db():
     client = AsyncIOMotorClient(MONGODB_URL)
+    print(f"Connected to MongoDB: {client}")
     # Beanie initialization will happen in main.py startup event
     # passing the document models list
     return client
