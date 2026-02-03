@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../ui/button';
-import { ChevronDown, Sparkles, Heart } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
+
 import { useSettings } from '@/contexts/SettingsContext';
 
 export default function HeroSection() {
