@@ -56,7 +56,7 @@ export default function Contact() {
         {
             icon: Mail,
             title: 'Email Us',
-            details: ['hello@jasmey.com', 'support@jasmey.com'],
+            details: ['hello@babadairy.com', 'support@babadairy.com'],
         },
         {
             icon: Clock,
@@ -76,7 +76,7 @@ export default function Contact() {
         },
         {
             question: 'Can I customize my order for events?',
-            answer: 'Absolutely! We offer bulk orders and custom flavors for events. Contact us at events@jasmey.com for special requests.',
+            answer: 'Absolutely! We offer bulk orders and custom variants for events. Contact us at events@babadairy.com for special requests.',
         },
         {
             question: 'What is your return policy?',
@@ -235,8 +235,8 @@ export default function Contact() {
                                     <div className="w-full h-full bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl flex items-center justify-center">
                                         <div className="text-center">
                                             <MapPin className="h-16 w-16 text-primary mx-auto mb-4" />
-                                            <p className="text-chocolate font-display font-bold text-xl">Jas&Mey Store</p>
-                                            <p className="text-chocolate/70">123 Ice Cream Lane, Mumbai</p>
+                                            <p className="text-chocolate font-display font-bold text-xl">Baba Dairy Store</p>
+                                            <p className="text-chocolate/70">123 Sweet Street, Mumbai</p>
                                         </div>
                                     </div>
                                 </div>
@@ -327,7 +327,7 @@ export default function Contact() {
                                     Call Now
                                 </Button>
                             </a>
-                            <a href="mailto:support@jasmey.com">
+                            <a href="mailto:support@babadairy.com">
                                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
                                     <Mail className="h-4 w-4 mr-2" />
                                     Email Support

@@ -27,7 +27,7 @@ import {
     Tag,
     Ruler,
     Leaf,
-    IceCream,
+    Palette,
     Image,
     Layout,
     Globe,
@@ -108,20 +108,20 @@ interface SiteSettings {
 }
 
 const defaultSettings: SiteSettings = {
-    store_name: "Jas&Mey Ice Cream",
-    store_tagline: "Premium Ice Creams",
-    store_description: "Premium artisan ice creams crafted with the finest ingredients.",
-    store_email: "contact@jasmey.com",
+    store_name: "Baba Dairy",
+    store_tagline: "Premium Sweets, Ice Cream & Bakery",
+    store_description: "Delicious sweets, artisan ice creams, and fresh bakery items crafted with love and tradition.",
+    store_email: "contact@babadairy.com",
     store_phone: "+91 98765 43210",
-    store_address: "123 Ice Cream Lane",
+    store_address: "123 Sweet Street",
     store_city: "Mumbai",
     store_state: "Maharashtra",
     store_pincode: "400001",
     store_gstin: "",
     
-    hero_title: "Scoop into",
-    hero_highlight: "Happiness",
-    hero_subtitle: "Premium artisan ice creams crafted with the finest ingredients. Every scoop tells a story of passion and perfection.",
+    hero_title: "Taste the",
+    hero_highlight: "Tradition",
+    hero_subtitle: "Premium sweets, artisan ice creams, and fresh bakery items crafted with love. Every bite tells a story of tradition and quality.",
     hero_badge: "Handcrafted with Love",
     
     features: [
@@ -134,27 +134,27 @@ const defaultSettings: SiteSettings = {
     trust_indicators: [
         { icon: "★★★★★", text: "4.9 Rating" },
         { icon: "🚚", text: "Free Delivery" },
-        { icon: "❄️", text: "Fresh Daily" },
+        { icon: "✨", text: "Fresh Daily" },
     ],
     
     about_title: "Our Story",
-    about_subtitle: "A Journey of Passion & Flavour",
-    about_description: "At Jas&Mey, we believe that ice cream isn't just a dessert – it's a moment of pure joy.",
+    about_subtitle: "A Journey of Passion & Tradition",
+    about_description: "At Baba Dairy, we believe that every sweet treat is a moment of pure joy – crafted to perfection.",
     about_year_founded: "2019",
     
     categories: [
-        { name: "Cups", description: "Perfect single servings in delicious flavours", emoji: "🥤" },
-        { name: "Cones", description: "Classic cones with crispy wafers", emoji: "🍦" },
-        { name: "Tubs", description: "Share with family or enjoy yourself", emoji: "🍨" },
-        { name: "Family Packs", description: "Perfect for gatherings & celebrations", emoji: "👨‍👩‍👧‍👦" },
-        { name: "Premium", description: "Luxury flavours with premium ingredients", emoji: "✨" },
-        { name: "Specials", description: "Limited editions & seasonal favourites", emoji: "🌟" },
+        { name: "Sweets", description: "Traditional Indian sweets & mithai", emoji: "🍬" },
+        { name: "Ice Cream", description: "Premium handcrafted ice creams", emoji: "🍨" },
+        { name: "Bakery", description: "Fresh baked goods & pastries", emoji: "🥐" },
+        { name: "Cakes", description: "Custom cakes for every occasion", emoji: "🎂" },
+        { name: "Chocolates", description: "Artisan chocolates & truffles", emoji: "🍫" },
+        { name: "Snacks", description: "Namkeen, chips & savory treats", emoji: "🥨" },
     ],
     
-    product_categories: ["Cups", "Cones", "Tubs", "Family Packs", "Premium", "Specials"],
-    product_sizes: ["Small (100ml)", "Medium (250ml)", "Large (500ml)", "Family (1L)", "Party (2L)"],
-    product_flavors: ["Vanilla", "Chocolate", "Strawberry", "Mango", "Butterscotch", "Pista", "Kesar", "Black Currant", "Coffee", "Cookies & Cream"],
-    product_dietary: ["Vegetarian", "Eggless", "Low Fat", "Gluten-Free", "Vegan", "Keto-Friendly", "Organic"],
+    product_categories: ["Sweets", "Ice Cream", "Bakery", "Cakes", "Chocolates", "Snacks", "Dry Fruits", "Beverages"],
+    product_sizes: ["Small", "Medium", "Large", "250g", "500g", "1 Kg", "Family Pack"],
+    product_flavors: ["Traditional", "Chocolate", "Vanilla", "Strawberry", "Mango", "Butterscotch", "Pista", "Kesar", "Rose", "Cardamom"],
+    product_dietary: ["Vegetarian", "Eggless", "Sugar-Free", "Gluten-Free", "Vegan", "Organic"],
     
     carousel_images: [
         "/img-crausal/8.png",
@@ -490,7 +490,7 @@ export default function Settings() {
                                         <Input
                                             value={settings.store_tagline}
                                             onChange={(e) => handleChange('store_tagline', e.target.value)}
-                                            placeholder="Premium Ice Creams"
+                                            placeholder="Premium Sweets & Ice Cream"
                                         />
                                     </div>
                                     <div className="md:col-span-2">
@@ -659,7 +659,7 @@ export default function Settings() {
                                             <Textarea
                                                 value={settings.hero_subtitle}
                                                 onChange={(e) => handleChange('hero_subtitle', e.target.value)}
-                                                placeholder="Premium artisan ice creams..."
+                                                placeholder="Premium sweets, ice creams & bakery items..."
                                                 rows={2}
                                             />
                                         </div>
@@ -938,11 +938,11 @@ export default function Settings() {
                                     </div>
                                 </div>
 
-                                {/* Flavors */}
+                                {/* Flavors/Variants */}
                                 <div className="border-t border-chocolate/10 pt-8">
                                     <div className="flex items-center gap-2 mb-4">
-                                        <IceCream className="h-5 w-5 text-pink-500" />
-                                        <h3 className="text-lg font-semibold text-chocolate">Flavors</h3>
+                                        <Palette className="h-5 w-5 text-pink-500" />
+                                        <h3 className="text-lg font-semibold text-chocolate">Flavors / Variants</h3>
                                     </div>
                                     <div className="flex flex-wrap gap-2 mb-4">
                                         {settings.product_flavors.map((flavor) => (
@@ -1224,7 +1224,7 @@ export default function Settings() {
                         </div>
                         <div>
                             <p className="font-semibold text-chocolate">{user?.name || 'Admin'}</p>
-                            <p className="text-sm text-chocolate/60">{user?.email || 'admin@jasmey.com'}</p>
+                            <p className="text-sm text-chocolate/60">{user?.email || 'admin@babadairy.com'}</p>
                             <p className="text-xs text-chocolate/40 mt-1">Administrator</p>
                         </div>
                     </div>

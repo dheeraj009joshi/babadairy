@@ -5,10 +5,10 @@ import { useSettings } from '@/contexts/SettingsContext';
 export default function ImageCarousel() {
     const { settings } = useSettings();
     
-    // Use carousel images from settings
+    // Use carousel images from settings (dynamically loaded from backend)
     const carouselImages = settings.carouselImages.map((src, index) => ({
         src,
-        alt: `Ice Cream ${index + 1}`
+        alt: `Product ${index + 1}`
     }));
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -71,7 +71,7 @@ export default function ImageCarousel() {
                         Our Creations
                     </h2>
                     <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-                        Explore our delightful range of handcrafted ice creams
+                        Explore our delightful range of handcrafted sweets, ice creams & bakery items
                     </p>
                 </div>
 

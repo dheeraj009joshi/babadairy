@@ -59,7 +59,7 @@ export default function OrderSuccess() {
                                 <div>
                                     <h3 className="font-semibold text-chocolate">Preparation</h3>
                                     <p className="text-sm text-chocolate/70">
-                                        Our team will carefully pack your ice cream order to ensure freshness.
+                                        Our team will carefully pack your order to ensure freshness.
                                     </p>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@ export default function OrderSuccess() {
                     {/* Additional Info */}
                     <div className="mt-12 p-6 bg-primary/5 rounded-xl">
                         <p className="text-sm text-chocolate/70">
-                            💡 <strong>Tip:</strong> Keep your ice cream in the freezer immediately upon delivery
+                            💡 <strong>Tip:</strong> Store your products as recommended on the packaging
                             for best quality and taste!
                         </p>
                     </div>

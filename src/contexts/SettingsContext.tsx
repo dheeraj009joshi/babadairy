@@ -89,19 +89,19 @@ interface SettingsContextType {
 }
 
 const defaultSettings: SiteSettings = {
-    storeName: "Jas&Mey Ice Cream",
-    storeTagline: "Premium Ice Creams",
-    storeDescription: "Premium artisan ice creams crafted with the finest ingredients.",
-    storeEmail: "contact@jasmey.com",
+    storeName: "Baba Dairy",
+    storeTagline: "Premium Sweets, Ice Cream & Bakery",
+    storeDescription: "Delicious sweets, artisan ice creams, and fresh bakery items crafted with love and tradition.",
+    storeEmail: "contact@babadairy.com",
     storePhone: "+91 98765 43210",
-    storeAddress: "123 Ice Cream Lane",
+    storeAddress: "123 Sweet Street",
     storeCity: "Mumbai",
     storeState: "Maharashtra",
     storePincode: "400001",
     
-    heroTitle: "Scoop into",
-    heroHighlight: "Happiness",
-    heroSubtitle: "Premium artisan ice creams crafted with the finest ingredients. Every scoop tells a story of passion and perfection.",
+    heroTitle: "Taste the",
+    heroHighlight: "Tradition",
+    heroSubtitle: "Premium sweets, artisan ice creams, and fresh bakery items crafted with love. Every bite tells a story of tradition and quality.",
     heroBadge: "Handcrafted with Love",
     
     features: [
@@ -114,21 +114,21 @@ const defaultSettings: SiteSettings = {
     trustIndicators: [
         { icon: "★★★★★", text: "4.9 Rating" },
         { icon: "🚚", text: "Free Delivery" },
-        { icon: "❄️", text: "Fresh Daily" },
+        { icon: "✨", text: "Fresh Daily" },
     ],
     
     aboutTitle: "Our Story",
-    aboutSubtitle: "A Journey of Passion & Flavour",
-    aboutDescription: "At Jas&Mey, we believe that ice cream isn't just a dessert – it's a moment of pure joy.",
+    aboutSubtitle: "A Journey of Passion & Tradition",
+    aboutDescription: "At Baba Dairy, we believe that every sweet treat is a moment of pure joy – crafted to perfection.",
     aboutYearFounded: "2019",
     
     categories: [
-        { name: "Cups", description: "Perfect single servings in delicious flavours", emoji: "🥤" },
-        { name: "Cones", description: "Classic cones with crispy wafers", emoji: "🍦" },
-        { name: "Tubs", description: "Share with family or enjoy yourself", emoji: "🍨" },
-        { name: "Family Packs", description: "Perfect for gatherings & celebrations", emoji: "👨‍👩‍👧‍👦" },
-        { name: "Premium", description: "Luxury flavours with premium ingredients", emoji: "✨" },
-        { name: "Specials", description: "Limited editions & seasonal favourites", emoji: "🌟" },
+        { name: "Sweets", description: "Traditional Indian sweets & mithai", emoji: "🍬" },
+        { name: "Ice Cream", description: "Premium handcrafted ice creams", emoji: "🍨" },
+        { name: "Bakery", description: "Fresh baked goods & pastries", emoji: "🥐" },
+        { name: "Cakes", description: "Custom cakes for every occasion", emoji: "🎂" },
+        { name: "Chocolates", description: "Artisan chocolates & truffles", emoji: "🍫" },
+        { name: "Snacks", description: "Namkeen, chips & savory treats", emoji: "🥨" },
     ],
     
     carouselImages: [
@@ -145,10 +145,10 @@ const defaultSettings: SiteSettings = {
         "/img-crausal/73.png",
     ],
     
-    productCategories: ["Cups", "Cones", "Tubs", "Family Packs", "Premium", "Specials"],
-    productSizes: ["Small (100ml)", "Medium (250ml)", "Large (500ml)", "Family (1L)", "Party (2L)"],
-    productFlavors: ["Vanilla", "Chocolate", "Strawberry", "Mango", "Butterscotch", "Pista", "Kesar", "Black Currant", "Coffee", "Cookies & Cream"],
-    productDietary: ["Vegetarian", "Eggless", "Low Fat", "Gluten-Free", "Vegan", "Keto-Friendly", "Organic"],
+    productCategories: ["Sweets", "Ice Cream", "Bakery", "Cakes", "Chocolates", "Snacks", "Dry Fruits", "Beverages"],
+    productSizes: ["Small", "Medium", "Large", "250g", "500g", "1 Kg", "Family Pack"],
+    productFlavors: ["Traditional", "Chocolate", "Vanilla", "Strawberry", "Mango", "Butterscotch", "Pista", "Kesar", "Rose", "Cardamom"],
+    productDietary: ["Vegetarian", "Eggless", "Sugar-Free", "Gluten-Free", "Vegan", "Organic"],
     
     taxRate: 5,
     deliveryCharges: 40,
@@ -165,7 +165,7 @@ const defaultSettings: SiteSettings = {
     socialTwitter: "",
     socialWhatsapp: "",
     
-    footerText: "© 2024 Jas&Mey. All rights reserved.",
+    footerText: "© 2024 Baba Dairy. All rights reserved.",
 };
 
 const SettingsContext = createContext<SettingsContextType>({

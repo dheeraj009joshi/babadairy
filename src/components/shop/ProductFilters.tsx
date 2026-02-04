@@ -20,10 +20,10 @@ interface ProductFiltersProps {
 }
 
 // Default fallback values
-const defaultCategories = ['Cups', 'Cones', 'Tubs', 'Family Packs', 'Premium', 'Specials'];
-const defaultSizes = ['Single', '500ml', '1L', '2L'];
-const defaultFlavors = ['Chocolate', 'Vanilla', 'Strawberry', 'Mango', 'Pistachio', 'Coffee', 'Butterscotch', 'Coconut'];
-const defaultDietary = ['Vegetarian', 'Eggless', 'Nut-Free', 'Gluten-Free', 'Vegan'];
+const defaultCategories = ['Sweets', 'Ice Cream', 'Bakery', 'Cakes', 'Chocolates', 'Snacks', 'Dry Fruits', 'Beverages'];
+const defaultSizes = ['Small', 'Medium', 'Large', '250g', '500g', '1 Kg', 'Family Pack'];
+const defaultFlavors = ['Traditional', 'Chocolate', 'Vanilla', 'Strawberry', 'Mango', 'Butterscotch', 'Pista', 'Kesar'];
+const defaultDietary = ['Vegetarian', 'Eggless', 'Sugar-Free', 'Gluten-Free', 'Vegan', 'Organic'];
 
 export default function ProductFilters({ filters, setFilters, className, onClose }: ProductFiltersProps) {
     const [categories, setCategories] = useState<string[]>(defaultCategories);

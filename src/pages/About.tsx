@@ -77,9 +77,9 @@ export default function About() {
                                 <span className="text-primary"> Sweet Indulgence</span>
                             </h1>
                             <p className="text-lg sm:text-xl text-chocolate/70 leading-relaxed">
-                                Born from a passion for creating moments of joy, Jas&Mey brings you 
-                                premium handcrafted ice cream that's as pure as it is delicious. 
-                                Every scoop tells a story of quality, tradition, and love.
+                                Born from a passion for creating moments of joy, Baba Dairy brings you 
+                                premium handcrafted sweets, ice cream, and bakery items that are as pure as they are delicious. 
+                                Every bite tells a story of quality, tradition, and love.
                             </p>
                         </div>
                     </div>
@@ -98,19 +98,19 @@ export default function About() {
                                 </h2>
                                 <div className="space-y-4 text-chocolate/70">
                                     <p>
-                                        It all started in 2019 with a simple dream – to create ice cream that 
-                                        brings back the joy of childhood summers. What began as experiments 
+                                        It all started in 2019 with a simple dream – to create sweets and treats that 
+                                        bring back the joy of childhood memories. What began as experiments 
                                         in a small kitchen has grown into a beloved brand trusted by thousands.
                                     </p>
                                     <p>
-                                        At Jas&Mey, we believe that great ice cream isn't just about taste – 
+                                        At Baba Dairy, we believe that great food isn't just about taste – 
                                         it's about the experience. That's why we use quality 
                                         ingredients, traditional recipes, and modern techniques to create 
-                                        flavors that delight your senses.
+                                        products that delight your senses.
                                     </p>
                                     <p>
                                         Our commitment to quality means authentic recipes, fresh ingredients, 
-                                        and no shortcuts. Just pure, creamy goodness in every bite.
+                                        and no shortcuts. Just pure, delicious goodness in every bite.
                                     </p>
                                 </div>
                             </div>
@@ -189,10 +189,10 @@ export default function About() {
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center mb-16">
                             <h2 className="text-3xl sm:text-4xl font-display font-bold text-chocolate mb-4">
-                                Why Choose Jas&Mey?
+                                Why Choose Baba Dairy?
                             </h2>
                             <p className="text-lg text-chocolate/70 max-w-2xl mx-auto">
-                                We go the extra mile to ensure you get the best ice cream experience.
+                                We go the extra mile to ensure you get the best experience.
                             </p>
                         </div>
 
@@ -229,7 +229,7 @@ export default function About() {
                             Ready to Taste the Difference?
                         </h2>
                         <p className="text-lg text-white/80 mb-8">
-                            Join thousands of happy customers who have made Jas&Mey their favorite ice cream brand.
+                            Join thousands of happy customers who have made Baba Dairy their favorite brand.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link to="/shop">

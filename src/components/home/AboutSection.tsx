@@ -40,15 +40,15 @@ export default function AboutSection() {
                         </h2>
                         
                         <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                            At Jas&Mey, we believe that ice cream is more than just a dessert – 
+                            At Baba Dairy, we believe that every sweet treat is more than just food – 
                             it's a moment of pure joy. Our journey began with a simple dream: 
-                            to create ice creams that bring smiles to faces and warmth to hearts.
+                            to create products that bring smiles to faces and warmth to hearts.
                         </p>
                         
                         <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                            Every flavour is crafted with passion, using quality 
+                            Every product is crafted with passion, using quality 
                             ingredients sourced from trusted suppliers. No shortcuts, no compromises – 
-                            just pure, delicious ice cream the way it should be.
+                            just pure, delicious treats the way they should be.
                         </p>
 
                         <div className="flex flex-wrap gap-8 mb-8">
@@ -57,8 +57,8 @@ export default function AboutSection() {
                                 <div className="text-gray-500">Founded</div>
                             </div>
                             <div>
-                                <div className="text-3xl font-bold text-gray-900">50+</div>
-                                <div className="text-gray-500">Flavours</div>
+                                <div className="text-3xl font-bold text-gray-900">200+</div>
+                                <div className="text-gray-500">Products</div>
                             </div>
                             <div>
                                 <div className="text-3xl font-bold text-gray-900">100K+</div>
@@ -82,16 +82,16 @@ export default function AboutSection() {
                             <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
                                 <Quote className="w-12 h-12 text-rose-200 mb-4" />
                                 <p className="text-xl text-gray-700 italic leading-relaxed mb-6">
-                                    "We don't just make ice cream. We create memories, 
-                                    celebrate moments, and spread happiness – one scoop at a time."
+                                    "We don't just make sweets. We create memories, 
+                                    celebrate moments, and spread happiness – one bite at a time."
                                 </p>
                                 <div className="flex items-center gap-4">
                                     <div className="w-14 h-14 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white text-xl font-bold">
-                                        J
+                                        B
                                     </div>
                                     <div>
-                                        <div className="font-semibold text-gray-900">Jasmine & Meyra</div>
-                                        <div className="text-gray-500 text-sm">Founders, Jas&Mey</div>
+                                        <div className="font-semibold text-gray-900">Baba Dairy Team</div>
+                                        <div className="text-gray-500 text-sm">Founders, Baba Dairy</div>
                                     </div>
                                 </div>
                             </div>

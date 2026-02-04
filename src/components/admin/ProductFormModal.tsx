@@ -15,10 +15,10 @@ import { apiClient } from '@/api/client';
 
 // Default product settings (fallback)
 const defaultProductSettings = {
-    categories: ['Cups', 'Cones', 'Tubs', 'Family Packs', 'Premium', 'Specials'],
-    sizes: ['Small (100ml)', 'Medium (250ml)', 'Large (500ml)', 'Family (1L)', 'Party (2L)'],
-    flavors: ['Vanilla', 'Chocolate', 'Strawberry', 'Mango', 'Butterscotch'],
-    dietary: ['Vegetarian', 'Eggless', 'Low Fat', 'Gluten-Free', 'Vegan', 'Organic'],
+    categories: ['Sweets', 'Ice Cream', 'Bakery', 'Cakes', 'Chocolates', 'Snacks', 'Dry Fruits', 'Beverages'],
+    sizes: ['Small', 'Medium', 'Large', '250g', '500g', '1 Kg', 'Family Pack'],
+    flavors: ['Traditional', 'Chocolate', 'Vanilla', 'Strawberry', 'Mango', 'Butterscotch', 'Pista', 'Kesar'],
+    dietary: ['Vegetarian', 'Eggless', 'Sugar-Free', 'Gluten-Free', 'Vegan', 'Organic'],
 };
 
 // Load settings from API
@@ -437,7 +437,7 @@ export default function ProductFormModal({ isOpen, onClose, onSubmit, product }:
                         <Textarea
                             id="description"
                             {...register('description')}
-                            placeholder="Describe your delicious ice cream..."
+                            placeholder="Describe your delicious product..."
                             rows={3}
                         />
                         {errors.description && <p className="text-sm text-error mt-1">{errors.description.message}</p>}

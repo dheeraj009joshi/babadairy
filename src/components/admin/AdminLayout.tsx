@@ -50,9 +50,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 {/* Logo */}
                 <div className="p-6 border-b border-white/10 flex-shrink-0">
                     <Link to="/admin/dashboard" className="flex items-center space-x-2">
-                        <div className="text-3xl">🍦</div>
+                        <div className="text-3xl">🏪</div>
                         <div>
-                            <h1 className="text-xl font-display font-bold">Jas&Mey</h1>
+                            <h1 className="text-xl font-display font-bold">Baba Dairy</h1>
                             <p className="text-xs text-white/70">Admin Panel</p>
                         </div>
                     </Link>
@@ -122,9 +122,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         {/* Logo */}
                         <div className="p-6 border-b border-white/10 flex items-center justify-between flex-shrink-0">
                             <Link to="/admin/dashboard" className="flex items-center space-x-2">
-                                <div className="text-3xl">🍦</div>
+                                <div className="text-3xl">🏪</div>
                                 <div>
-                                    <h1 className="text-xl font-display font-bold">Jas&Mey</h1>
+                                    <h1 className="text-xl font-display font-bold">Baba Dairy</h1>
                                     <p className="text-xs text-white/70">Admin Panel</p>
                                 </div>
                             </Link>
@@ -205,8 +205,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                             <Menu className="h-6 w-6" />
                         </button>
                         <Link to="/admin/dashboard" className="flex items-center space-x-2">
-                            <div className="text-2xl">🍦</div>
-                            <span className="font-display font-bold text-chocolate">Jas&Mey</span>
+                            <div className="text-2xl">🏪</div>
+                            <span className="font-display font-bold text-chocolate">Baba Dairy</span>
                         </Link>
                         <div className="w-6" /> {/* Spacer for centering */}
                     </div>

@@ -63,9 +63,9 @@ export default function Navbar() {
                         {/* Logo */}
                         <Link to="/" className="flex items-center group">
                             <img 
-                                src="/logo.png" 
+                                src="/baba-logo.png" 
                                 alt={`${settings.storeName} Logo`}
-                                className="h-24 w-auto object-contain transition-transform group-hover:scale-105"
+                                className="h-16 w-auto object-contain transition-transform group-hover:scale-105"
                             />
                         </Link>
 

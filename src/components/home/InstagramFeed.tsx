@@ -46,13 +46,13 @@ export default function InstagramFeed() {
                 <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white text-sm font-medium mb-4">
                         <Instagram className="w-4 h-4" />
-                        @jasmey.icecream
+                        @babadairy
                     </div>
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-4">
                         Follow Us on Instagram
                     </h2>
                     <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-                        Join our community and stay updated with the latest flavours and offers
+                        Join our community and stay updated with the latest products and offers
                     </p>
                 </div>
 
@@ -103,7 +103,7 @@ export default function InstagramFeed() {
                         className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white font-semibold rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300"
                     >
                         <Instagram className="w-5 h-5" />
-                        Follow @jasmey.icecream
+                        Follow @babadairy
                         <ExternalLink className="w-4 h-4" />
                     </a>
                 </div>

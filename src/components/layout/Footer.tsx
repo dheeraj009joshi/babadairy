@@ -22,9 +22,9 @@ export default function Footer() {
                     <div className="lg:col-span-1">
                         <Link to="/" className="flex items-center mb-4">
                             <img 
-                                src="/logo.png" 
+                                src="/baba-logo.png" 
                                 alt={`${settings.storeName} Logo`}
-                                className="h-24 w-auto object-contain"
+                                className="h-16 w-auto object-contain"
                             />
                         </Link>
                         <p className="text-gray-400 text-sm leading-relaxed mb-6">

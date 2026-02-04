@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Leaf, Truck, Clock, IceCream, Heart, Award, Sparkles, Shield } from 'lucide-react';
+import { Leaf, Truck, Clock, Store, Heart, Award, Sparkles, Shield } from 'lucide-react';
 
 export default function WhyChooseUs() {
     const [isVisible, setIsVisible] = useState(false);
@@ -32,9 +32,9 @@ export default function WhyChooseUs() {
             color: 'bg-amber-500',
         },
         {
-            icon: IceCream,
-            title: '50+ Flavours',
-            description: 'Wide variety of unique and exotic flavours',
+            icon: Store,
+            title: '200+ Products',
+            description: 'Wide variety of sweets, ice cream & bakery items',
             color: 'bg-purple-500',
         },
         {
@@ -104,13 +104,13 @@ export default function WhyChooseUs() {
                 {/* Header */}
                 <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                     <span className="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-600 text-sm font-medium mb-4">
-                        Why Jas&Mey
+                        Why Baba Dairy
                     </span>
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-4">
                         Crafted for Pure Joy
                     </h2>
                     <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-                        We believe in creating moments of happiness with every scoop
+                        We believe in creating moments of happiness with every bite
                     </p>
                 </div>
 
@@ -126,7 +126,7 @@ export default function WhyChooseUs() {
                         <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-1">
                             {counters.flavors}+
                         </div>
-                        <div className="text-gray-500 font-medium">Delicious Flavours</div>
+                        <div className="text-gray-500 font-medium">Delicious Products</div>
                     </div>
                     <div className="text-center p-6 rounded-2xl bg-white shadow-sm border border-gray-100">
                         <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-1">

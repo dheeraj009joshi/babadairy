@@ -164,7 +164,7 @@ export default function Shop() {
                 <div className="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 py-12">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <h1 className="text-4xl font-display font-bold text-chocolate mb-2">
-                            Our Ice Cream Collection
+                            Our Product Collection
                         </h1>
                         <p className="text-chocolate/70">
                             Discover our handcrafted flavors made with love

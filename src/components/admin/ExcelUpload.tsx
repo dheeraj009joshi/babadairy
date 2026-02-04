@@ -85,8 +85,8 @@ export default function ExcelUpload({ onImportComplete }: ExcelUploadProps) {
         if (!row.name || row.name.trim() === '') {
             errors.push('Name is required');
         }
-        if (!row.category || !['Cups', 'Cones', 'Tubs', 'Family Packs', 'Premium', 'Specials'].includes(row.category)) {
-            errors.push('Category must be one of: Cups, Cones, Tubs, Family Packs, Premium, Specials');
+        if (!row.category || !['Sweets', 'Ice Cream', 'Bakery', 'Cakes', 'Chocolates', 'Snacks', 'Dry Fruits', 'Beverages'].includes(row.category)) {
+            errors.push('Category must be one of: Sweets, Ice Cream, Bakery, Cakes, Chocolates, Snacks, Dry Fruits, Beverages');
         }
         if (!row.description || row.description.trim() === '') {
             errors.push('Description is required');

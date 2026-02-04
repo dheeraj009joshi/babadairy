@@ -40,7 +40,7 @@ export default function CustomerReviews() {
             name: 'Anita Patel',
             location: 'Bangalore',
             rating: 5,
-            text: 'My kids absolutely love Jas&Mey! The Mango flavour tastes like real mangoes. Will definitely order again.',
+            text: 'My kids absolutely love Baba Dairy! The Mango ice cream tastes like real mangoes. Will definitely order again.',
             date: 'Nov 2025',
             avatar: '👩‍🦱',
         },

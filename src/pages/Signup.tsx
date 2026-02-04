@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { IceCream, Eye, EyeOff } from 'lucide-react';
+import { Store, Eye, EyeOff } from 'lucide-react';
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -83,14 +83,14 @@ export default function Signup() {
                     <div className="text-center mb-8">
                         <div className="flex justify-center mb-4">
                             <div className="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
-                                <IceCream className="h-12 w-12 text-white" />
+                                <Store className="h-12 w-12 text-white" />
                             </div>
                         </div>
                         <h1 className="text-3xl font-display font-bold text-chocolate mb-2">
                             Create Account
                         </h1>
                         <p className="text-chocolate/70">
-                            Join Jas&Mey for delicious ice cream
+                            Join Baba Dairy for delicious treats
                         </p>
                     </div>
 

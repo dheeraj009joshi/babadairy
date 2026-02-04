@@ -13,12 +13,12 @@ interface CategoryDisplay {
 }
 
 const gradients = [
-    { gradient: 'from-orange-100 to-amber-50', hoverGradient: 'from-orange-400 to-amber-400' },
-    { gradient: 'from-pink-100 to-rose-50', hoverGradient: 'from-pink-400 to-rose-400' },
-    { gradient: 'from-violet-100 to-purple-50', hoverGradient: 'from-violet-400 to-purple-400' },
-    { gradient: 'from-blue-100 to-indigo-50', hoverGradient: 'from-blue-400 to-indigo-400' },
-    { gradient: 'from-amber-100 to-yellow-50', hoverGradient: 'from-amber-400 to-yellow-400' },
-    { gradient: 'from-teal-100 to-emerald-50', hoverGradient: 'from-teal-400 to-emerald-400' },
+    { gradient: 'from-amber-100 to-yellow-50', hoverGradient: 'from-amber-500 to-yellow-500' },      // Sweets
+    { gradient: 'from-cyan-100 to-sky-50', hoverGradient: 'from-cyan-400 to-sky-400' },              // Ice Cream
+    { gradient: 'from-orange-100 to-amber-50', hoverGradient: 'from-orange-400 to-amber-400' },     // Bakery
+    { gradient: 'from-pink-100 to-rose-50', hoverGradient: 'from-pink-400 to-rose-400' },           // Cakes
+    { gradient: 'from-amber-100 to-orange-50', hoverGradient: 'from-amber-600 to-orange-500' },     // Chocolates
+    { gradient: 'from-emerald-100 to-teal-50', hoverGradient: 'from-emerald-400 to-teal-400' },     // Snacks
 ];
 
 export default function ProductCategories() {
@@ -86,7 +86,7 @@ export default function ProductCategories() {
                         Find Your Perfect Treat
                     </h2>
                     <p className="text-gray-500 text-lg max-w-2xl mx-auto mt-4">
-                        From single servings to family packs, we have something for every occasion
+                        From traditional sweets to fresh bakery items, we have something for every occasion
                     </p>
                 </div>
 
