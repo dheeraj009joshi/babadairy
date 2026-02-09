@@ -101,14 +101,16 @@ export default function CustomerReviews() {
         <section ref={sectionRef} className="py-24 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
-                <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                    <span className="inline-block px-4 py-1.5 rounded-full bg-amber-100 text-amber-600 text-sm font-medium mb-4">
-                        Testimonials
-                    </span>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-4">
+                <div className="text-center mb-12">
+                    <div className="inline-flex px-3 py-1 bg-primary/10 rounded-full border border-primary/20 mb-4">
+                        <span className="text-xs font-semibold text-primary uppercase tracking-wider">
+                            Testimonials
+                        </span>
+                    </div>
+                    <h2 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-foreground mb-4">
                         What Our Customers Say
                     </h2>
-                    <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+                    <p className="text-lg text-foreground/70 font-light max-w-2xl mx-auto">
                         Join thousands of happy customers who love our ice creams
                     </p>
                 </div>
@@ -139,35 +141,35 @@ export default function CustomerReviews() {
                             return (
                                 <div
                                     key={`${review.id}-${offset}`}
-                                    className={`bg-white rounded-2xl p-6 shadow-sm border border-gray-100 transition-all duration-500 hover:shadow-lg ${
-                                        offset === 1 ? 'md:scale-105 md:shadow-lg' : ''
+                                    className={`bg-white rounded-2xl p-6 shadow-sm border border-primary/5 transition-all duration-500 hover:shadow-lg ${
+                                        offset === 1 ? 'md:scale-105 md:shadow-md md:border-primary/10' : ''
                                     }`}
                                 >
-                                    <Quote className="w-8 h-8 text-rose-200 mb-4" />
+                                    <Quote className="w-8 h-8 text-primary/20 mb-4" />
                                     
                                     {/* Rating */}
                                     <div className="flex items-center gap-1 mb-4">
                                         {[...Array(5)].map((_, i) => (
                                             <Star
                                                 key={i}
-                                                className={`h-4 w-4 ${i < review.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-200'}`}
+                                                className={`h-4 w-4 ${i < review.rating ? 'fill-primary text-primary' : 'text-primary/20'}`}
                                             />
                                         ))}
                                     </div>
 
                                     {/* Review Text */}
-                                    <p className="text-gray-600 mb-6 leading-relaxed">
+                                    <p className="text-foreground/70 mb-6 leading-relaxed">
                                         "{review.text}"
                                     </p>
 
                                     {/* Author */}
                                     <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-rose-100 to-amber-100 flex items-center justify-center text-2xl">
+                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/10 to-amber-100 flex items-center justify-center text-2xl">
                                             {review.avatar}
                                         </div>
                                         <div>
-                                            <div className="font-semibold text-gray-900">{review.name}</div>
-                                            <div className="text-gray-500 text-sm">{review.location} • {review.date}</div>
+                                            <div className="font-semibold text-foreground">{review.name}</div>
+                                            <div className="text-foreground/60 text-sm">{review.location} • {review.date}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -184,8 +186,8 @@ export default function CustomerReviews() {
                             onClick={() => setCurrentIndex(idx)}
                             className={`h-2 rounded-full transition-all duration-300 ${
                                 idx === currentIndex 
-                                    ? 'bg-rose-500 w-8' 
-                                    : 'bg-gray-300 w-2 hover:bg-gray-400'
+                                    ? 'bg-primary w-8' 
+                                    : 'bg-primary/20 w-2 hover:bg-primary/40'
                             }`}
                             aria-label={`Go to review ${idx + 1}`}
                         />
@@ -194,17 +196,17 @@ export default function CustomerReviews() {
 
                 {/* Trust Badge */}
                 <div className={`text-center mt-12 transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                    <div className="inline-flex items-center gap-4 px-6 py-3 bg-white rounded-full shadow-sm border border-gray-100">
+                    <div className="inline-flex items-center gap-4 px-6 py-3 bg-white/95 rounded-full shadow-sm border border-primary/10">
                         <div className="flex -space-x-2">
                             {['👩', '👨', '👩‍🦱', '👨‍🦰'].map((emoji, i) => (
-                                <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-100 to-amber-100 flex items-center justify-center text-sm border-2 border-white">
+                                <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/10 to-amber-100 flex items-center justify-center text-sm border-2 border-white">
                                     {emoji}
                                 </div>
                             ))}
                         </div>
                         <div className="text-sm">
-                            <span className="font-semibold text-gray-900">100,000+</span>
-                            <span className="text-gray-500"> happy customers</span>
+                            <span className="font-semibold text-foreground">100,000+</span>
+                            <span className="text-foreground/60"> happy customers</span>
                         </div>
                     </div>
                 </div>

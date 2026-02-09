@@ -1,112 +1,107 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Quote } from 'lucide-react';
+'use client';
 
-export default function AboutSection() {
-    const [isVisible, setIsVisible] = useState(false);
-    const sectionRef = useRef<HTMLElement>(null);
+import React from "react";
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
+import { Award, Heart, Leaf } from 'lucide-react';
+import { JSX } from 'react/jsx-runtime'; // Import JSX
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.2 }
-        );
+interface Benefit {
+  icon: React.ComponentType<{ size: number; className?: string }>;
+  title: string;
+  description: string;
+}
 
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
+const benefits: Benefit[] = [
+  {
+    icon: Leaf,
+    title: 'Natural Ingredients',
+    description: 'Premium quality, sourced from trusted suppliers worldwide',
+  },
+  {
+    icon: Heart,
+    title: 'Made with Love',
+    description: 'Handcrafted with passion in small batches daily',
+  },
+  {
+    icon: Award,
+    title: 'Award Winning',
+    description: 'Recognized for excellence and artisan craftsmanship',
+  },
+];
 
-        return () => observer.disconnect();
-    }, []);
+export default function AboutSection(): JSX.Element {
+  const { ref, isVisible } = useScrollAnimation();
 
-    return (
-        <section ref={sectionRef} className="py-24 bg-gradient-to-b from-white to-rose-50/30">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                    {/* Left - Content */}
-                    <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
-                        <span className="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-600 text-sm font-medium mb-6">
-                            Our Story
-                        </span>
-                        
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-6 leading-tight">
-                            Crafting Happiness,
-                            <br />
-                            <span className="text-rose-500">One Scoop at a Time</span>
-                        </h2>
-                        
-                        <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                            At Baba Dairy, we believe that every sweet treat is more than just food – 
-                            it's a moment of pure joy. Our journey began with a simple dream: 
-                            to create products that bring smiles to faces and warmth to hearts.
-                        </p>
-                        
-                        <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                            Every product is crafted with passion, using quality 
-                            ingredients sourced from trusted suppliers. No shortcuts, no compromises – 
-                            just pure, delicious treats the way they should be.
-                        </p>
-
-                        <div className="flex flex-wrap gap-8 mb-8">
-                            <div>
-                                <div className="text-3xl font-bold text-gray-900">2019</div>
-                                <div className="text-gray-500">Founded</div>
-                            </div>
-                            <div>
-                                <div className="text-3xl font-bold text-gray-900">200+</div>
-                                <div className="text-gray-500">Products</div>
-                            </div>
-                            <div>
-                                <div className="text-3xl font-bold text-gray-900">100K+</div>
-                                <div className="text-gray-500">Happy Customers</div>
-                            </div>
-                        </div>
-
-                        <Link 
-                            to="/about"
-                            className="inline-flex items-center gap-2 text-rose-500 hover:text-rose-600 font-semibold group"
-                        >
-                            Learn More About Us
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                    </div>
-
-                    {/* Right - Visual */}
-                    <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
-                        <div className="relative">
-                            {/* Main card */}
-                            <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
-                                <Quote className="w-12 h-12 text-rose-200 mb-4" />
-                                <p className="text-xl text-gray-700 italic leading-relaxed mb-6">
-                                    "We don't just make sweets. We create memories, 
-                                    celebrate moments, and spread happiness – one bite at a time."
-                                </p>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white text-xl font-bold">
-                                        B
-                                    </div>
-                                    <div>
-                                        <div className="font-semibold text-gray-900">Baba Dairy Team</div>
-                                        <div className="text-gray-500 text-sm">Founders, Baba Dairy</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Decorative elements */}
-                            <div className="absolute -top-6 -right-6 w-24 h-24 bg-amber-100 rounded-2xl -z-10"></div>
-                            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-rose-100 rounded-2xl -z-10"></div>
-                            
-                            {/* Floating emojis */}
-                            <div className="absolute -top-4 left-1/4 text-4xl animate-float">🍦</div>
-                            <div className="absolute -bottom-2 right-1/4 text-3xl animate-float animation-delay-1000">🍨</div>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <section
+      ref={ref as React.RefObject<HTMLElement>}
+      id="about"
+      className="compact-section bg-gradient-to-b from-zinc-50 to-amber-50 py-12 sm:py-16"
+    >
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          {/* Left Content */}
+          <div className={`space-y-6 transition-opacity duration-700 ${isVisible ? 'animate-fade-in-left' : 'opacity-0'}`}>
+            <div className="space-y-3">
+              <div className="inline-flex px-3 py-1 bg-primary/10 rounded-full border border-primary/20">
+                <span className="text-xs font-semibold text-primary uppercase tracking-wider">
+                  Our Story
+                </span>
+              </div>
+              <h2 className="text-4xl sm:text-5xl font-serif font-bold text-foreground">
+                Crafting Happiness, One Scoop at a Time
+              </h2>
+              <p className="text-lg text-foreground/70 leading-relaxed font-light">
+                At Baba Dairy, we believe every sweet treat is a moment of pure joy. Founded with a simple dream to create products that bring smiles and warmth to hearts, we've been perfecting our craft for over 25 years.
+              </p>
             </div>
-        </section>
-    );
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-6 py-6 border-y border-border/50">
+              <div>
+                <p className="text-3xl font-serif font-bold text-primary">2019</p>
+                <p className="text-xs text-foreground/60 mt-1">Founded</p>
+              </div>
+              <div>
+                <p className="text-3xl font-serif font-bold text-primary">200+</p>
+                <p className="text-xs text-foreground/60 mt-1">Flavors</p>
+              </div>
+              <div>
+                <p className="text-3xl font-serif font-bold text-primary">100K+</p>
+                <p className="text-xs text-foreground/60 mt-1">Customers</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Benefits */}
+          <div className={`space-y-4 transition-opacity duration-700 delay-200 ${isVisible ? 'animate-fade-in-right' : 'opacity-0'}`}>
+            {benefits.map((benefit, idx) => {
+              const Icon = benefit.icon;
+              return (
+                <div
+                  key={idx}
+                  className={`p-5 rounded-xl border border-border/50 hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 ${
+                    isVisible ? 'animate-fade-in-up' : 'opacity-0'
+                  }`}
+                  style={{
+                    animationDelay: isVisible ? `${(idx + 2) * 100}ms` : '0ms',
+                  }}
+                >
+                  <div className="flex gap-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Icon size={20} className="text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground text-sm">{benefit.title}</h3>
+                      <p className="text-sm text-foreground/60 mt-1">{benefit.description}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

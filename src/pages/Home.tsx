@@ -14,14 +14,39 @@ export default function Home() {
         <div className="min-h-screen flex flex-col">
             <Navbar />
             <main className="flex-grow">
-                <HeroSection />
-                <ProductCategories />
-                <ImageCarousel />
-                <WhyChooseUs />
-                <AboutSection />
-                <CustomerReviews />
-                <InstagramFeed />
-                <Newsletter />
+                <div className="px-4 sm:px-6 lg:px-8">
+                    <section className="mt-0 mb-8 sm:mt-0 sm:mb-12 lg:mt-0 lg:mb-16">
+                        <HeroSection />
+                    </section>
+
+                    <section className="my-8 sm:my-12 lg:my-16">
+                        <AboutSection />
+                    </section>
+
+                    <section className="my-8 sm:my-12 lg:my-16">
+                        <ProductCategories />
+                    </section>
+
+                    <section className="my-8 sm:my-12 lg:my-16">
+                        <ImageCarousel />
+                    </section>
+
+                    <section className="my-8 sm:my-12 lg:my-16">
+                        <WhyChooseUs />
+                    </section>
+
+                    <section className="my-8 sm:my-12 lg:my-16">
+                        <CustomerReviews />
+                    </section>
+
+                    <section className="my-8 sm:my-12 lg:my-16">
+                        <Newsletter />
+                    </section>
+
+                    <section className="my-8 sm:my-12 lg:my-16">
+                        <InstagramFeed />
+                    </section>
+                </div>
             </main>
             <Footer />
         </div>

@@ -1,140 +1,206 @@
-import { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '../ui/button';
-import { ChevronDown } from 'lucide-react';
+'use client';
 
-import { useSettings } from '@/contexts/SettingsContext';
+import React from "react"
+import { ArrowRight, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
+import { Link } from "react-router-dom";
+
+interface HeroImage {
+  id: number;
+  image: string;
+  title: string;
+  description: string;
+}
+
+const heroImages: HeroImage[] = [
+  {
+    id: 1,
+    image: 'public/assests1.jpeg',
+    title: 'Premium Ice Cream',
+    description: 'Creamy, luxurious ice cream',
+  },
+  {
+    id: 2,
+    image: 'public/assests2.jpeg',
+    title: 'Fresh Bakery',
+    description: 'Handcrafted baked goods',
+  },
+  {
+    id: 3,
+    image: 'public/assests3.jpeg',
+    title: 'Artisan Sweets',
+    description: 'Premium candy & confections',
+  },
+  {
+    id: 4,
+    image: 'public/assests4.jpeg',
+    title: 'Luxury Treats',
+    description: 'Exclusive special creations',
+  },
+];
 
 export default function HeroSection() {
-    const { settings } = useSettings();
-    const [isVisible, setIsVisible] = useState(false);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const heroRef = useRef<HTMLElement>(null);
+  const { ref, isVisible } = useScrollAnimation();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(true);
 
-    useEffect(() => {
-        setIsVisible(true);
-        
-        const handleMouseMove = (e: MouseEvent) => {
-            if (heroRef.current) {
-                const rect = heroRef.current.getBoundingClientRect();
-                setMousePosition({
-                    x: (e.clientX - rect.left) / rect.width,
-                    y: (e.clientY - rect.top) / rect.height,
-                });
-            }
-        };
+  useEffect(() => {
+    if (!autoPlay) return;
 
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
 
-    const scrollToContent = () => {
-        window.scrollTo({
-            top: window.innerHeight - 80,
-            behavior: 'smooth'
-        });
-    };
+    return () => clearInterval(interval);
+  }, [autoPlay]);
 
-    return (
-        <section 
-            ref={heroRef}
-            className="relative min-h-screen flex items-center justify-center overflow-hidden bg-neutral-50"
-        >
-            {/* Elegant Background Elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {/* Sophisticated gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-transparent to-neutral-100/50" />
-                
-                {/* Abstract shape instead of blobs */}
-                <div 
-                    className="absolute w-[800px] h-[800px] rounded-full bg-primary-50/30 blur-[100px]"
-                    style={{
-                        top: '-20%',
-                        right: '-10%',
-                        transform: `translate(${mousePosition.x * -10}px, ${mousePosition.y * -10}px)`,
-                    }}
-                />
-                
-                {/* Subtle texture */}
-                <div className="absolute inset-0 opacity-[0.03]" style={{
-                    backgroundImage: 'radial-gradient(#AD1457 0.5px, transparent 0.5px)',
-                    backgroundSize: '24px 24px',
-                }} />
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+    setAutoPlay(false);
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % heroImages.length);
+    setAutoPlay(false);
+  };
+
+  const currentImage = heroImages[currentIndex];
+
+  return (
+    <section 
+      ref={ref as React.RefObject<HTMLElement>}
+      id="hero" 
+      className="relative overflow-hidden bg-gradient-to-b from-background via-background to-secondary/30 compact-section"
+    >
+      {/* Decorative Elements */}
+      <div className="absolute top-20 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-primary/3 rounded-full blur-3xl -z-10" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Content */}
+          <div className={`flex flex-col space-y-8 ${isVisible ? 'animate-fade-in-left' : 'opacity-0'}`}>
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 w-fit">
+              <div className="flex items-center gap-1.5 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
+                <Sparkles size={16} className="text-primary" />
+                <span className="text-xs sm:text-sm font-semibold text-primary uppercase tracking-wider">
+                  Handcrafted with Love
+                </span>
+              </div>
             </div>
 
-            {/* Main Hero Content */}
-            <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pt-24 pb-12">
-                {/* Badge */}
-                <div className={`mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <span className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white border border-primary-100 text-primary-800 text-sm font-medium shadow-sm tracking-wide uppercase">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary-600"></span>
-                        {settings.heroBadge}
-                    </span>
-                </div>
-
-                {/* Main Headline */}
-                <div className={`transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight leading-tight text-gray-900">
-                        <span className="block">{settings.heroTitle}</span>
-                        <span className="block mt-2 text-primary-700 italic">
-                            {settings.heroHighlight}
-                        </span>
-                    </h1>
-                </div>
-
-                {/* Subtitle */}
-                <div className={`mt-8 transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <p className="text-lg sm:text-xl text-gray-600 font-light max-w-2xl mx-auto leading-relaxed">
-                        {settings.heroSubtitle}
-                    </p>
-                </div>
-
-                {/* CTA Buttons */}
-                <div className={`mt-12 flex flex-col sm:flex-row gap-5 justify-center items-center transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <Link to="/shop">
-                        <Button 
-                            size="lg" 
-                            className="min-w-[180px] h-14 text-base font-medium rounded-md bg-primary-700 hover:bg-primary-800 text-white shadow-lg shadow-primary-900/10 transition-all duration-300"
-                        >
-                            Order Now
-                        </Button>
-                    </Link>
-                    <Link to="/shop">
-                        <Button 
-                            size="lg" 
-                            variant="outline" 
-                            className="min-w-[180px] h-14 text-base font-medium rounded-md border-2 border-gray-200 text-gray-800 hover:bg-gray-50 hover:border-gray-300 transition-all duration-300 bg-white"
-                        >
-                            View Menu
-                        </Button>
-                    </Link>
-                </div>
-
-                {/* Hero Visual - Replaced emojis with cleaner layout or placeholder for image */}
-                {/* If you have a hero image, it should go here. For now, we'll keep it simple or use a placeholder div that implies an image will be here */}
-                {/* Removed the emoji animation block for a cleaner look */}
-                
-                {/* Trust indicators */}
-                <div className={`mt-20 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 text-gray-500 text-sm font-medium tracking-wide uppercase">
-                        {settings.trustIndicators.map((indicator, index) => (
-                            <div key={index} className="flex items-center gap-3">
-                                <span className={indicator.icon.includes('★') ? 'text-secondary-500 text-lg' : 'text-primary-600 text-lg'}>{indicator.icon}</span>
-                                <span>{indicator.text}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            {/* Headline */}
+            <div className="space-y-4">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold leading-tight text-foreground text-pretty">
+                Taste the
+                <span className="block text-primary">Tradition</span>
+              </h1>
+              <p className="text-lg sm:text-xl text-foreground/70 leading-relaxed max-w-2xl font-light">
+                Premium sweets, artisan ice creams, and fresh bakery items crafted with love. Every bite tells a story of tradition and quality.
+              </p>
             </div>
 
-            {/* Scroll indicator */}
-            <button 
-                onClick={scrollToContent}
-                className={`absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-400 hover:text-primary-600 transition-all duration-300 cursor-pointer ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-                aria-label="Scroll down"
-            >
-                <ChevronDown className="w-6 h-6 animate-bounce" />
-            </button>
-        </section>
-    );
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Link to='/shop' className="group px-8 py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all duration-300 font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                Order Now
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link to='/shop' className="px-8 py-4 border-2 border-primary/30 text-foreground rounded-xl hover:bg-primary/5 transition-all duration-300 font-semibold">
+                View Menu
+              </Link>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="flex flex-wrap gap-6 pt-6 border-t border-border/50">
+              <div className="space-y-1">
+                <p className="text-2xl font-bold font-serif text-foreground">4.9★</p>
+                <p className="text-sm text-foreground/60">Average Rating</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-2xl font-bold font-serif text-foreground">100K+</p>
+                <p className="text-sm text-foreground/60">Happy Customers</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-2xl font-bold font-serif text-foreground">Free</p>
+                <p className="text-sm text-foreground/60">Delivery Available</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Visual - Premium Image Carousel */}
+          <div className={`relative h-96 lg:h-96 flex items-center justify-center ${isVisible ? 'animate-fade-in-right' : 'opacity-0'}`}>
+            {/* Background Shapes */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/15 to-primary/5 rounded-3xl blur-2xl" />
+            
+            {/* Main Showcase Card */}
+            <div className="relative w-full max-w-sm group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/80 to-primary/60 rounded-3xl border border-primary/30 shadow-2xl" />
+              <div className="relative p-8 rounded-3xl backdrop-blur-sm">
+                {/* Carousel Content */}
+                <div className="space-y-6 transition-all duration-500">
+                  <div className="aspect-square bg-gradient-to-br from-primary via-primary/80 to-primary/60 rounded-2xl shadow-lg flex items-center justify-center overflow-hidden">
+                    <img 
+                      src={currentImage.image} 
+                      alt={currentImage.title}
+                      className="w-full h-full object-cover transition-all duration-500"
+                    />
+                  </div>
+                  <div className="text-center space-y-3 transition-all duration-500 px-4 py-4 rounded-xl backdrop-blur-sm">
+                    <p className="font-serif text-xl sm:text-2xl font-bold text-foreground leading-snug">{currentImage.title}</p>
+                    <p className="text-xs sm:text-sm text-foreground/70 font-light leading-relaxed">{currentImage.description}</p>
+                  </div>
+                </div>
+
+                {/* Carousel Controls */}
+                <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
+                  <button
+                    onClick={goToPrevious}
+                    className="p-2 rounded-lg bg-white/90 hover:bg-white text-primary transition-all duration-200 shadow-md"
+                    aria-label="Previous"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <div className="flex gap-2">
+                    {heroImages.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          setCurrentIndex(index);
+                          setAutoPlay(false);
+                        }}
+                        className={`h-2 rounded-full transition-all duration-300 ${
+                          index === currentIndex
+                            ? 'w-6 bg-primary'
+                            : 'w-2 bg-white/50 hover:bg-white/70'
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    onClick={goToNext}
+                    className="p-2 rounded-lg bg-white/90 hover:bg-white text-primary transition-all duration-200 shadow-md"
+                    aria-label="Next"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating Elements */}
+            <div className="absolute top-8 right-8 px-4 py-2 bg-white rounded-full shadow-md border border-primary/20 text-sm font-medium text-foreground animate-pulse">
+              ✨ Premium Quality
+            </div>
+            <div className="absolute bottom-12 left-4 px-4 py-2 bg-white rounded-full shadow-md border border-primary/20 text-sm font-medium text-foreground">
+              🌟 Award Winner
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

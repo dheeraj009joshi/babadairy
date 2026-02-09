@@ -1,253 +1,227 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, ShoppingBag, User, ChevronDown, LogOut, LayoutDashboard, Heart } from 'lucide-react';
+import {
+  Menu,
+  X,
+  Heart,
+  ShoppingBag,
+  ChevronDown,
+  LogOut,
+  LayoutDashboard,
+  User,
+} from 'lucide-react';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { useSettings } from '@/contexts/SettingsContext';
-import { Button } from '../ui/button';
 import CartDrawer from '../cart/CartDrawer';
+import { Button } from '../ui/button';
 
 export default function Navbar() {
-    const { settings } = useSettings();
-    const [isOpen, setIsOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [isCartOpen, setIsCartOpen] = useState(false);
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-    const { user, isAuthenticated, logout, isAdmin } = useAuth();
-    const { itemCount } = useCart();
-    const location = useLocation();
-    const navigate = useNavigate();
+  const { settings } = useSettings();
+  const { user, isAuthenticated, logout, isAdmin } = useAuth();
+  const { itemCount } = useCart();
 
-    const isHomePage = location.pathname === '/';
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === '/';
 
-    // Close mobile menu on route change
-    useEffect(() => {
-        setIsOpen(false);
-        setIsUserMenuOpen(false);
-    }, [location.pathname]);
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    const handleLogout = () => {
-        logout();
-        setIsUserMenuOpen(false);
-        navigate('/');
-    };
+  useEffect(() => {
+    setIsOpen(false);
+    setIsUserMenuOpen(false);
+  }, [location.pathname]);
 
-    const navLinks = [
-        { name: 'Home', path: '/' },
-        { name: 'Shop', path: '/shop' },
-        { name: 'About', path: '/about' },
-        { name: 'Contact', path: '/contact' },
-    ];
+  const handleLogout = () => {
+    logout();
+    setIsUserMenuOpen(false);
+    navigate('/');
+  };
 
-    const isActive = (path: string) => location.pathname === path;
+  const navItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Shop', href: '/shop' },
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' },
+  ];
 
-    return (
-        <>
-            <nav
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-                    isScrolled || !isHomePage
-                        ? 'bg-white shadow-sm border-b border-gray-100'
-                        : 'bg-transparent'
-                }`}
-            >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-20">
-                        {/* Logo */}
-                        <Link to="/" className="flex items-center group">
-                            <img 
-                                src="/baba-logo.png" 
-                                alt={`${settings.storeName} Logo`}
-                                className="h-16 w-auto object-contain transition-transform group-hover:scale-105"
-                            />
-                        </Link>
+  const isActive = (path: string) => location.pathname === path;
 
-                        {/* Desktop Navigation */}
-                        <div className="hidden md:flex items-center gap-8">
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.path}
-                                    to={link.path}
-                                    className={`text-sm font-medium transition-colors relative tracking-wide ${
-                                        isActive(link.path)
-                                            ? 'text-primary-700 font-semibold'
-                                            : isScrolled || !isHomePage
-                                                ? 'text-gray-600 hover:text-primary-600'
-                                                : 'text-gray-800 hover:text-primary-700'
-                                    }`}
-                                >
-                                    {link.name}
-                                    {isActive(link.path) && (
-                                        <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-600 rounded-full"></span>
-                                    )}
-                            </Link>
-                            ))}
-                        </div>
+  return (
+    <>
+      {/* NAVBAR */}
+      <header
+        className={`fixed top-0 inset-x-0 z-50 h-20 transition-all duration-300 ${
+          isScrolled || !isHomePage
+            ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-border'
+            : 'bg-transparent'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+          <div className="flex items-center justify-between h-full">
 
-                        {/* Right Side Actions */}
-                        <div className="flex items-center gap-3">
-                            {/* Favorites */}
-                            <Link
-                                to="/dashboard"
-                                className={`hidden sm:flex p-2 rounded-full transition-colors ${
-                                    isScrolled || !isHomePage
-                                        ? 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
-                                        : 'text-gray-700 hover:text-primary-700 hover:bg-white/50'
-                                }`}
-                            >
-                                <Heart className="h-5 w-5" />
-                            </Link>
+            {/* LOGO */}
+            <Link to="/" className="flex items-center gap-3">
+              <img
+                src="/baba-logo.png"
+                alt={`${settings.storeName} Logo`}
+                className="h-12 w-auto object-contain"
+              />
+              <div className="hidden sm:block leading-tight">
+                <p className="font-serif font-semibold text-base">
+                  {settings.storeName}
+                </p>
+                <p className="text-xs text-foreground/60">
+                  Premium Artisan
+                </p>
+              </div>
+            </Link>
 
-                            {/* Cart Button */}
-                            <button
-                                onClick={() => setIsCartOpen(true)}
-                                className={`relative p-2 rounded-full transition-colors ${
-                                    isScrolled || !isHomePage
-                                        ? 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
-                                        : 'text-gray-700 hover:text-primary-700 hover:bg-white/50'
-                                }`}
-                            >
-                                <ShoppingBag className="h-5 w-5" />
-                                {itemCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary-600 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-sm">
-                                        {itemCount > 9 ? '9+' : itemCount}
-                                    </span>
-                                )}
-                            </button>
-
-                            {/* User Menu */}
-                            {isAuthenticated ? (
-                                <div className="relative">
-                                    <button
-                                        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                                        className={`flex items-center gap-2 px-3 py-2 rounded-full transition-colors ${
-                                            isScrolled || !isHomePage
-                                                ? 'text-gray-700 hover:bg-gray-100'
-                                                : 'text-gray-800 hover:bg-white/50'
-                                        }`}
-                                    >
-                                        <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-semibold shadow-sm">
-                                            {user?.name?.charAt(0).toUpperCase()}
-                                        </div>
-                                        <span className="hidden sm:block text-sm font-medium max-w-[100px] truncate">
-                                            {user?.name?.split(' ')[0]}
-                                        </span>
-                                        <ChevronDown className={`h-4 w-4 transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} />
-                                    </button>
-
-                                    {/* Dropdown */}
-                                    {isUserMenuOpen && (
-                                        <>
-                                            <div className="fixed inset-0 z-40" onClick={() => setIsUserMenuOpen(false)}></div>
-                                            <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
-                                                <div className="px-4 py-3 border-b border-gray-100">
-                                                    <p className="text-sm font-semibold text-gray-900">{user?.name}</p>
-                                                    <p className="text-xs text-gray-500 truncate">{user?.email}</p>
-                                                </div>
-                                                
-                                                <Link
-                                                    to="/dashboard"
-                                                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
-                                                    onClick={() => setIsUserMenuOpen(false)}
-                                                >
-                                                    <User className="h-4 w-4" />
-                                                    My Account
-                                                </Link>
-                                                
-                                                {isAdmin && (
-                                                    <Link
-                                                        to="/admin/dashboard"
-                                                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
-                                                        onClick={() => setIsUserMenuOpen(false)}
-                                                    >
-                                                        <LayoutDashboard className="h-4 w-4" />
-                                                        Admin Dashboard
-                                                    </Link>
-                                                )}
-                                                
-                                                <button
-                                                    onClick={handleLogout}
-                                                    className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-600 hover:bg-red-50"
-                                    >
-                                                    <LogOut className="h-4 w-4" />
-                                                    Sign Out
-                                                </button>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                            ) : (
-                                <div className="hidden sm:flex items-center gap-2">
-                                    <Link to="/login">
-                                        <Button variant="ghost" size="sm" className="text-gray-700">
-                                            Sign In
-                                        </Button>
-                                    </Link>
-                                    <Link to="/signup">
-                                        <Button size="sm" className="bg-primary-600 hover:bg-primary-700 text-white rounded-md px-6 shadow-sm">
-                                            Sign Up
-                                        </Button>
-                                    </Link>
-                                </div>
-                            )}
-
-                            {/* Mobile Menu Button */}
-                            <button
-                                onClick={() => setIsOpen(!isOpen)}
-                                className={`md:hidden p-2 rounded-lg transition-colors ${
-                                    isScrolled || !isHomePage
-                                        ? 'text-gray-700 hover:bg-gray-100'
-                                        : 'text-gray-700 hover:bg-white/50'
-                                }`}
-                            >
-                                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                            </button>
-                        </div>
-                        </div>
-                    </div>
-
-                {/* Mobile Menu */}
-                {isOpen && (
-                    <div className="md:hidden bg-white border-t border-gray-100">
-                        <div className="px-4 py-4 space-y-1">
-                            {navLinks.map((link) => (
-                            <Link
-                                    key={link.path}
-                                    to={link.path}
-                                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
-                                        isActive(link.path)
-                                            ? 'bg-primary-50 text-primary-700'
-                                            : 'text-gray-700 hover:bg-gray-50'
-                                    }`}
-                            >
-                                    {link.name}
-                            </Link>
-                            ))}
-                            
-                            {!isAuthenticated && (
-                                <div className="pt-4 border-t border-gray-100 space-y-2">
-                                    <Link to="/login" className="block">
-                                        <Button variant="outline" className="w-full">Sign In</Button>
-                            </Link>
-                                    <Link to="/signup" className="block">
-                                        <Button className="w-full bg-primary-600 hover:bg-primary-700 text-white">Sign Up</Button>
-                            </Link>
-                        </div>
-                    )}
-                </div>
-                    </div>
-                )}
+            {/* DESKTOP NAV */}
+            <nav className="hidden md:flex items-center gap-10">
+              {navItems.map(item => (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className={`relative text-sm font-medium transition-colors ${
+                    isActive(item.href)
+                      ? 'text-primary font-semibold'
+                      : isScrolled || !isHomePage
+                        ? 'text-foreground/70 hover:text-primary'
+                        : 'text-foreground hover:text-primary'
+                  }`}
+                >
+                  {item.label}
+                  {isActive(item.href) && (
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                  )}
+                </Link>
+              ))}
             </nav>
 
-            {/* Cart Drawer */}
-            <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-        </>
-    );
+            {/* RIGHT ACTIONS */}
+            <div className="flex items-center gap-2">
+              <Link to="/dashboard" className="hidden sm:flex p-2 rounded-lg hover:bg-primary/10">
+                <Heart size={20} />
+              </Link>
+
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="relative p-2 rounded-lg hover:bg-primary/10"
+              >
+                <ShoppingBag size={20} />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center">
+                    {itemCount > 9 ? '9+' : itemCount}
+                  </span>
+                )}
+              </button>
+
+              {/* AUTH */}
+              {isAuthenticated ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-primary/10"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-semibold">
+                      {user?.name?.charAt(0).toUpperCase()}
+                    </div>
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform ${
+                        isUserMenuOpen ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+
+                  {isUserMenuOpen && (
+                    <>
+                      <div className="fixed inset-0 z-40" onClick={() => setIsUserMenuOpen(false)} />
+                      <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-border z-50">
+                        <div className="px-4 py-3 border-b">
+                          <p className="text-sm font-semibold">{user?.name}</p>
+                          <p className="text-xs text-foreground/60 truncate">{user?.email}</p>
+                        </div>
+
+                        <Link to="/dashboard" className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-gray-50">
+                          <User size={16} /> My Account
+                        </Link>
+
+                        {isAdmin && (
+                          <Link to="/admin/dashboard" className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-gray-50">
+                            <LayoutDashboard size={16} /> Admin Dashboard
+                          </Link>
+                        )}
+
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-600 hover:bg-red-50"
+                        >
+                          <LogOut size={16} /> Sign Out
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div className="hidden md:flex items-center gap-2">
+                  <Link to="/login">
+                    <Button variant="ghost" size="sm">Sign In</Button>
+                  </Link>
+                  <Link to="/signup">
+                    <Button size="sm" className="bg-primary text-white">Sign Up</Button>
+                  </Link>
+                </div>
+              )}
+
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="md:hidden p-2 rounded-lg hover:bg-primary/10"
+              >
+                {isOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* 🔥 SPACER — THIS FIXES COLLISION EVERYWHERE */}
+      <div className="h-20" />
+
+      {/* MOBILE MENU */}
+      {isOpen && (
+        <div className="md:hidden bg-white border-t border-border">
+          <div className="px-4 py-4 space-y-2">
+            {navItems.map(item => (
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={() => setIsOpen(false)}
+                className={`block px-4 py-3 rounded-lg ${
+                  isActive(item.href) ? 'bg-primary/10 text-primary' : 'hover:bg-gray-50'
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+    </>
+  );
 }
