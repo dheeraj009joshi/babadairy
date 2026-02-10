@@ -16,27 +16,27 @@ interface HeroImage {
 const heroImages: HeroImage[] = [
   {
     id: 1,
-    image: 'public/assests1.jpeg',
+    image: 'public/Icecream.jpeg',
     title: 'Premium Ice Cream',
     description: 'Creamy, luxurious ice cream',
   },
   {
     id: 2,
-    image: 'public/assests2.jpeg',
+    image: 'public/Bakery.png',
     title: 'Fresh Bakery',
     description: 'Handcrafted baked goods',
-  },
-  {
-    id: 3,
-    image: 'public/assests3.jpeg',
-    title: 'Artisan Sweets',
-    description: 'Premium candy & confections',
   },
   {
     id: 4,
     image: 'public/assests4.jpeg',
     title: 'Luxury Treats',
     description: 'Exclusive special creations',
+  },
+  {
+    id: 3,
+    image: 'public/assests3.jpeg',
+    title: 'Artisan Sweets',
+    description: 'Premium candy & confections',
   },
 ];
 
@@ -104,7 +104,7 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link to='/shop' className="group px-8 py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all duration-300 font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+              <Link to='/shop' className="group px-8 py-4 bg-[#B01D5D] text-primary-foreground rounded-xl hover:bg-primary/90 text-white transition-all duration-300 font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
                 Order Now
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </Link>
