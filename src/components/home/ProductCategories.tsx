@@ -73,10 +73,10 @@ const categories: Category[] = [
     name: "Custom Box",
     image: "📦",
     products: [
-      { id: "13", name: "Build Your Own", image: "🎨" },
-      { id: "14", name: "Gift Combo", image: "🎁" },
-      { id: "15", name: "Party Pack", image: "🎉" },
-      { id: "16", name: "Premium Bundle", image: "👑" },
+      { id: "13", name: "Build Your Own", image: "/Gifthamper/Gifthamper5.jpeg" },
+      { id: "14", name: "Gift Combo", image: "/Gifthamper/Gifthamper6.jpeg" },
+      { id: "15", name: "Party Pack", image: "/Gifthamper/Gifthamper7.jpeg" },
+      { id: "16", name: "Festival Special", image: "/Gifthamper/Gifthamper9.jpeg" },
     ],
   },
 ];
