@@ -16,25 +16,25 @@ interface HeroImage {
 const heroImages: HeroImage[] = [
   {
     id: 1,
-    image: 'public/Icecream.jpeg',
+    image: '/Icecream.jpeg',
     title: 'Premium Ice Cream',
     description: 'Creamy, luxurious ice cream',
   },
   {
     id: 2,
-    image: 'public/Bakery.png',
+    image: '/Bakery.png',
     title: 'Fresh Bakery',
     description: 'Handcrafted baked goods',
   },
   {
     id: 4,
-    image: 'public/assests4.jpeg',
+    image: '/assests4.jpeg',
     title: 'Luxury Treats',
     description: 'Exclusive special creations',
   },
   {
     id: 3,
-    image: 'public/assests3.jpeg',
+    image: '/assests3.jpeg',
     title: 'Artisan Sweets',
     description: 'Premium candy & confections',
   },
