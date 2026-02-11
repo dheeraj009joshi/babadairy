@@ -86,21 +86,21 @@ class SiteSettings(Document):
     id: str = Field(default="site_settings")
     
     # Store Info
-    store_name: str = "Jas&Mey Ice Cream"
-    store_tagline: str = "Premium Ice Creams"
-    store_description: str = "Premium artisan ice creams crafted with the finest ingredients."
-    store_email: str = "contact@jasmey.com"
+    store_name: str = "Baba Dairy"
+    store_tagline: str = "Premium Sweets, Ice Cream & Bakery"
+    store_description: str = "Delicious sweets, artisan ice creams, and fresh bakery items crafted with love and tradition."
+    store_email: str = "contact@babadairy.com"
     store_phone: str = "+91 98765 43210"
-    store_address: str = "123 Ice Cream Lane"
+    store_address: str = "123 Sweet Street"
     store_city: str = "Mumbai"
     store_state: str = "Maharashtra"
     store_pincode: str = "400001"
     store_gstin: str = ""
     
     # Hero Section
-    hero_title: str = "Scoop into"
-    hero_highlight: str = "Happiness"
-    hero_subtitle: str = "Premium artisan ice creams crafted with the finest ingredients. Every scoop tells a story of passion and perfection."
+    hero_title: str = "Taste the"
+    hero_highlight: str = "Tradition"
+    hero_subtitle: str = "Premium sweets, artisan ice creams, and fresh bakery items crafted with love. Every bite tells a story of tradition and quality."
     hero_badge: str = "Handcrafted with Love"
     
     # Features/USPs
@@ -115,30 +115,27 @@ class SiteSettings(Document):
     trust_indicators: List[Dict[str, str]] = [
         {"icon": "★★★★★", "text": "4.9 Rating"},
         {"icon": "🚚", "text": "Free Delivery"},
-        {"icon": "❄️", "text": "Fresh Daily"},
+        {"icon": "✨", "text": "Fresh Daily"},
     ]
     
     # About Section
     about_title: str = "Our Story"
-    about_subtitle: str = "A Journey of Passion & Flavour"
-    about_description: str = "At Jas&Mey, we believe that ice cream isn't just a dessert – it's a moment of pure joy."
+    about_subtitle: str = "A Journey of Passion & Tradition"
+    about_description: str = "At Baba Dairy, we believe that every sweet treat is a moment of pure joy – crafted to perfection."
     about_year_founded: str = "2019"
     
-    # Categories
+    # Categories (only 3 main categories for homepage)
     categories: List[Dict[str, str]] = [
-        {"name": "Cups", "description": "Perfect single servings in delicious flavours", "emoji": "🥤"},
-        {"name": "Cones", "description": "Classic cones with crispy wafers", "emoji": "🍦"},
-        {"name": "Tubs", "description": "Share with family or enjoy yourself", "emoji": "🍨"},
-        {"name": "Family Packs", "description": "Perfect for gatherings & celebrations", "emoji": "👨‍👩‍👧‍👦"},
-        {"name": "Premium", "description": "Luxury flavours with premium ingredients", "emoji": "✨"},
-        {"name": "Specials", "description": "Limited editions & seasonal favourites", "emoji": "🌟"},
+        {"name": "Sweets", "description": "Traditional Indian sweets & mithai", "emoji": "🍬"},
+        {"name": "Ice Cream", "description": "Premium handcrafted ice creams", "emoji": "🍨"},
+        {"name": "Bakery", "description": "Fresh baked goods & pastries", "emoji": "🥐"},
     ]
     
-    # Product Settings
-    product_categories: List[str] = ["Cups", "Cones", "Tubs", "Family Packs", "Premium", "Specials"]
-    product_sizes: List[str] = ["Small (100ml)", "Medium (250ml)", "Large (500ml)", "Family (1L)", "Party (2L)"]
-    product_flavors: List[str] = ["Vanilla", "Chocolate", "Strawberry", "Mango", "Butterscotch", "Pista", "Kesar", "Black Currant", "Coffee", "Cookies & Cream"]
-    product_dietary: List[str] = ["Vegetarian", "Eggless", "Low Fat", "Gluten-Free", "Vegan", "Keto-Friendly", "Organic"]
+    # Product Settings (all categories for product management)
+    product_categories: List[str] = ["Sweets", "Ice Cream", "Bakery", "Cakes", "Chocolates", "Snacks", "Dry Fruits", "Beverages"]
+    product_sizes: List[str] = ["Small", "Medium", "Large", "250g", "500g", "1 Kg", "Family Pack"]
+    product_flavors: List[str] = ["Traditional", "Chocolate", "Vanilla", "Strawberry", "Mango", "Butterscotch", "Pista", "Kesar", "Rose", "Cardamom"]
+    product_dietary: List[str] = ["Vegetarian", "Eggless", "Sugar-Free", "Gluten-Free", "Vegan", "Organic"]
     
     # Carousel Images
     carousel_images: List[str] = [
@@ -179,7 +176,7 @@ class SiteSettings(Document):
     social_whatsapp: str = ""
     
     # Footer
-    footer_text: str = "© 2024 Jas&Mey. All rights reserved."
+    footer_text: str = "© 2024 Baba Dairy. All rights reserved."
     
     # Notifications
     enable_notifications: bool = True
