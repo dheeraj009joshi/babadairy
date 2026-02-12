@@ -1,75 +1,95 @@
-'use client';
+"use client";
 
-import React from "react"
-import { useState } from 'react';
-import { useScrollAnimation } from '@/hooks/use-scroll-animation';
+import React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 interface Product {
   id: string;
   name: string;
-  icon: string;
+  image: string;
 }
 
 interface Category {
   id: string;
   name: string;
-  icon: string;
+  image: string;
   products: Product[];
 }
 
 const categories: Category[] = [
   {
-    id: 'ice-cream',
-    name: 'Ice Cream',
-    icon: '🍦',
+    id: "ice-cream",
+    name: "Ice Cream",
+    image: "🍦",
     products: [
-      { id: '1', name: 'Vanilla Dream', icon: '🍦' },
-      { id: '2', name: 'Salted Caramel', icon: '✨' },
-      { id: '3', name: 'Golden Honey', icon: '🍯' },
-      { id: '4', name: 'Pistachio Bliss', icon: '🌰' },
+      {
+        id: "1",
+        name: "Pista",
+        image: "/ice-images/image_4_966908a7ed8f.jpeg",
+      },
+      {
+        id: "2",
+        name: "Vanilla",
+        image: "/ice-images/image_3_45cd289378b6.jpeg",
+      },
+      {
+        id: "3",
+        name: "Strawberry",
+        image: "/ice-images/image_8_358389476f50.jpeg",
+      },
+      {
+        id: "4",
+        name: "Butter Scotch",
+        image: "/ice-images/image_10_6f5cb26b79e3.jpeg",
+      },
     ],
   },
   {
-    id: 'sweets',
-    name: 'Sweets',
-    icon: '🍬',
+    id: "sweets",
+    name: "Sweets",
+    image: "🍬",
     products: [
-      { id: '5', name: 'Fudge Brownies', icon: '🍫' },
-      { id: '6', name: 'Truffle Bites', icon: '🎁' },
-      { id: '7', name: 'Fruit Jellies', icon: '🫐' },
-      { id: '8', name: 'Caramel Clusters', icon: '✨' },
+      { id: "5", name: "Rasgulla", image: "/Rasgulla.png" },
+      { id: "6", name: "Kesar Rasmalai", image: "/assests2.jpeg" },
+      { id: "7", name: "Desi Ghee Barfi", image: "/assests3.jpeg" },
+      { id: "8", name: "Rasmalai", image: "/assests4.jpeg" },
     ],
   },
   {
-    id: 'bakery',
-    name: 'Bakery',
-    icon: '🎂',
+    id: "bakery",
+    name: "Bakery",
+    image: "🎂",
     products: [
-      { id: '9', name: 'Fresh Donuts', icon: '🍩' },
-      { id: '10', name: 'Chocolate Cake', icon: '🎂' },
-      { id: '11', name: 'Croissants', icon: '🥐' },
-      { id: '12', name: 'Macarons', icon: '🌈' },
+      { id: "9", name: "Vanilla Chocochips Cookies", image: "/Bakery.png" },
+      { id: "10", name: "Almond Cookies", image: "/Almond.png" },
+      { id: "11", name: "Burger Bunnn", image: "/Burger.png" },
+      { id: "12", name: "Jera Stick Cookies", image: "/Jera.png" },
     ],
   },
   {
-    id: 'custom',
-    name: 'Custom Box',
-    icon: '📦',
+    id: "custom",
+    name: "Custom Box",
+    image: "📦",
     products: [
-      { id: '13', name: 'Build Your Own', icon: '🎨' },
-      { id: '14', name: 'Gift Combo', icon: '🎁' },
-      { id: '15', name: 'Party Pack', icon: '🎉' },
-      { id: '16', name: 'Premium Bundle', icon: '👑' },
+      { id: "13", name: "Build Your Own", image: "/Gifthamper/Gifthamper5.jpeg" },
+      { id: "14", name: "Gift Combo", image: "/Gifthamper/Gifthamper6.jpeg" },
+      { id: "15", name: "Party Pack", image: "/Gifthamper/Gifthamper7.jpeg" },
+      { id: "16", name: "Festival Special", image: "/Gifthamper/Gifthamper9.jpeg" },
     ],
   },
 ];
 
 export default function ProductsCategories() {
+  const navigate = useNavigate();
   const { ref, isVisible } = useScrollAnimation();
-  const [selectedCategory, setSelectedCategory] = useState('ice-cream');
+  const [selectedCategory, setSelectedCategory] = useState("ice-cream");
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
 
-  const currentCategory = categories.find(cat => cat.id === selectedCategory)!;
+  const currentCategory = categories.find(
+    (cat) => cat.id === selectedCategory,
+  )!;
 
   return (
     <section
@@ -79,7 +99,9 @@ export default function ProductsCategories() {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className={`text-center mb-12 transition-opacity duration-700 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+        <div
+          className={`text-center mb-12 transition-opacity duration-700 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+        >
           <div className="inline-flex px-3 py-1 bg-primary/10 rounded-full border border-primary/20 mb-4">
             <span className="text-xs font-semibold text-primary uppercase tracking-wider">
               Product Collection
@@ -94,7 +116,9 @@ export default function ProductsCategories() {
         </div>
 
         {/* Category Tabs */}
-        <div className={`flex gap-3 mb-10 overflow-x-auto pb-2 justify-center flex-wrap transition-opacity duration-700 delay-100 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+        <div
+          className={`flex gap-3 mb-10 overflow-x-auto pb-2 justify-center flex-wrap transition-opacity duration-700 delay-100 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}
+        >
           {categories.map((category) => (
             <button
               key={category.id}
@@ -102,14 +126,14 @@ export default function ProductsCategories() {
                 setSelectedCategory(category.id);
                 setSelectedProduct(null);
               }}
-              className={`px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 whitespace-nowrap border-2 ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 whitespace-nowrap border-2 ${
                 selectedCategory === category.id
-                  ? 'bg-primary text-primary-foreground shadow-lg border-primary'
-                  : 'bg-primary/10 text-primary hover:bg-primary/20 border-primary/30 hover:border-primary/50'
+                  ? "bg-primary text-primary-foreground shadow-lg border-primary"
+                  : "bg-primary/10 text-primary hover:bg-primary/20 border-primary/30 hover:border-primary/50"
               }`}
             >
-              <span className="mr-2">{category.icon}</span>
-              {category.name}
+              <span className="text-2xl">{category.image}</span>
+              <span>{category.name}</span>
             </button>
           ))}
         </div>
@@ -119,19 +143,27 @@ export default function ProductsCategories() {
           {currentCategory.products.map((product, idx) => (
             <div
               key={product.id}
-              onClick={() => setSelectedProduct(product.id)}
+              onClick={() => {
+                window.scrollTo(0, 0);
+                navigate("/shop");
+              }}
               className={`group relative p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer ${
                 selectedProduct === product.id
-                  ? 'border-primary bg-primary/10 shadow-lg'
-                  : 'border-border/50 bg-white hover:border-primary/50 hover:shadow-md'
-              } ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                  ? "border-primary bg-primary/10 shadow-lg"
+                  : "border-border/50 bg-white hover:border-primary/50 hover:shadow-md"
+              } ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}
               style={{
-                animationDelay: isVisible ? `${(idx + 2) * 75}ms` : '0ms',
+                animationDelay: isVisible ? `${(idx + 2) * 75}ms` : "0ms",
               }}
             >
-              <div className="text-4xl text-center mb-3 group-hover:scale-110 transition-transform">
-                {product.icon}
+              <div className="flex items-center justify-center h-40 mb-4 bg-gray-50 rounded-lg group-hover:scale-105 transition-transform overflow-hidden">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="max-w-full max-h-full object-contain p-2"
+                />
               </div>
+
               <h3 className="font-semibold text-center text-sm text-foreground">
                 {product.name}
               </h3>
