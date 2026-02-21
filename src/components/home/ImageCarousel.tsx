@@ -4,11 +4,23 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
 import { useSettings } from '@/contexts/SettingsContext';
 
+const defaultCarouselImages = [
+  '/img-crausal/10.png',
+  '/img-crausal/13.png',
+  '/img-crausal/14.png',
+  '/img-crausal/15.png',
+  '/img-crausal/17.png',
+];
+
 export default function ImageCarousel() {
   const { settings } = useSettings();
   const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
 
-  const carouselImages = settings.carouselImages
+  const imageUrls = (settings.carouselImages && settings.carouselImages.length > 0)
+    ? settings.carouselImages
+    : defaultCarouselImages;
+
+  const carouselImages = imageUrls
     .filter((src) => src && src.trim() !== '')
     .map((src, index) => ({
       id: index,
@@ -53,8 +65,6 @@ export default function ImageCarousel() {
     setCurrentIndex(index);
     setAutoPlay(false);
   };
-
-  if (!carouselImages.length) return null;
 
   const displayImages = validImages.length > 0 ? validImages : carouselImages;
   const safeCurrentIndex = currentIndex % Math.max(displayImages.length, 1);

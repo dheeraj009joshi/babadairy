@@ -1,10 +1,12 @@
+// Use env if set; in browser without env use same-origin /api so production build always calls the right place
+function getApiBaseUrl(): string {
+    const env = import.meta.env.VITE_API_URL;
+    if (env && typeof env === 'string' && env.trim() !== '') return env.trim().replace(/\/$/, '');
+    if (typeof window !== 'undefined') return `${window.location.origin}/api`;
+    return 'http://localhost:8000';
+}
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
-// Validate API URL is set
-if (!API_URL) {
-    console.error('VITE_API_URL is not set. Please set it in your .env file');
-} 
+const API_URL = getApiBaseUrl(); 
 
 export const apiClient = {
     get: async (url: string) => {

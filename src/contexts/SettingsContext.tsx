@@ -169,21 +169,18 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     const [error, setError] = useState<string | null>(null);
 
     const fetchSettings = async () => {
+        const publicUrl = '/settings/public';
         try {
             setIsLoading(true);
             setError(null);
-            // apiClient.get returns JSON directly, not wrapped in { data: ... }
-            const response = await apiClient.get('/settings/public');
-            console.log('Fetched settings from API:', response);
+            const response = await apiClient.get(publicUrl);
             if (response) {
                 const newSettings = { ...defaultSettings, ...response };
-                console.log('Updating settings state:', newSettings);
                 setSettings(newSettings);
             }
         } catch (err) {
-            console.error('Failed to fetch settings:', err);
+            console.error('Failed to fetch settings from', publicUrl, err);
             setError('Failed to load settings');
-            // Use default settings on error
         } finally {
             setIsLoading(false);
         }
