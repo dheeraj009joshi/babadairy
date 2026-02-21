@@ -137,20 +137,8 @@ class SiteSettings(Document):
     product_flavors: List[str] = ["Traditional", "Chocolate", "Vanilla", "Strawberry", "Mango", "Butterscotch", "Pista", "Kesar", "Rose", "Cardamom"]
     product_dietary: List[str] = ["Vegetarian", "Eggless", "Sugar-Free", "Gluten-Free", "Vegan", "Organic"]
     
-    # Carousel Images
-    carousel_images: List[str] = [
-        "/img-crausal/8.png",
-        "/img-crausal/10.png",
-        "/img-crausal/13.png",
-        "/img-crausal/14.png",
-        "/img-crausal/15.png",
-        "/img-crausal/17.png",
-        "/img-crausal/21.png",
-        "/img-crausal/23.png",
-        "/img-crausal/25.png",
-        "/img-crausal/26.png",
-        "/img-crausal/73.png",
-    ]
+    # Carousel Images (admin-defined via Settings; empty until admin adds URLs)
+    carousel_images: List[str] = []
     
     # Business Settings
     tax_rate: float = 5.0

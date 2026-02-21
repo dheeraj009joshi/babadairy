@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuth } from '@/contexts/AuthContext';
@@ -156,13 +156,7 @@ const defaultSettings: SiteSettings = {
     product_flavors: ["Traditional", "Chocolate", "Vanilla", "Strawberry", "Mango", "Butterscotch", "Pista", "Kesar", "Rose", "Cardamom"],
     product_dietary: ["Vegetarian", "Eggless", "Sugar-Free", "Gluten-Free", "Vegan", "Organic"],
     
-    carousel_images: [
-        "/img-crausal/8.png",
-        "/img-crausal/10.png",
-        "/img-crausal/13.png",
-        "/img-crausal/14.png",
-        "/img-crausal/15.png",
-    ],
+    carousel_images: [],
     
     tax_rate: 5,
     delivery_charges: 40,
@@ -202,6 +196,8 @@ export default function Settings() {
     const [newFlavor, setNewFlavor] = useState('');
     const [newDietary, setNewDietary] = useState('');
     const [newCarouselImage, setNewCarouselImage] = useState('');
+    const [carouselUploading, setCarouselUploading] = useState(false);
+    const carouselFileInputRef = useRef<HTMLInputElement>(null);
     
     // Category editing
     const [editingCategoryIndex, setEditingCategoryIndex] = useState<number | null>(null);
@@ -383,6 +379,35 @@ export default function Settings() {
             carousel_images: prev.carousel_images.filter((_, i) => i !== index)
         }));
         toast.success('Image removed');
+    };
+
+    const handleCarouselUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file || !file.type.startsWith('image/')) {
+            toast.error('Please select an image file');
+            e.target.value = '';
+            return;
+        }
+        setCarouselUploading(true);
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            const result = await apiClient.upload('/upload/', formData);
+            if (result?.url) {
+                setSettings(prev => ({
+                    ...prev,
+                    carousel_images: [...prev.carousel_images, result.url]
+                }));
+                toast.success('Image uploaded. Click Save to persist.');
+            } else {
+                toast.error('Upload did not return a URL');
+            }
+        } catch (err: any) {
+            toast.error(err?.message || 'Upload failed');
+        } finally {
+            setCarouselUploading(false);
+            e.target.value = '';
+        }
     };
 
     // Trust indicator handlers
@@ -710,7 +735,7 @@ export default function Settings() {
                                         <h3 className="text-lg font-semibold text-chocolate">Carousel Images</h3>
                                     </div>
                                     <p className="text-sm text-chocolate/60 mb-4">
-                                        Add image URLs for the homepage carousel
+                                        Add image URLs for the &quot;Our Creations&quot; homepage carousel. Click <strong>Save</strong> below to persist changes; refresh the homepage to see updated images.
                                     </p>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                                         {settings.carousel_images.map((image, index) => (
@@ -732,16 +757,31 @@ export default function Settings() {
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="flex gap-2">
+                                    <div className="flex flex-wrap gap-2">
                                         <Input
                                             value={newCarouselImage}
                                             onChange={(e) => setNewCarouselImage(e.target.value)}
                                             placeholder="Image URL (e.g., /img-crausal/1.png)"
-                                            className="flex-1"
+                                            className="flex-1 min-w-[200px]"
                                         />
                                         <Button variant="outline" onClick={addCarouselImage}>
                                             <Plus className="h-4 w-4 mr-2" />
-                                            Add
+                                            Add URL
+                                        </Button>
+                                        <input
+                                            ref={carouselFileInputRef}
+                                            type="file"
+                                            accept="image/*"
+                                            className="hidden"
+                                            onChange={handleCarouselUpload}
+                                        />
+                                        <Button
+                                            variant="outline"
+                                            disabled={carouselUploading}
+                                            onClick={() => carouselFileInputRef.current?.click()}
+                                        >
+                                            {carouselUploading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Image className="h-4 w-4 mr-2" />}
+                                            Upload image
                                         </Button>
                                     </div>
                                 </div>

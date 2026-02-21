@@ -56,7 +56,7 @@ export default function Footer() {
               <img
                 src="/baba-logo.png"
                 alt={`${settings.storeName} Logo`}
-                className="h-14 w-auto object-contain"
+                className="h-16 w-auto object-contain"
               />
               <div>
                 <p className="font-serif font-semibold text-foreground">

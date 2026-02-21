@@ -131,19 +131,7 @@ const defaultSettings: SiteSettings = {
         { name: "Snacks", description: "Namkeen, chips & savory treats", emoji: "🥨" },
     ],
     
-    carouselImages: [
-        "/img-crausal/8.png",
-        "/img-crausal/10.png",
-        "/img-crausal/13.png",
-        "/img-crausal/14.png",
-        "/img-crausal/15.png",
-        "/img-crausal/17.png",
-        "/img-crausal/21.png",
-        "/img-crausal/23.png",
-        "/img-crausal/25.png",
-        "/img-crausal/26.png",
-        "/img-crausal/73.png",
-    ],
+    carouselImages: [],
     
     productCategories: ["Sweets", "Ice Cream", "Bakery", "Cakes", "Chocolates", "Snacks", "Dry Fruits", "Beverages"],
     productSizes: ["Small", "Medium", "Large", "250g", "500g", "1 Kg", "Family Pack"],

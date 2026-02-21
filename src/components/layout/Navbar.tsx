@@ -77,7 +77,7 @@ export default function Navbar() {
               <img
                 src="/baba-logo.png"
                 alt={`${settings.storeName} Logo`}
-                className="h-12 w-auto object-contain"
+                className="h-16 w-auto object-contain"
               />
               <div className="hidden sm:block leading-tight">
                 <p className="font-serif font-semibold text-base">
