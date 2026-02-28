@@ -7,8 +7,10 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle, Instagram, Facebook, Twitter } from 'lucide-react';
+import { useSettings } from '@/contexts/SettingsContext';
 
 export default function Contact() {
+    const { settings } = useSettings();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -46,17 +48,21 @@ export default function Contact() {
         {
             icon: MapPin,
             title: 'Visit Us',
-            details: ['123 Ice Cream Lane', 'Sweet Street, Mumbai', 'Maharashtra 400001'],
+            details: [
+                settings.storeAddress,
+                `${settings.storeCity}, ${settings.storeState}`,
+                settings.storePincode
+            ].filter(Boolean),
         },
         {
             icon: Phone,
             title: 'Call Us',
-            details: ['+91 98765 43210', '+91 98765 43211'],
+            details: [settings.storePhone].filter(Boolean),
         },
         {
             icon: Mail,
             title: 'Email Us',
-            details: ['hello@babadairy.com', 'support@babadairy.com'],
+            details: [settings.storeEmail].filter(Boolean),
         },
         {
             icon: Clock,
@@ -189,7 +195,7 @@ export default function Contact() {
                                                 type="tel"
                                                 value={formData.phone}
                                                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                placeholder="+91 98765 43210"
+                                                placeholder={settings.storePhone || "+91 98765 43210"}
                                             />
                                         </div>
                                         <div>
@@ -235,8 +241,8 @@ export default function Contact() {
                                     <div className="w-full h-full bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl flex items-center justify-center">
                                         <div className="text-center">
                                             <MapPin className="h-16 w-16 text-primary mx-auto mb-4" />
-                                            <p className="text-chocolate font-display font-bold text-xl">Baba Dairy Store</p>
-                                            <p className="text-chocolate/70">123 Sweet Street, Mumbai</p>
+                                            <p className="text-chocolate font-display font-bold text-xl">{settings.storeName}</p>
+                                            <p className="text-chocolate/70">{settings.storeAddress}, {settings.storeCity}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -250,30 +256,36 @@ export default function Contact() {
                                         Stay connected for updates, new flavors, and special offers!
                                     </p>
                                     <div className="flex gap-4">
-                                        <a
-                                            href="https://instagram.com"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white hover:scale-110 transition-transform"
-                                        >
-                                            <Instagram className="h-5 w-5" />
-                                        </a>
-                                        <a
-                                            href="https://facebook.com"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white hover:scale-110 transition-transform"
-                                        >
-                                            <Facebook className="h-5 w-5" />
-                                        </a>
-                                        <a
-                                            href="https://twitter.com"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="w-12 h-12 rounded-full bg-sky-500 flex items-center justify-center text-white hover:scale-110 transition-transform"
-                                        >
-                                            <Twitter className="h-5 w-5" />
-                                        </a>
+                                        {settings.socialInstagram && (
+                                            <a
+                                                href={settings.socialInstagram}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white hover:scale-110 transition-transform"
+                                            >
+                                                <Instagram className="h-5 w-5" />
+                                            </a>
+                                        )}
+                                        {settings.socialFacebook && (
+                                            <a
+                                                href={settings.socialFacebook}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white hover:scale-110 transition-transform"
+                                            >
+                                                <Facebook className="h-5 w-5" />
+                                            </a>
+                                        )}
+                                        {settings.socialTwitter && (
+                                            <a
+                                                href={settings.socialTwitter}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="w-12 h-12 rounded-full bg-sky-500 flex items-center justify-center text-white hover:scale-110 transition-transform"
+                                            >
+                                                <Twitter className="h-5 w-5" />
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -321,13 +333,13 @@ export default function Contact() {
                             Our customer support team is available to help you with any questions.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="tel:+919876543210">
+                            <a href={`tel:${settings.storePhone}`}>
                                 <Button size="lg" className="bg-white text-primary hover:bg-white/90">
                                     <Phone className="h-4 w-4 mr-2" />
                                     Call Now
                                 </Button>
                             </a>
-                            <a href="mailto:support@babadairy.com">
+                            <a href={`mailto:${settings.storeEmail}`}>
                                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
                                     <Mail className="h-4 w-4 mr-2" />
                                     Email Support
