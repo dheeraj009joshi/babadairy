@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from typing import List
+from typing import List, Any
 import models, schemas
 from uuid import uuid4
 import logging
@@ -13,6 +13,44 @@ router = APIRouter(
 
 logger = logging.getLogger(__name__)
 
+
+def _safe_id(obj: Any, default: str = None) -> str:
+    """Get string id from Beanie doc; avoid None/ObjectId serialization errors."""
+    default = default or str(uuid4())
+    raw = getattr(obj, "id", None)
+    if raw is not None:
+        return str(raw)
+    doc = getattr(obj, "model_dump", lambda: {})()
+    return str(doc.get("id") or doc.get("_id", "") or default)
+
+
+def _product_to_response(p: Any) -> dict:
+    """Build response dict for Product schema; safe id and dates."""
+    return {
+        "id": _safe_id(p),
+        "name": getattr(p, "name", "") or "",
+        "category": getattr(p, "category", "") or "",
+        "description": getattr(p, "description", "") or "",
+        "price": float(getattr(p, "price", 0) or 0),
+        "discount": float(getattr(p, "discount", 0) or 0),
+        "images": getattr(p, "images", []) or [],
+        "sizes": getattr(p, "sizes", []) or [],
+        "price_by_size": getattr(p, "price_by_size", None),
+        "stock": int(getattr(p, "stock", 0) or 0),
+        "low_stock_threshold": int(getattr(p, "low_stock_threshold", 10) or 10),
+        "flavors": getattr(p, "flavors", []) or [],
+        "dietary": getattr(p, "dietary", []) or [],
+        "ingredients": getattr(p, "ingredients", "") or "",
+        "nutrition": getattr(p, "nutrition", {}) or {},
+        "status": getattr(p, "status", "active") or "active",
+        "featured": bool(getattr(p, "featured", False)),
+        "rating": float(getattr(p, "rating", 0) or 0),
+        "review_count": int(getattr(p, "review_count", 0) or 0),
+        "created_at": getattr(p, "created_at", "") or "",
+        "updated_at": getattr(p, "updated_at", "") or "",
+    }
+
+
 @router.get("/", response_model=List[schemas.Product])
 async def read_products(skip: int = 0, limit: int = 1000):
     """
@@ -21,10 +59,9 @@ async def read_products(skip: int = 0, limit: int = 1000):
     Use skip and limit for pagination if needed.
     """
     try:
-        # If limit is too high, cap it at 10000 for safety
         safe_limit = min(limit, 10000)
         products = await models.Product.find_all().skip(skip).limit(safe_limit).to_list()
-        return products
+        return [_product_to_response(pr) for pr in products]
     except Exception as e:
         logger.error(f"Error fetching products: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Failed to fetch products: {str(e)}")
@@ -35,7 +72,7 @@ async def read_product(product_id: str):
         product = await models.Product.find_one(models.Product.id == product_id)
         if product is None:
             raise HTTPException(status_code=404, detail="Product not found")
-        return product
+        return _product_to_response(product)
     except HTTPException:
         raise
     except Exception as e:
@@ -63,18 +100,17 @@ async def create_product(product: schemas.ProductCreate):
                         setattr(existing_product, key, value)
                 existing_product.updated_at = datetime.now().isoformat()
                 await existing_product.save()
-                return existing_product
-        
+                return _product_to_response(existing_product)
+
         # Generate new ID if not provided or if it doesn't exist
         if not product_id:
             product_data['id'] = str(uuid4())
         
-        # Beanie handles document creation
         new_product = models.Product(**product_data)
         new_product.created_at = datetime.now().isoformat()
         new_product.updated_at = datetime.now().isoformat()
         await new_product.insert()
-        return new_product
+        return _product_to_response(new_product)
     except Exception as e:
         logger.error(f"Error creating product: {e}", exc_info=True)
         # Check if it's a duplicate key error
@@ -107,7 +143,7 @@ async def update_product(product_id: str, product: schemas.ProductUpdate):
         db_product.updated_at = datetime.now().isoformat()
         
         await db_product.save()
-        return db_product
+        return _product_to_response(db_product)
     except HTTPException:
         raise
     except Exception as e:

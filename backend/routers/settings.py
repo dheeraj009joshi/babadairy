@@ -145,62 +145,74 @@ async def update_settings(update_data: SettingsUpdate):
         raise HTTPException(status_code=500, detail=f"Failed to update settings: {str(e)}")
 
 
+def _safe_get(settings, attr, default=None):
+    """Get attribute from settings document without raising."""
+    try:
+        val = getattr(settings, attr, default)
+        return val if val is not None else default
+    except Exception:
+        return default
+
+
 @router.get("/public")
 async def get_public_settings():
     """Get public settings (for frontend display)"""
-    settings = await SiteSettings.find_one(SiteSettings.id == "site_settings")
-    if not settings:
-        settings = SiteSettings(id="site_settings")
-        await settings.insert()
-    
-    # Return only public-facing settings
-    return {
-        "storeName": settings.store_name,
-        "storeTagline": settings.store_tagline,
-        "storeDescription": settings.store_description,
-        "storeEmail": settings.store_email,
-        "storePhone": settings.store_phone,
-        "storeAddress": settings.store_address,
-        "storeCity": settings.store_city,
-        "storeState": settings.store_state,
-        "storePincode": settings.store_pincode,
-        
-        "heroTitle": settings.hero_title,
-        "heroHighlight": settings.hero_highlight,
-        "heroSubtitle": settings.hero_subtitle,
-        "heroBadge": settings.hero_badge,
-        
-        "features": settings.features,
-        "trustIndicators": settings.trust_indicators,
-        
-        "aboutTitle": settings.about_title,
-        "aboutSubtitle": settings.about_subtitle,
-        "aboutDescription": settings.about_description,
-        "aboutYearFounded": settings.about_year_founded,
-        
-        "categories": settings.categories,
-        "carouselImages": settings.carousel_images,
-        
-        "productCategories": settings.product_categories,
-        "productSizes": settings.product_sizes,
-        "productFlavors": settings.product_flavors,
-        "productDietary": settings.product_dietary,
-        
-        "taxRate": settings.tax_rate,
-        "deliveryCharges": settings.delivery_charges,
-        "freeDeliveryThreshold": settings.free_delivery_threshold,
-        "minOrderAmount": settings.min_order_amount,
-        "estimatedDeliveryDays": settings.estimated_delivery_days,
-        
-        "enableCOD": settings.enable_cod,
-        "enableUPI": settings.enable_upi,
-        "enableCard": settings.enable_card,
-        
-        "socialInstagram": settings.social_instagram,
-        "socialFacebook": settings.social_facebook,
-        "socialTwitter": settings.social_twitter,
-        "socialWhatsapp": settings.social_whatsapp,
-        
-        "footerText": settings.footer_text,
-    }
+    try:
+        settings = await SiteSettings.find_one(SiteSettings.id == "site_settings")
+        if not settings:
+            settings = SiteSettings(id="site_settings")
+            try:
+                await settings.insert()
+            except Exception as insert_err:
+                # Document might already exist (e.g. race), fetch again
+                print(f"[Settings] insert said: {insert_err}")
+                settings = await SiteSettings.find_one(SiteSettings.id == "site_settings")
+                if not settings:
+                    raise
+        # Build response with safe defaults so missing/null DB fields don't crash
+        return {
+            "storeName": _safe_get(settings, "store_name", "Baba Dairy"),
+            "storeTagline": _safe_get(settings, "store_tagline", "Premium Sweets, Ice Cream & Bakery"),
+            "storeDescription": _safe_get(settings, "store_description", ""),
+            "storeEmail": _safe_get(settings, "store_email", ""),
+            "storePhone": _safe_get(settings, "store_phone", ""),
+            "storeAddress": _safe_get(settings, "store_address", ""),
+            "storeCity": _safe_get(settings, "store_city", ""),
+            "storeState": _safe_get(settings, "store_state", ""),
+            "storePincode": _safe_get(settings, "store_pincode", ""),
+            "heroTitle": _safe_get(settings, "hero_title", "Taste the"),
+            "heroHighlight": _safe_get(settings, "hero_highlight", "Tradition"),
+            "heroSubtitle": _safe_get(settings, "hero_subtitle", ""),
+            "heroBadge": _safe_get(settings, "hero_badge", ""),
+            "features": _safe_get(settings, "features", []),
+            "trustIndicators": _safe_get(settings, "trust_indicators", []),
+            "aboutTitle": _safe_get(settings, "about_title", "Our Story"),
+            "aboutSubtitle": _safe_get(settings, "about_subtitle", ""),
+            "aboutDescription": _safe_get(settings, "about_description", ""),
+            "aboutYearFounded": _safe_get(settings, "about_year_founded", "2019"),
+            "categories": _safe_get(settings, "categories", []),
+            "carouselImages": _safe_get(settings, "carousel_images", []),
+            "productCategories": _safe_get(settings, "product_categories", []),
+            "productSizes": _safe_get(settings, "product_sizes", []),
+            "productFlavors": _safe_get(settings, "product_flavors", []),
+            "productDietary": _safe_get(settings, "product_dietary", []),
+            "taxRate": _safe_get(settings, "tax_rate", 5.0),
+            "deliveryCharges": _safe_get(settings, "delivery_charges", 40.0),
+            "freeDeliveryThreshold": _safe_get(settings, "free_delivery_threshold", 500.0),
+            "minOrderAmount": _safe_get(settings, "min_order_amount", 100.0),
+            "estimatedDeliveryDays": _safe_get(settings, "estimated_delivery_days", 3),
+            "enableCOD": _safe_get(settings, "enable_cod", True),
+            "enableUPI": _safe_get(settings, "enable_upi", True),
+            "enableCard": _safe_get(settings, "enable_card", True),
+            "socialInstagram": _safe_get(settings, "social_instagram", ""),
+            "socialFacebook": _safe_get(settings, "social_facebook", ""),
+            "socialTwitter": _safe_get(settings, "social_twitter", ""),
+            "socialWhatsapp": _safe_get(settings, "social_whatsapp", ""),
+            "footerText": _safe_get(settings, "footer_text", "© 2024 Baba Dairy. All rights reserved."),
+        }
+    except Exception as e:
+        print(f"[Settings] get_public_settings error: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed to load settings: {str(e)}")
 
